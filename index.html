@@ -7,25 +7,65 @@
   <title>Шаурма №1</title>
   <style>
     *{margin:0;padding:0;box-sizing:border-box}
-    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0a0a0a;color:#fff;min-height:100vh;-webkit-tap-highlight-color:transparent}
-    .app{margin:0 auto;padding:16px;padding-bottom:120px;transition:max-width .3s}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0a0a0a;color:#fff;min-height:100vh;-webkit-tap-highlight-color:transparent;overflow-x:hidden}
+    .app{margin:0 auto;padding:16px;padding-bottom:100px;transition:max-width .3s}
     .app.phone{max-width:480px}
-    .app.tablet{max-width:100%}
-    .loading,.empty{text-align:center;padding:40px;color:#666;font-size:16px}
+    .app.tablet{max-width:100%;padding:24px}
+    .screen{animation:fadeIn .3s ease}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+    /* ROLE SELECT */
+    .role-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:80vh;gap:16px;padding:20px}
+    .role-title{font-size:28px;font-weight:800;margin-bottom:20px}
+    .role-btn{width:100%;max-width:320px;padding:20px;border:none;border-radius:16px;font-size:18px;font-weight:700;cursor:pointer;transition:transform .15s}
+    .role-btn:active{transform:scale(.96)}
+    .role-client{background:#2563eb;color:#fff}
+    .role-cook{background:#7c3aed;color:#fff}
+    .role-admin{background:#374151;color:#fff}
+
+    /* DEVICE SELECT */
+    .device-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:80vh;gap:16px;padding:20px}
+    .device-title{font-size:22px;font-weight:700;margin-bottom:10px}
+    .device-btn{width:100%;max-width:320px;padding:20px;border:2px solid #333;border-radius:16px;background:#141414;color:#fff;font-size:16px;font-weight:600;cursor:pointer;text-align:left;display:flex;align-items:center;gap:14px;transition:border-color .2s}
+    .device-btn:hover{border-color:#2563eb}
+    .device-btn .icon{font-size:32px}
+    .device-btn .info{flex:1}
+    .device-btn .info small{display:block;color:#666;font-size:12px;font-weight:400;margin-top:4px}
+
+    /* PRINTER CONNECT */
+    .printer-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:80vh;gap:20px;padding:20px}
+    .printer-title{font-size:22px;font-weight:700}
+    .printer-status-box{width:100%;max-width:320px;padding:24px;background:#141414;border-radius:16px;border:2px solid #222;text-align:center}
+    .printer-icon{font-size:48px;margin-bottom:12px}
+    .printer-name-text{font-size:18px;font-weight:600;margin-bottom:4px}
+    .printer-hint{font-size:13px;color:#666}
+    .printer-connect-btn{width:100%;max-width:320px;padding:18px;border:none;border-radius:14px;font-size:17px;font-weight:700;cursor:pointer;transition:transform .15s}
+    .printer-connect-btn:active{transform:scale(.97)}
+    .printer-connect-btn.searching{background:#333;color:#888}
+    .printer-connect-btn.connect{background:#2563eb;color:#fff}
+    .printer-connect-btn.connected{background:#16a34a;color:#fff}
+    .printer-skip{background:none;border:none;color:#666;font-size:14px;cursor:pointer;margin-top:8px;text-decoration:underline}
+    .printer-continue{width:100%;max-width:320px;padding:18px;border:none;border-radius:14px;background:#16a34a;color:#fff;font-size:17px;font-weight:700;cursor:pointer}
+    .spinner{display:inline-block;width:18px;height:18px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    /* CLIENT MENU */
     .categories{display:flex;gap:8px;overflow-x:auto;padding:4px 0;margin-bottom:16px;-webkit-overflow-scrolling:touch}
     .cat-btn{flex-shrink:0;padding:10px 16px;border:none;border-radius:20px;background:#1a1a1a;color:#888;font-size:14px;font-weight:500;cursor:pointer;transition:all .2s}
     .cat-btn.active{background:#2563eb;color:#fff}
     .menu-items{display:grid;gap:10px}
     .app.phone .menu-items{grid-template-columns:1fr}
     .app.tablet .menu-items{grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
-    .app.tablet .cart{max-width:100%;border-radius:0}
     .menu-card{display:flex;align-items:center;justify-content:space-between;padding:16px;background:#141414;border-radius:16px;border:1px solid #222;cursor:pointer;transition:transform .15s}
     .menu-card:active{transform:scale(.98)}
     .menu-card-info{flex:1}
     .menu-card-name{font-size:16px;font-weight:600;margin-bottom:4px}
     .menu-card-desc{font-size:13px;color:#666}
     .add-btn{width:44px;height:44px;border:none;border-radius:12px;background:#2563eb;color:#fff;font-size:24px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-left:12px}
+
+    /* CART */
     .cart{position:fixed;bottom:0;left:0;right:0;background:#141414;border-top:1px solid #222;padding:16px;max-width:480px;margin:0 auto;border-radius:20px 20px 0 0;z-index:100}
+    .app.tablet .cart{max-width:100%;border-radius:0}
     .cart-title{font-size:16px;font-weight:600;margin-bottom:12px}
     .cart-items{max-height:200px;overflow-y:auto;margin-bottom:12px}
     .cart-item{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid #222}
@@ -38,24 +78,15 @@
     .btn:active{transform:scale(.97)}
     .btn:disabled{background:#333;color:#666;cursor:not-allowed;transform:none}
     .btn-primary{background:#2563eb;color:#fff}
-    .btn-secondary{background:#333;color:#fff}
     .btn-order{background:#16a34a;color:#fff}
     .btn-clear{background:transparent;color:#666;font-size:14px}
     .btn-cook{background:#7c3aed;color:#fff;margin-top:12px}
     .btn-admin{background:#374151;color:#fff;margin-top:8px}
-    .back-btn{background:none;border:none;color:#fff;font-size:24px;cursor:pointer;padding:4px}
+
+    /* COOK PANEL */
     .panel-header{display:flex;align-items:center;gap:12px;margin-bottom:20px}
     .panel-header h2{flex:1}
     .refresh-btn{background:none;border:none;color:#888;font-size:20px;cursor:pointer;margin-left:auto}
-    .order-complete{text-align:center;padding:40px 20px}
-    .order-success{font-size:64px;margin-bottom:16px}
-    .order-number{font-size:48px;font-weight:800;color:#4ade80;margin:16px 0}
-    .badge{display:inline-block;padding:4px 10px;border-radius:12px;font-size:12px;font-weight:600;color:#fff}
-    .badge-new{background:#3b82f6}
-    .badge-accepted{background:#22c55e}
-    .badge-cooking{background:#eab308}
-    .badge-ready{background:#16a34a}
-    .badge-cancelled{background:#ef4444}
     .orders-list{display:flex;flex-direction:column;gap:12px}
     .app.tablet .orders-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
     .order-card{background:#141414;border:2px solid #222;border-radius:16px;padding:16px;cursor:pointer;transition:border-color .2s}
@@ -68,8 +99,8 @@
     .order-item.cancelled{color:#666;text-decoration:line-through}
     .cancel-badge{font-size:12px;color:#f87171}
     .order-total{font-size:18px;font-weight:700;color:#4ade80;margin-top:8px}
-    .order-actions{display:flex;flex-direction:column;gap:8px;margin-top:12px;padding-top:12px;border-top:1px solid #222}
-    .action-btn{width:100%;padding:14px;border:none;border-radius:12px;font-size:18px;cursor:pointer;transition:background .2s}
+    .order-actions{display:flex;gap:8px;margin-top:12px;padding-top:12px;border-top:1px solid #222}
+    .action-btn{flex:1;padding:12px;border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer}
     .action-status{background:#1e3a5f;color:#60a5fa}
     .action-items{background:#374151;color:#d1d5db}
     .action-cancel{background:#3b1a1a;color:#f87171}
@@ -80,13 +111,18 @@
     .items-menu-item{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-radius:8px}
     .items-menu-item:hover{background:#222}
     .item-cancel-btn{background:none;border:none;color:#f87171;font-size:18px;cursor:pointer;padding:4px 8px}
+    .print-receipt-btn{padding:8px 16px;border:none;border-radius:8px;background:#16a34a;color:#fff;font-size:13px;font-weight:600;cursor:pointer;margin-top:8px}
+
+    /* MODAL */
     .modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;z-index:1000;padding:20px}
     .modal{background:#1a1a1a;border-radius:16px;padding:24px;width:100%;max-width:360px}
     .modal h3{margin-bottom:16px;font-size:18px}
-    .modal input,.modal textarea,.modal select{width:100%;padding:12px;border:1px solid #333;border-radius:10px;background:#0a0a0a;color:#fff;font-size:15px;margin-bottom:12px;font-family:inherit}
+    .modal input,.modal textarea{width:100%;padding:12px;border:1px solid #333;border-radius:10px;background:#0a0a0a;color:#fff;font-size:15px;margin-bottom:12px;font-family:inherit}
     .modal textarea{min-height:80px;resize:vertical}
     .modal-actions{display:flex;gap:8px;margin-top:8px}
     .modal-actions .btn{margin-top:0}
+
+    /* ADMIN */
     .admin-tabs{display:flex;gap:8px;margin-bottom:16px}
     .admin-tabs button{flex:1;padding:10px;border:1px solid #333;border-radius:10px;background:transparent;color:#888;font-size:14px;cursor:pointer}
     .admin-tabs button.active{background:#2563eb;color:#fff;border-color:#2563eb}
@@ -100,27 +136,38 @@
     .stat-card{background:#141414;border-radius:12px;padding:20px;border:1px solid #222}
     .stat-value{font-size:32px;font-weight:800;color:#4ade80}
     .stat-label{font-size:14px;color:#888;margin-bottom:8px}
+
+    /* ADMIN CODE */
+    .admin-code-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:80vh;gap:16px;padding:20px}
+    .secret-input{padding:16px;border:1px solid #333;border-radius:12px;background:#0a0a0a;color:#fff;font-size:20px;width:100%;max-width:320px;text-align:center;letter-spacing:6px}
+
+    /* ORDER COMPLETE */
+    .order-complete{text-align:center;padding:40px 20px}
+    .order-success{font-size:64px;margin-bottom:16px}
+    .order-number{font-size:48px;font-weight:800;color:#4ade80;margin:16px 0}
+    .badge{display:inline-block;padding:4px 10px;border-radius:12px;font-size:12px;font-weight:600;color:#fff}
+    .badge-new{background:#3b82f6}
+    .badge-accepted{background:#22c55e}
+    .badge-cooking{background:#eab308}
+    .badge-ready{background:#16a34a}
+    .badge-cancelled{background:#ef4444}
+
+    /* PRINTER BAR in panels */
     .printer-bar{display:flex;align-items:center;gap:10px;padding:12px 16px;background:#141414;border-radius:12px;border:1px solid #222;margin-bottom:12px}
     .printer-dot{width:10px;height:10px;border-radius:50%;background:#ff3b30;flex-shrink:0}
     .printer-dot.on{background:#34c759;box-shadow:0 0 6px rgba(52,199,89,.5)}
     .printer-status{font-size:14px;flex:1}
     .printer-btn{padding:8px 16px;border:none;border-radius:8px;background:#2563eb;color:#fff;font-size:13px;font-weight:600;cursor:pointer}
-    .printer-btn:disabled{background:#333;color:#666}
-    .print-receipt-btn{padding:10px 20px;border:none;border-radius:10px;background:#16a34a;color:#fff;font-size:14px;font-weight:600;cursor:pointer;margin-top:8px}
-    .print-receipt-btn:disabled{background:#333;color:#666}
-    .mode-bar{display:flex;gap:8px;margin-bottom:16px;justify-content:center}
-    .mode-btn{padding:8px 16px;border:1px solid #333;border-radius:10px;background:transparent;color:#888;font-size:13px;cursor:pointer}
-    .mode-btn.active{background:#2563eb;color:#fff;border-color:#2563eb}
-    .open-browser{padding:10px 16px;border:1px solid #f59e0b;border-radius:10px;background:transparent;color:#f59e0b;font-size:13px;cursor:pointer;text-align:center;margin-bottom:12px}
-    .secret-input{padding:12px;border:1px solid #333;border-radius:10px;background:#0a0a0a;color:#fff;font-size:15px;width:100%;margin-bottom:12px;text-align:center;letter-spacing:4px}
-    @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-    .menu-card,.order-card,.cart{animation:fadeIn .3s ease}
   </style>
 </head>
 <body>
 <div id="root"></div>
 <script>
-const MENU=[
+var ADMIN_CODE='458307pP';
+var tg=window.Telegram?.WebApp;
+if(tg){try{tg.ready();tg.expand();tg.setHeaderColor('#0a0a0a');tg.setBackgroundColor('#0a0a0a')}catch(e){}}
+
+var MENU=[
   {id:1,name:'Шаурма классическая',desc:'Курица, овощи, соус',cat:'shawarma'},
   {id:2,name:'Шаурма с говядиной',desc:'Говядина, овощи, соус',cat:'shawarma'},
   {id:3,name:'Шаурма острый цыпленок',desc:'Острый соус, курица',cat:'shawarma'},
@@ -132,23 +179,21 @@ const MENU=[
   {id:9,name:'Сок яблочный',desc:'0.3л',cat:'drinks'},
   {id:10,name:'Молочный коктейль',desc:'Клубничный',cat:'drinks'},
   {id:11,name:'Макароны с сыром',desc:'Домашние',cat:'hot'},
-  {id:12,name:'Картофель фри',desc:'Порция',cat:'hot'},
+  {id:12,name:'Картофель фри',desc:'Порция',cat:'hot'}
 ];
-const CATS=[{id:'shawarma',name:'🌯 Шаурма'},{id:'snacks',name:'🍟 Закуски'},{id:'drinks',name:'🥤 Напитки'},{id:'hot',name:'🍝 Горячее'}];
-const ADMIN_CODE='458307pP';
-const tg=window.Telegram?.WebApp;
-if(tg){try{tg.ready();tg.expand();tg.setHeaderColor('#0a0a0a');tg.setBackgroundColor('#0a0a0a')}catch(e){}}
-const user=tg?.initDataUnsafe?.user||{id:12345,first_name:'Тест'};
-let screen='menu',cart=[],orders=[],lastOrder=null,nextOrderId=100;
-let deviceMode=localStorage.getItem('yhk_device_mode')||'phone';
-let role=localStorage.getItem('yhk_role')||'client';
+var CATS=[{id:'shawarma',name:'🌯 Шаурма'},{id:'snacks',name:'🍟 Закуски'},{id:'drinks',name:'🥤 Напитки'},{id:'hot',name:'🍝 Горячее'}];
+
+var state={
+  screen:'role',role:null,deviceMode:'phone',printerConnected:false,
+  cat:'shawarma',cart:[],orders:[],nextId:100,lastOrder:null,
+  selOrder:null,showStatus:false,showItems:false,atab:'menu'
+};
 
 // ===== PRINTER =====
-const PSVC='49535343-fe7d-4ae5-8fa9-9fafd205e455';
-const PTX='49535343-8841-43f4-a8d4-ecbe34729bb3';
-const PRX='49535343-1e4d-4bd9-ba61-23c647249616';
-const PW=384,PCHUNK=100,PCHUNK_DELAY=20,PLINE_DELAY=8,PINIT_DELAY=150,PTHRESHOLD=200;
-let pDevice=null,pTxChar=null;
+var PSVC='49535343-fe7d-4ae5-8fa9-9fafd205e455';
+var PTX='49535343-8841-43f4-a8d4-ecbe34729bb3';
+var PW=384,PCHUNK=100,PCHUNK_DELAY=20,PLINE_DELAY=8,PINIT_DELAY=150,PTHRESHOLD=200;
+var pDevice=null,pTxChar=null;
 
 function pSleep(ms){return new Promise(function(r){setTimeout(r,ms)})}
 async function pSendChunked(data){
@@ -159,201 +204,177 @@ async function pSendChunked(data){
   }
 }
 async function printerConnect(){
-  if(!navigator.bluetooth){showToast('Web Bluetooth не поддерживается. Откройте в Chrome.','error');return}
+  if(!navigator.bluetooth){showToast('Web Bluetooth не поддерживается','error');return false}
   try{
-    showToast('Поиск принтера...','info');
     var d=await navigator.bluetooth.requestDevice({filters:[{services:[PSVC]}]});
-    showToast('Подключение...','info');
     var gatt=await d.gatt.connect();
     var svc=await gatt.getPrimaryService(PSVC);
     pTxChar=await svc.getCharacteristic(PTX);
-    d.addEventListener('gattserverdisconnected',function(){pDevice=null;pTxChar=null;render()});
-    pDevice=d;
-    showToast('✅ Принтер подключён!','success');
-    render();
-  }catch(e){showToast('Ошибка: '+e.message,'error')}
+    d.addEventListener('gattserverdisconnected',function(){pDevice=null;pTxChar=null;state.printerConnected=false;render()});
+    pDevice=d;state.printerConnected=true;
+    return true;
+  }catch(e){showToast('Ошибка: '+e.message,'error');return false}
 }
 function printerDisconnect(){
   if(pDevice&&pDevice.gatt.connected)pDevice.gatt.disconnect();
-  pDevice=null;pTxChar=null;render();
+  pDevice=null;pTxChar=null;state.printerConnected=false;render();
 }
 function buildReceiptText(order){
   var sep='================================\n';
-  var t='ШАУРМА №1\n\n'+sep+'ЗАКАЗ #'+order.id+'\n\n';
-  order.items.forEach(function(it){if(!it.cancelled)t+=it.qty+'x '+it.name+'\n'});
-  t+='\n'+sep+new Date().toLocaleDateString('ru-RU')+' '+new Date().toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'})+'\n'+sep;
-  return t;
+  return 'ШАУРМА №1\n\n'+sep+'ЗАКАЗ #'+order.id+'\n\n'+
+    order.items.filter(function(i){return !i.cancelled}).map(function(i){return i.qty+'x '+i.name}).join('\n')+
+    '\n\n'+sep+new Date().toLocaleDateString('ru-RU')+' '+new Date().toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'})+'\n'+sep;
 }
 async function printOrderReceipt(order){
   if(!pDevice||!pDevice.gatt.connected){showToast('Принтер не подключён','error');return}
   showToast('⏳ Печатается...','info',5000);
   try{
-    var text=buildReceiptText(order);
-    var fs=24,lg=0,pl=4,ls=text.split('\n'),lh=Math.round(fs*1.25)+lg;
+    var text=buildReceiptText(order),fs=24,pl=4,ls=text.split('\n'),lh=Math.round(fs*1.25);
     var cv=document.createElement('canvas');cv.width=PW;cv.height=ls.length*lh+20;
     var cx=cv.getContext('2d');cx.fillStyle='#fff';cx.fillRect(0,0,PW,cv.height);
     cx.fillStyle='#000';cx.font=fs+'px monospace';cx.textBaseline='top';
     ls.forEach(function(l,i){cx.fillText(l,pl,i*lh+4)});
-    var imgData=cx.getImageData(0,0,PW,cv.height),widthBytes=PW/8,totalLines=cv.height;
+    var imgData=cx.getImageData(0,0,PW,cv.height),wb=PW/8,tl=cv.height;
     await pSendChunked(new Uint8Array([0x1b,0x40]));await pSleep(PINIT_DELAY);
-    for(var y=0;y<totalLines;y++){
-      var line=new Uint8Array(widthBytes);
-      for(var bi=0;bi<widthBytes;bi++){
-        var b=0;
-        for(var bit=0;bit<8;bit++){
-          var x=bi*8+bit;if(x>=PW)continue;
-          var pIdx=(y*PW+x)*4;
-          var gray=imgData.data[pIdx]*0.299+imgData.data[pIdx+1]*0.587+imgData.data[pIdx+2]*0.114;
-          if(gray<PTHRESHOLD)b|=0x80>>bit;
-        }
-        line[bi]=b;
-      }
-      var header=new Uint8Array([0x1d,0x76,0x30,0x00,widthBytes&0xff,(widthBytes>>8)&0xff,0x01,0x00]);
-      var pkt=new Uint8Array(header.length+line.length);pkt.set(header);pkt.set(line,header.length);
+    for(var y=0;y<tl;y++){
+      var line=new Uint8Array(wb);
+      for(var bi=0;bi<wb;bi++){var b=0;for(var bit=0;bit<8;bit++){var x=bi*8+bit;if(x>=PW)continue;var gi=(y*PW+x)*4;if(imgData.data[gi]*0.299+imgData.data[gi+1]*0.587+imgData.data[gi+2]*0.114<PTHRESHOLD)b|=0x80>>bit;}line[bi]=b;}
+      var hdr=new Uint8Array([0x1d,0x76,0x30,0x00,wb&0xff,(wb>>8)&0xff,0x01,0x00]);
+      var pkt=new Uint8Array(hdr.length+line.length);pkt.set(hdr);pkt.set(line,hdr.length);
       await pSendChunked(pkt);await pSleep(PLINE_DELAY);
     }
     var feed=new Uint8Array(2);feed.fill(0x0a);await pSendChunked(feed);
-    await pSleep(1000);showToast('✅ Чек напечатан!','success');
-  }catch(e){showToast('❌ Ошибка: '+e.message,'error')}
-}
-function printerBar(){
-  var connected=pDevice&&pDevice.gatt&&pDevice.gatt.connected;
-  var name=connected?(pDevice.name||'Принтер'):'Не подключён';
-  var inTelegram=!!tg;
-  var h='<div class="printer-bar"><div class="printer-dot'+(connected?' on':'')+'"></div><span class="printer-status">'+name+'</span>';
-  if(connected)h+='<button class="printer-btn" onclick="printerDisconnect()">Отключить</button>';
-  else{
-    if(inTelegram){
-      h+='<button class="printer-btn" onclick="window.open(location.href,\'_blank\')" style="background:#f59e0b">Открыть в Chrome</button>';
-    }else{
-      h+='<button class="printer-btn" onclick="printerConnect()">Найти принтер</button>';
-    }
-  }
-  h+='</div>';
-  if(inTelegram&&!connected)h+='<div style="font-size:11px;color:#666;text-align:center;margin-bottom:8px">Откройте в Chrome для подключения принтера</div>';
-  return h;
+    await pSleep(1000);showToast('✅ Напечатано!','success');
+  }catch(e){showToast('❌ '+e.message,'error')}
 }
 
-// ===== TOAST =====
 function showToast(msg,type,dur){
   type=type||'info';dur=dur||3000;
   var t=document.createElement('div');
-  t.style.cssText='position:fixed;top:20px;left:50%;transform:translateX(-50%);padding:14px 24px;border-radius:10px;font-size:15px;font-weight:500;z-index:2000;transition:opacity .3s;max-width:90vw;text-align:center;';
-  var colors={info:'#1e40af',success:'#166534',error:'#991b1b'};
-  t.style.background=colors[type]||colors.info;t.style.color='#fff';
-  t.textContent=msg;document.body.appendChild(t);
+  t.style.cssText='position:fixed;top:20px;left:50%;transform:translateX(-50%);padding:14px 24px;border-radius:10px;font-size:15px;font-weight:500;z-index:2000;transition:opacity .3s;max-width:90vw;text-align:center';
+  var c={info:'#1e40af',success:'#166534',error:'#991b1b'};
+  t.style.background=c[type]||c.info;t.style.color='#fff';t.textContent=msg;
+  document.body.appendChild(t);
   setTimeout(function(){t.style.opacity='0';setTimeout(function(){t.remove()},300)},dur);
 }
 
 // ===== RENDER =====
 function render(){
   var root=document.getElementById('root');
-  var h='<div class="app '+deviceMode+'">';
-  if(screen==='setup')h+=renderSetup();
-  else if(screen==='menu')h+=renderMenu()+renderCart();
-  else if(screen==='cook')h+=renderCook();
-  else if(screen==='admin')h+=renderAdmin();
-  else if(screen==='order')h+=renderOrderComplete();
+  var cls=state.deviceMode==='tablet'?'app tablet':'app phone';
+  var h='<div class="'+cls+'">';
+  if(state.screen==='role')h+=renderRole();
+  else if(state.screen==='device')h+=renderDevice();
+  else if(state.screen==='printer')h+=renderPrinterSetup();
+  else if(state.screen==='menu')h+=renderMenu();
+  else if(state.screen==='cook')h+=renderCook();
+  else if(state.screen==='admin-code')h+=renderAdminCode();
+  else if(state.screen==='admin')h+=renderAdmin();
+  else if(state.screen==='order')h+=renderOrderComplete();
   h+='</div>';root.innerHTML=h;
 }
 
-function renderSetup(){
-  var h='<div style="text-align:center;padding:40px 0">';
-  h+='<h2 style="margin-bottom:30px">⚡ Настройка</h2>';
-  h+='<div class="section-label" style="margin-bottom:10px">Устройство</div>';
-  h+='<div class="mode-bar">';
-  h+='<button class="mode-btn'+(deviceMode==='phone'?' active':'')+'" onclick="deviceMode=\'phone\';localStorage.setItem(\'yhk_device_mode\',\'phone\');render()">📱 Телефон</button>';
-  h+='<button class="mode-btn'+(deviceMode==='tablet'?' active':'')+'" onclick="deviceMode=\'tablet\';localStorage.setItem(\'yhk_device_mode\',\'tablet\');render()">📋 Планшет</button>';
-  h+='</div>';
-  h+='<div class="open-browser" onclick="window.open(location.href,\'_blank\')">🌐 Открыть в Chrome (для Bluetooth)</div>';
-  h+='<div style="font-size:12px;color:#666;margin:8px 0 20px">Bluetooth работает только в браузере Chrome,<br>не в Telegram Mini App</div>';
-  h+='<div class="section-label" style="margin-bottom:10px">Режим</div>';
-  h+='<button class="btn btn-order" onclick="role=\'client\';localStorage.setItem(\'yhk_role\',\'client\');screen=\'menu\';render()">👤 Клиент</button>';
-  h+='<button class="btn btn-cook" onclick="role=\'cook\';localStorage.setItem(\'yhk_role\',\'cook\');screen=\'cook\';render()">👨‍🍳 Повар</button>';
-  h+='<div style="margin-top:12px">';
-  h+='<input class="secret-input" type="password" id="secretCode" placeholder="Код админа" maxlength="8">';
-  h+='<button class="btn btn-admin" onclick="checkAdmin()">🔑 Админ</button>';
-  h+='</div></div>';
-  return h;
+function renderRole(){
+  return '<div class="role-screen screen"><div class="role-title">🍽 Шаурма №1</div>'+
+    '<button class="role-btn role-client" onclick="state.role=\'client\';state.screen=\'device\';render()">👤 Я клиент</button>'+
+    '<button class="role-btn role-cook" onclick="state.role=\'cook\';state.screen=\'cook\';render()">👨‍🍳 Повар</button>'+
+    '<button class="role-btn role-admin" onclick="state.screen=\'admin-code\';render()">🔑 Админ</button></div>';
 }
 
-function checkAdmin(){
-  var code=document.getElementById('secretCode').value;
-  if(code===ADMIN_CODE){role='admin';localStorage.setItem('yhk_role','admin');screen='admin';showToast('✅ Добро пожаловать!','success');render()}
-  else showToast('❌ Неверный код','error');
+function renderDevice(){
+  return '<div class="device-screen screen"><div class="device-title">Какое устройство?</div>'+
+    '<button class="device-btn" onclick="selectDevice(\'phone\')"><span class="icon">📱</span><div class="info">Телефон<small>Откроется в Telegram</small></div></button>'+
+    '<button class="device-btn" onclick="selectDevice(\'tablet\')"><span class="icon">📋</span><div class="info">Планшет<small>Откроется в Chrome для Bluetooth</small></div></button>'+
+    '<button class="printer-skip" onclick="state.deviceMode=\'phone\';state.screen=\'menu\';render()">Пропустить</button></div>';
+}
+
+function selectDevice(mode){
+  state.deviceMode=mode;
+  if(mode==='tablet'){window.open(location.href,'_blank');}
+  state.screen='printer';render();
+}
+
+function renderPrinterSetup(){
+  var connected=state.printerConnected;
+  var searching=state._searching;
+  var h='<div class="printer-screen screen"><div class="printer-title">🖨 Подключение принтера</div>';
+  h+='<div class="printer-status-box"><div class="printer-icon">'+(connected?'✅':'🖨')+'</div>';
+  h+='<div class="printer-name-text">'+(connected?(pDevice.name||'Принтер'):'Принтер не подключён')+'</div>';
+  h+='<div class="printer-hint">'+(connected?'Готов к печати чеков':'Нажмите для поиска принтера')+'</div></div>';
+  if(!connected){
+    h+='<button class="printer-connect-btn connect" onclick="doPrinterConnect()"'+(searching?' disabled':'')+'>'+(searching?'<span class="spinner"></span> Поиск...':'Найти принтер')+'</button>';
+  }else{
+    h+='<button class="printer-connect-btn connected" onclick="printerDisconnect()">Отключить принтер</button>';
+  }
+  h+='<button class="printer-continue" onclick="state.screen=\'menu\';render()" style="width:100%;max-width:320px;padding:18px;border:none;border-radius:14px;background:#16a34a;color:#fff;font-size:17px;font-weight:700;cursor:pointer;margin-top:12px">Продолжить →</button>';
+  h+='</div>';return h;
+}
+
+async function doPrinterConnect(){
+  state._searching=true;render();
+  var ok=await printerConnect();
+  state._searching=false;
+  if(ok)showToast('✅ Принтер подключён!','success');
+  render();
 }
 
 function renderMenu(){
-  var cat=window._cat||'shawarma';
-  var filtered=MENU.filter(function(i){return i.cat===cat});
-  var h='';
-  h+='<div style="display:flex;align-items:center;gap:8px;margin-bottom:16px">';
-  h+='<button class="back-btn" onclick="screen=\'setup\';render()" style="font-size:18px">⚙️</button>';
-  h+='<div class="categories" style="flex:1;margin-bottom:0">';
-  CATS.forEach(function(c){h+='<button class="cat-btn'+(cat===c.id?' active':'')+'" onclick="window._cat=\''+c.id+'\';render()">'+c.name+'</button>'});
-  h+='</div></div>';
-  h+='<div class="menu-items">';
+  var filtered=MENU.filter(function(i){return i.cat===state.cat});
+  var h='<div class="categories">';
+  CATS.forEach(function(c){h+='<button class="cat-btn'+(state.cat===c.id?' active':'')+'" onclick="state.cat=\''+c.id+'\';render()">'+c.name+'</button>';});
+  h+='</div><div class="menu-items">';
   filtered.forEach(function(item){
     h+='<div class="menu-card" onclick="addToCart('+item.id+')"><div class="menu-card-info"><div class="menu-card-name">'+item.name+'</div>';
     if(item.desc)h+='<div class="menu-card-desc">'+item.desc+'</div>';
     h+='</div><button class="add-btn" onclick="event.stopPropagation();addToCart('+item.id+')">+</button></div>';
   });
   h+='</div>';
-  if(role==='cook'||role==='admin')h+='<button class="btn btn-cook" onclick="screen=\'cook\';render()">👨‍🍳 Панель повара</button>';
-  if(role==='admin')h+='<button class="btn btn-admin" onclick="screen=\'admin\';render()">⚙️ Админ-панель</button>';
+  if(state.cart.length)h+=renderCart();
   return h;
 }
 
 function renderCart(){
-  if(!cart.length)return'';
-  var total=cart.length;
-  var h='<div class="cart"><div class="cart-title">🛒 Корзина ('+total+')</div><div class="cart-items">';
-  cart.forEach(function(item){
+  var h='<div class="cart"><div class="cart-title">🛒 Корзина ('+state.cart.length+')</div><div class="cart-items">';
+  state.cart.forEach(function(item){
     h+='<div class="cart-item"><span class="cart-item-name">'+item.qty+'x '+item.name+'</span><div class="cart-item-controls"><button class="qty-btn" onclick="updateQty('+item.id+',-1)">−</button><span class="qty">'+item.qty+'</span><button class="qty-btn" onclick="updateQty('+item.id+',1)">+</button></div></div>';
   });
   h+='</div><button class="btn btn-order" onclick="placeOrder()">Оформить заказ</button>';
-  h+='<button class="btn btn-clear" onclick="cart=[];render()">Очистить</button></div>';
+  h+='<button class="btn btn-clear" onclick="state.cart=[];render()">Очистить</button></div>';
   return h;
 }
 
 function renderCook(){
-  var h='<div class="panel-header"><button class="back-btn" onclick="screen=\'menu\';render()">←</button><h2>👨‍🍳 Заказы</h2><button class="refresh-btn" onclick="render()">↻</button></div>';
-  h+=printerBar();
-  var active=orders.filter(function(o){return o.status!=='ready'&&o.status!=='cancelled'});
+  var h='<div class="panel-header"><button class="back-btn" onclick="state.screen=\'role\';render()" style="font-size:20px">←</button><h2>👨‍🍳 Заказы</h2><button class="refresh-btn" onclick="render()">↻</button></div>';
+  if(state.printerConnected||pDevice)h+='<div class="printer-bar"><div class="printer-dot on"></div><span class="printer-status">'+(pDevice?pDevice.name:'Принтер')+'</span><button class="printer-btn" onclick="printerDisconnect()">Откл.</button></div>';
+  else h+='<div class="printer-bar"><div class="printer-dot"></div><span class="printer-status">Принтер не подключён</span><button class="printer-btn" onclick="state.screen=\'printer\';render()">Подключить</button></div>';
+  var active=state.orders.filter(function(o){return o.status!=='ready'&&o.status!=='cancelled'});
   if(!active.length)h+='<div class="empty">Нет активных заказов</div>';
   else{
     h+='<div class="orders-list">';
     active.forEach(function(order){
-      var sel=window._selOrder===order.id;
-      h+='<div class="order-card'+(sel?' selected':'')+'" onclick="toggleOrder('+order.id+')">';
+      var sel=state.selOrder===order.id;
+      h+='<div class="order-card'+(sel?' selected':'')+'" onclick="state.selOrder='+(sel?'null':order.id)+';state.showStatus=false;state.showItems=false;render()">';
       h+='<div class="order-card-header"><span class="order-num">#'+order.id+'</span><span class="badge badge-'+order.status+'">'+({new:'Новый',accepted:'Принят',cooking:'Готовится',ready:'Готов',cancelled:'Отменён'})[order.status]+'</span><span class="order-time">'+order.time+'</span></div>';
       h+='<div class="order-user">'+order.user+'</div>';
-      h+='<div class="order-items-list">';
-      order.items.forEach(function(it){
-        h+='<div class="order-item'+(it.cancelled?' cancelled':'')+'"><span>'+it.qty+'x '+it.name+'</span>';
-        if(it.cancelled)h+='<span class="cancel-badge">❌ '+it.reason+'</span>';
-        h+='</div>';
-      });
-      h+='</div>';
-      h+='<button class="print-receipt-btn" onclick="event.stopPropagation();printOrderReceipt(orders.find(function(o){return o.id==='+order.id+'}))"'+(pDevice?'':' disabled')+'>🖨 Чек</button>';
+      order.items.forEach(function(it){h+='<div class="order-item'+(it.cancelled?' cancelled':'')+'"><span>'+it.qty+'x '+it.name+'</span>'+(it.cancelled?'<span class="cancel-badge">❌</span>':'')+'</div>';});
+      h+='<div class="order-total">'+order.items.filter(function(i){return !i.cancelled}).length+' позиций</div>';
+      if(pDevice&&pDevice.gatt.connected)h+='<button class="print-receipt-btn" onclick="event.stopPropagation();printOrderReceipt(state.orders.find(function(o){return o.id==='+order.id+'}))">🖨 Чек</button>';
       if(sel){
         h+='<div class="order-actions">';
-        h+='<button class="action-btn action-status" onclick="event.stopPropagation();showStatusMenu('+order.id+')">● Статус</button>';
-        h+='<button class="action-btn action-items" onclick="event.stopPropagation();showItemsMenu('+order.id+')">••• Позиции</button>';
-        h+='<button class="action-btn action-cancel" onclick="event.stopPropagation();cancelOrderConfirm('+order.id+')">✖ Отменить</button></div>';
+        h+='<button class="action-btn action-status" onclick="event.stopPropagation();state.showStatus=!state.showStatus;state.showItems=false;render()">● Статус</button>';
+        h+='<button class="action-btn action-items" onclick="event.stopPropagation();state.showItems=!state.showItems;state.showStatus=false;render()">••• Позиции</button>';
+        h+='<button class="action-btn action-cancel" onclick="event.stopPropagation();cancelOrderConfirm('+order.id+')">✖ Отмена</button></div>';
       }
-      if(sel&&window._showStatus){
+      if(sel&&state.showStatus){
         h+='<div class="status-menu" onclick="event.stopPropagation()">';
         h+='<button class="status-opt" onclick="setOrderStatus('+order.id+',\'accepted\')">🟢 Принять</button>';
         h+='<button class="status-opt" onclick="setOrderStatus('+order.id+',\'cooking\')">🟡 Готовится</button>';
         h+='<button class="status-opt" onclick="setOrderStatus('+order.id+',\'ready\')">✅ Готово</button>';
         h+='<button class="status-opt status-cancel" onclick="cancelOrderConfirm('+order.id+')">❌ Отменить</button></div>';
       }
-      if(sel&&window._showItems){
+      if(sel&&state.showItems){
         h+='<div class="items-menu" onclick="event.stopPropagation()">';
-        order.items.forEach(function(it,idx){
-          if(!it.cancelled)h+='<div class="items-menu-item"><span>'+it.qty+'x '+it.name+'</span><button class="item-cancel-btn" onclick="cancelItemConfirm('+order.id+','+idx+')">✖</button></div>';
-        });
+        order.items.forEach(function(it,idx){if(!it.cancelled)h+='<div class="items-menu-item"><span>'+it.qty+'x '+it.name+'</span><button class="item-cancel-btn" onclick="cancelItemConfirm('+order.id+','+idx+')">✖</button></div>';});
         h+='</div>';
       }
       h+='</div>';
@@ -363,13 +384,24 @@ function renderCook(){
   return h;
 }
 
+function renderAdminCode(){
+  return '<div class="admin-code-screen screen"><div class="role-title">🔑 Админ</div>'+
+    '<input class="secret-input" type="password" id="adminInput" placeholder="Код" maxlength="8" onkeypress="if(event.key===\'Enter\')checkAdminCode()">'+
+    '<button class="btn btn-primary" style="max-width:320px" onclick="checkAdminCode()">Войти</button>'+
+    '<button class="printer-skip" onclick="state.screen=\'role\';render()">← Назад</button></div>';
+}
+
+function checkAdminCode(){
+  var v=document.getElementById('adminInput').value;
+  if(v===ADMIN_CODE){state.screen='admin';render();showToast('Добро пожаловать!','success')}
+  else showToast('Неверный код','error');
+}
+
 function renderAdmin(){
-  var h='<div class="panel-header"><button class="back-btn" onclick="screen=\'menu\';render()">←</button><h2>⚙️ Админ</h2></div>';
-  h+=printerBar();
-  h+='<div class="admin-tabs"><button class="'+(window._atab==='stats'?'':'active')+'" onclick="window._atab=\'menu\';render()">Меню</button><button class="'+(window._atab==='stats'?'active':'')+'" onclick="window._atab=\'stats\';render()">Статистика</button></div>';
-  if(window._atab==='stats'){
-    var todayOrders=orders.length;
-    h+='<div class="admin-stats"><div class="stat-card"><div class="stat-value">'+todayOrders+'</div><div class="stat-label">Заказов за сегодня</div></div></div>';
+  var h='<div class="panel-header"><button class="back-btn" onclick="state.screen=\'role\';render()" style="font-size:20px">←</button><h2>⚙️ Админ</h2></div>';
+  h+='<div class="admin-tabs"><button class="'+(state.atab==='stats'?'':'active')+'" onclick="state.atab=\'menu\';render()">Меню</button><button class="'+(state.atab==='stats'?'active':'')+'" onclick="state.atab=\'stats\';render()">Статистика</button></div>';
+  if(state.atab==='stats'){
+    h+='<div class="admin-stats"><div class="stat-card"><div class="stat-value">'+state.orders.length+'</div><div class="stat-label">Заказов</div></div></div>';
   }else{
     h+='<button class="btn btn-primary" onclick="showAddItem()">+ Добавить блюдо</button>';
     h+='<div class="admin-items-list">';
@@ -382,33 +414,27 @@ function renderAdmin(){
 }
 
 function renderOrderComplete(){
-  var h='<div class="order-complete"><div class="order-success">✅</div><h2>Заказ оформлен!</h2><div class="order-number">#'+lastOrder.id+'</div>';
-  h+=printerBar();
-  h+='<button class="print-receipt-btn" onclick="printOrderReceipt(lastOrder)"'+(pDevice?'':' disabled')+'>🖨 Напечатать чек</button>';
-  h+='<button class="btn btn-primary" style="margin-top:12px" onclick="screen=\'menu\';render()">← В меню</button></div>';
+  var h='<div class="order-complete screen"><div class="order-success">✅</div><h2>Заказ оформлен!</h2><div class="order-number">#'+state.lastOrder.id+'</div>';
+  if(pDevice&&pDevice.gatt.connected)h+='<button class="btn btn-order" style="max-width:300px;margin:0 auto" onclick="printOrderReceipt(state.lastOrder)">🖨 Напечатать чек</button>';
+  h+='<button class="btn btn-primary" style="max-width:300px;margin:16px auto 0" onclick="state.screen=\'menu\';render()">← В меню</button></div>';
   return h;
 }
 
 // ===== ACTIONS =====
-function addToCart(id){var item=MENU.find(function(i){return i.id===id});var existing=cart.find(function(c){return c.id===id});if(existing)existing.qty++;else cart.push(Object.assign({},item,{qty:1}));render()}
-function updateQty(id,delta){cart=cart.map(function(c){return c.id===id?Object.assign({},c,{qty:Math.max(0,c.qty+delta)}):c}).filter(function(c){return c.qty>0});render()}
+function addToCart(id){var item=MENU.find(function(i){return i.id===id});var ex=state.cart.find(function(c){return c.id===id});if(ex)ex.qty++;else state.cart.push(Object.assign({},item,{qty:1}));render();}
+function updateQty(id,d){state.cart=state.cart.map(function(c){return c.id===id?Object.assign({},c,{qty:Math.max(0,c.qty+d)}):c}).filter(function(c){return c.qty>0});render();}
 function placeOrder(){
-  if(!cart.length)return;
-  var order={id:++nextOrderId,items:cart.map(function(c){return{name:c.name,qty:c.qty,cancelled:false,reason:''}}),status:'new',total:cart.reduce(function(s,i){return s+i.qty},0),time:new Date().toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'}),user:user.first_name};
-  orders.push(order);lastOrder=order;cart=[];screen='order';render();
+  if(!state.cart.length)return;
+  var o={id:state.nextId++,items:state.cart.map(function(c){return{name:c.name,qty:c.qty,cancelled:false,reason:''}}),status:'new',time:new Date().toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'}),user:'Клиент'};
+  state.orders.push(o);state.lastOrder=o;state.cart=[];state.screen='order';render();
 }
-function toggleOrder(id){window._selOrder=window._selOrder===id?null:id;window._showStatus=false;window._showItems=false;render()}
-function showStatusMenu(id){window._showStatus=!window._showStatus;window._showItems=false;render()}
-function showItemsMenu(id){window._showItems=!window._showItems;window._showStatus=false;render()}
-function setOrderStatus(id,status){var o=orders.find(function(o){return o.id===id});if(o){o.status=status;showToast(status==='ready'?'✅ Заказ готов!':'Статус обновлён','success');}window._showStatus=false;render()}
-function cancelOrderConfirm(id){var reason=prompt('Причина отмены заказа #'+id+':');if(reason){var o=orders.find(function(o){return o.id===id});if(o)o.status='cancelled';showToast('❌ Заказ отменён','error');render()}}
-function cancelItemConfirm(orderId,idx){var reason=prompt('Причина отмены позиции:');if(reason){var o=orders.find(function(o){return o.id===orderId});if(o&&o.items[idx]){o.items[idx].cancelled=true;o.items[idx].reason=reason;showToast('❌ Позиция отменена','error');render();}}}
-function showAddItem(){var name=prompt('Название блюда:');if(!name)return;var cat=prompt('Категория (shawarma/snacks/drinks/hot):','shawarma');if(cat)MENU.push({id:MENU.length+1,name:name,desc:'',cat:cat});render()}
-function editItem(idx){var name=prompt('Новое название:',MENU[idx].name);if(name)MENU[idx].name=name;render()}
-function deleteItem(idx){if(confirm('Удалить '+MENU[idx].name+'?'))MENU.splice(idx,1);render()}
+function setOrderStatus(id,s){var o=state.orders.find(function(o){return o.id===id});if(o)o.status=s;state.showStatus=false;render();showToast('Статус обновлён','success');}
+function cancelOrderConfirm(id){var r=prompt('Причина отмены:');if(r){var o=state.orders.find(function(o){return o.id===id});if(o)o.status='cancelled';render();showToast('Заказ отменён','error');}}
+function cancelItemConfirm(oid,idx){var r=prompt('Причина:');if(r){var o=state.orders.find(function(o){return o.id===oid});if(o&&o.items[idx]){o.items[idx].cancelled=true;o.items[idx].reason=r;render();showToast('Позиция отменена','error');}}}
+function showAddItem(){var n=prompt('Название:');if(!n)return;var c=prompt('Категория:','shawarma');MENU.push({id:MENU.length+1,name:n,desc:'',cat:c});render();}
+function editItem(i){var n=prompt('Название:',MENU[i].name);if(n)MENU[i].name=n;render();}
+function deleteItem(i){if(confirm('Удалить?'))MENU.splice(i,1);render();}
 
-window._cat='shawarma';window._atab='menu';window._selOrder=null;window._showStatus=false;window._showItems=false;
-if(!localStorage.getItem('yhk_role'))screen='setup';
 render();
 </script>
 </body>
