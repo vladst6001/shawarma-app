@@ -11,41 +11,41 @@
     .app{margin:0 auto;padding:16px;padding-bottom:100px;transition:max-width .3s}
     .app.phone{max-width:480px}
     .app.tablet{max-width:100%;padding:24px}
-    .screen{animation:fadeIn .3s ease}
-    @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+    .screen{animation:fadeUp .35s ease}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 
-    /* ROLE SELECT */
-    .role-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:80vh;gap:16px;padding:20px}
-    .role-title{font-size:28px;font-weight:800;margin-bottom:20px}
-    .role-btn{width:100%;max-width:320px;padding:20px;border:none;border-radius:16px;font-size:18px;font-weight:700;cursor:pointer;transition:transform .15s}
+    /* ROLE */
+    .role-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:85vh;gap:14px;padding:20px}
+    .role-title{font-size:28px;font-weight:800;margin-bottom:24px}
+    .role-btn{width:100%;max-width:320px;padding:22px;border:none;border-radius:18px;font-size:18px;font-weight:700;cursor:pointer;transition:transform .15s}
     .role-btn:active{transform:scale(.96)}
-    .role-client{background:#2563eb;color:#fff}
-    .role-cook{background:#7c3aed;color:#fff}
-    .role-admin{background:#374151;color:#fff}
+    .role-client{background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff}
+    .role-cook{background:linear-gradient(135deg,#7c3aed,#6d28d9);color:#fff}
+    .role-admin{background:linear-gradient(135deg,#374151,#1f2937);color:#fff}
 
-    /* DEVICE SELECT */
-    .device-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:80vh;gap:16px;padding:20px}
+    /* DEVICE */
+    .device-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:85vh;gap:14px;padding:20px}
     .device-title{font-size:22px;font-weight:700;margin-bottom:10px}
-    .device-btn{width:100%;max-width:320px;padding:20px;border:2px solid #333;border-radius:16px;background:#141414;color:#fff;font-size:16px;font-weight:600;cursor:pointer;text-align:left;display:flex;align-items:center;gap:14px;transition:border-color .2s}
-    .device-btn:hover{border-color:#2563eb}
-    .device-btn .icon{font-size:32px}
+    .device-btn{width:100%;max-width:320px;padding:22px;border:2px solid #333;border-radius:18px;background:#141414;color:#fff;font-size:16px;font-weight:600;cursor:pointer;text-align:left;display:flex;align-items:center;gap:16px;transition:all .2s}
+    .device-btn:hover{border-color:#2563eb;background:#1a1a2e}
+    .device-btn .icon{font-size:36px}
     .device-btn .info{flex:1}
     .device-btn .info small{display:block;color:#666;font-size:12px;font-weight:400;margin-top:4px}
+    .skip-link{background:none;border:none;color:#555;font-size:13px;cursor:pointer;margin-top:12px;text-decoration:underline}
 
-    /* PRINTER CONNECT */
-    .printer-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:80vh;gap:20px;padding:20px}
+    /* PRINTER */
+    .printer-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:85vh;gap:20px;padding:20px}
     .printer-title{font-size:22px;font-weight:700}
-    .printer-status-box{width:100%;max-width:320px;padding:24px;background:#141414;border-radius:16px;border:2px solid #222;text-align:center}
-    .printer-icon{font-size:48px;margin-bottom:12px}
-    .printer-name-text{font-size:18px;font-weight:600;margin-bottom:4px}
-    .printer-hint{font-size:13px;color:#666}
-    .printer-connect-btn{width:100%;max-width:320px;padding:18px;border:none;border-radius:14px;font-size:17px;font-weight:700;cursor:pointer;transition:transform .15s}
-    .printer-connect-btn:active{transform:scale(.97)}
-    .printer-connect-btn.searching{background:#333;color:#888}
-    .printer-connect-btn.connect{background:#2563eb;color:#fff}
-    .printer-connect-btn.connected{background:#16a34a;color:#fff}
-    .printer-skip{background:none;border:none;color:#666;font-size:14px;cursor:pointer;margin-top:8px;text-decoration:underline}
-    .printer-continue{width:100%;max-width:320px;padding:18px;border:none;border-radius:14px;background:#16a34a;color:#fff;font-size:17px;font-weight:700;cursor:pointer}
+    .printer-box{width:100%;max-width:320px;padding:28px;background:#141414;border-radius:20px;border:2px solid #222;text-align:center}
+    .printer-box .icon{font-size:52px;margin-bottom:12px}
+    .printer-box .name{font-size:18px;font-weight:600;margin-bottom:4px}
+    .printer-box .hint{font-size:13px;color:#666}
+    .printer-btn{width:100%;max-width:320px;padding:18px;border:none;border-radius:14px;font-size:17px;font-weight:700;cursor:pointer;transition:transform .15s}
+    .printer-btn:active{transform:scale(.97)}
+    .printer-btn.search{background:#2563eb;color:#fff}
+    .printer-btn.ok{background:#16a34a;color:#fff}
+    .printer-btn.disconnect{background:#333;color:#888}
+    .printer-continue{width:100%;max-width:320px;padding:18px;border:none;border-radius:14px;background:#16a34a;color:#fff;font-size:17px;font-weight:700;cursor:pointer;margin-top:8px}
     .spinner{display:inline-block;width:18px;height:18px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite}
     @keyframes spin{to{transform:rotate(360deg)}}
 
@@ -59,19 +59,21 @@
     .menu-card{display:flex;align-items:center;justify-content:space-between;padding:16px;background:#141414;border-radius:16px;border:1px solid #222;cursor:pointer;transition:transform .15s}
     .menu-card:active{transform:scale(.98)}
     .menu-card-info{flex:1}
-    .menu-card-name{font-size:16px;font-weight:600;margin-bottom:4px}
+    .menu-card-name{font-size:16px;font-weight:600;margin-bottom:2px}
     .menu-card-desc{font-size:13px;color:#666}
     .add-btn{width:44px;height:44px;border:none;border-radius:12px;background:#2563eb;color:#fff;font-size:24px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-left:12px}
 
     /* CART */
-    .cart{position:fixed;bottom:0;left:0;right:0;background:#141414;border-top:1px solid #222;padding:16px;max-width:480px;margin:0 auto;border-radius:20px 20px 0 0;z-index:100}
+    .cart{position:fixed;bottom:0;left:0;right:0;background:#141414;border-top:1px solid #222;padding:16px;max-width:480px;margin:0 auto;border-radius:20px 20px 0 0;z-index:100;animation:slideUp .3s ease}
     .app.tablet .cart{max-width:100%;border-radius:0}
+    @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
     .cart-title{font-size:16px;font-weight:600;margin-bottom:12px}
     .cart-items{max-height:200px;overflow-y:auto;margin-bottom:12px}
-    .cart-item{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid #222}
+    .cart-item{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid #222;animation:fadeUp .2s ease}
     .cart-item-name{font-size:14px}
     .cart-item-controls{display:flex;align-items:center;gap:10px}
-    .qty-btn{width:32px;height:32px;border:none;border-radius:8px;background:#333;color:#fff;font-size:18px;cursor:pointer}
+    .qty-btn{width:32px;height:32px;border:none;border-radius:50%;background:#333;color:#fff;font-size:18px;cursor:pointer;transition:background .15s}
+    .qty-btn:hover{background:#444}
     .qty{font-size:16px;font-weight:600;min-width:24px;text-align:center}
     .cart-total{display:flex;justify-content:space-between;font-size:18px;font-weight:700;padding:12px 0;border-top:1px solid #333}
     .btn{width:100%;padding:16px;border:none;border-radius:14px;font-size:16px;font-weight:600;cursor:pointer;transition:all .2s;margin-top:8px}
@@ -80,84 +82,143 @@
     .btn-primary{background:#2563eb;color:#fff}
     .btn-order{background:#16a34a;color:#fff}
     .btn-clear{background:transparent;color:#666;font-size:14px}
-    .btn-cook{background:#7c3aed;color:#fff;margin-top:12px}
-    .btn-admin{background:#374151;color:#fff;margin-top:8px}
 
     /* COOK PANEL */
     .panel-header{display:flex;align-items:center;gap:12px;margin-bottom:20px}
     .panel-header h2{flex:1}
     .refresh-btn{background:none;border:none;color:#888;font-size:20px;cursor:pointer;margin-left:auto}
+
     .orders-list{display:flex;flex-direction:column;gap:12px}
-    .app.tablet .orders-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
-    .order-card{background:#141414;border:2px solid #222;border-radius:16px;padding:16px;cursor:pointer;transition:border-color .2s}
-    .order-card.selected{border-color:#2563eb}
-    .order-card-header{display:flex;align-items:center;gap:10px;margin-bottom:8px}
-    .order-num{font-size:20px;font-weight:800}
-    .order-time{margin-left:auto;font-size:13px;color:#666}
-    .order-user{font-size:13px;color:#888;margin-bottom:8px}
-    .order-item{display:flex;justify-content:space-between;padding:4px 0;font-size:14px}
-    .order-item.cancelled{color:#666;text-decoration:line-through}
-    .cancel-badge{font-size:12px;color:#f87171}
-    .order-total{font-size:18px;font-weight:700;color:#4ade80;margin-top:8px}
-    .order-actions{display:flex;gap:8px;margin-top:12px;padding-top:12px;border-top:1px solid #222}
-    .action-btn{flex:1;padding:12px;border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer}
-    .action-status{background:#1e3a5f;color:#60a5fa}
-    .action-items{background:#374151;color:#d1d5db}
-    .action-cancel{background:#3b1a1a;color:#f87171}
-    .status-menu,.items-menu{margin-top:12px;padding:8px;background:#1a1a1a;border-radius:12px;display:flex;flex-direction:column;gap:4px}
-    .status-opt{padding:12px 16px;border:none;border-radius:8px;background:transparent;color:#fff;font-size:15px;cursor:pointer;text-align:left}
+    .app.tablet .orders-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
+
+    .order-card{
+      background:#141414;border:2px solid transparent;border-radius:18px;padding:16px;
+      cursor:pointer;transition:all .3s cubic-bezier(.4,0,.2,1);
+      display:flex;gap:0;position:relative;overflow:hidden;
+    }
+    .order-card:hover{border-color:#333}
+    .order-card.selected{
+      border-color:#2563eb;
+      box-shadow:0 0 0 1px #2563eb,0 4px 20px rgba(37,99,235,.15);
+      transform:scale(1.01);
+    }
+
+    .order-content{flex:1;min-width:0}
+    .order-card-header{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+    .order-num{font-size:22px;font-weight:800}
+    .order-time{margin-left:auto;font-size:12px;color:#555}
+    .order-user{font-size:12px;color:#666;margin-bottom:6px}
+    .order-items-list{margin:4px 0}
+    .order-item{padding:3px 0;font-size:13px;color:#aaa}
+    .order-item.cancelled{color:#555;text-decoration:line-through}
+    .cancel-badge{font-size:11px;color:#f87171;margin-left:6px}
+    .order-total{font-size:16px;font-weight:700;color:#4ade80;margin-top:6px}
+
+    /* ROUND ACTION BUTTONS - right side */
+    .order-actions{
+      display:flex;flex-direction:column;gap:8px;
+      justify-content:center;align-items:center;
+      width:0;opacity:0;
+      transition:all .3s cubic-bezier(.4,0,.2,1);
+      padding-left:0;
+    }
+    .order-card.selected .order-actions{
+      width:56px;opacity:1;padding-left:12px;
+    }
+
+    .action-circle{
+      width:44px;height:44px;border-radius:50%;border:none;
+      font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;
+      transition:all .2s;transform:scale(0);
+    }
+    .order-card.selected .action-circle{transform:scale(1)}
+    .order-card.selected .action-circle:nth-child(1){transition-delay:.05s}
+    .order-card.selected .action-circle:nth-child(2){transition-delay:.1s}
+    .order-card.selected .action-circle:nth-child(3){transition-delay:.15s}
+
+    .action-circle.status{background:#1e3a5f;color:#60a5fa}
+    .action-circle.items{background:#374151;color:#d1d5db}
+    .action-circle.cancel{background:#3b1a1a;color:#f87171}
+    .action-circle:hover{transform:scale(1.1)!important}
+
+    /* EXPAND PANELS */
+    .expand-panel{
+      max-height:0;overflow:hidden;opacity:0;
+      transition:max-height .35s cubic-bezier(.4,0,.2,1),opacity .25s ease,padding .3s ease;
+      padding:0 12px;margin-top:0;
+    }
+    .expand-panel.open{
+      max-height:400px;opacity:1;padding:12px;margin-top:12px;
+    }
+
+    .status-menu,.items-menu{
+      background:#1a1a1a;border-radius:14px;display:flex;flex-direction:column;gap:4px;
+    }
+    .status-opt{
+      padding:14px 16px;border:none;border-radius:10px;background:transparent;
+      color:#fff;font-size:15px;cursor:pointer;text-align:left;transition:background .15s;
+    }
     .status-opt:hover{background:#222}
     .status-cancel{color:#f87171}
-    .items-menu-item{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-radius:8px}
+    .items-menu-item{
+      display:flex;align-items:center;justify-content:space-between;
+      padding:12px 14px;border-radius:10px;transition:background .15s;
+    }
     .items-menu-item:hover{background:#222}
-    .item-cancel-btn{background:none;border:none;color:#f87171;font-size:18px;cursor:pointer;padding:4px 8px}
-    .print-receipt-btn{padding:8px 16px;border:none;border-radius:8px;background:#16a34a;color:#fff;font-size:13px;font-weight:600;cursor:pointer;margin-top:8px}
+    .item-cancel-btn{
+      background:none;border:none;color:#f87171;font-size:16px;
+      cursor:pointer;padding:6px;border-radius:50%;transition:background .15s;
+    }
+    .item-cancel-btn:hover{background:rgba(248,113,113,.15)}
 
-    /* MODAL */
-    .modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;z-index:1000;padding:20px}
-    .modal{background:#1a1a1a;border-radius:16px;padding:24px;width:100%;max-width:360px}
-    .modal h3{margin-bottom:16px;font-size:18px}
-    .modal input,.modal textarea{width:100%;padding:12px;border:1px solid #333;border-radius:10px;background:#0a0a0a;color:#fff;font-size:15px;margin-bottom:12px;font-family:inherit}
-    .modal textarea{min-height:80px;resize:vertical}
-    .modal-actions{display:flex;gap:8px;margin-top:8px}
-    .modal-actions .btn{margin-top:0}
+    .print-receipt-btn{
+      padding:8px 14px;border:none;border-radius:10px;background:#16a34a;
+      color:#fff;font-size:12px;font-weight:600;cursor:pointer;margin-top:8px;
+      transition:background .15s;
+    }
+    .print-receipt-btn:hover{background:#15803d}
 
-    /* ADMIN */
-    .admin-tabs{display:flex;gap:8px;margin-bottom:16px}
-    .admin-tabs button{flex:1;padding:10px;border:1px solid #333;border-radius:10px;background:transparent;color:#888;font-size:14px;cursor:pointer}
-    .admin-tabs button.active{background:#2563eb;color:#fff;border-color:#2563eb}
-    .admin-items-list{display:flex;flex-direction:column;gap:8px;margin-top:12px}
-    .admin-item{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:#141414;border-radius:12px;border:1px solid #222}
-    .admin-item-name{font-weight:600}
-    .admin-item-cat{color:#666;font-size:12px}
-    .admin-item-actions{display:flex;gap:8px}
-    .admin-item-actions button{background:none;border:none;font-size:18px;cursor:pointer;padding:4px}
-    .admin-stats{display:flex;flex-direction:column;gap:12px}
-    .stat-card{background:#141414;border-radius:12px;padding:20px;border:1px solid #222}
-    .stat-value{font-size:32px;font-weight:800;color:#4ade80}
-    .stat-label{font-size:14px;color:#888;margin-bottom:8px}
-
-    /* ADMIN CODE */
-    .admin-code-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:80vh;gap:16px;padding:20px}
-    .secret-input{padding:16px;border:1px solid #333;border-radius:12px;background:#0a0a0a;color:#fff;font-size:20px;width:100%;max-width:320px;text-align:center;letter-spacing:6px}
-
-    /* ORDER COMPLETE */
-    .order-complete{text-align:center;padding:40px 20px}
-    .order-success{font-size:64px;margin-bottom:16px}
-    .order-number{font-size:48px;font-weight:800;color:#4ade80;margin:16px 0}
-    .badge{display:inline-block;padding:4px 10px;border-radius:12px;font-size:12px;font-weight:600;color:#fff}
+    /* BADGES */
+    .badge{display:inline-block;padding:4px 10px;border-radius:12px;font-size:11px;font-weight:600;color:#fff}
     .badge-new{background:#3b82f6}
     .badge-accepted{background:#22c55e}
-    .badge-cooking{background:#eab308}
+    .badge-cooking{background:#eab308;color:#000}
     .badge-ready{background:#16a34a}
     .badge-cancelled{background:#ef4444}
 
-    /* PRINTER BAR in panels */
-    .printer-bar{display:flex;align-items:center;gap:10px;padding:12px 16px;background:#141414;border-radius:12px;border:1px solid #222;margin-bottom:12px}
-    .printer-dot{width:10px;height:10px;border-radius:50%;background:#ff3b30;flex-shrink:0}
-    .printer-dot.on{background:#34c759;box-shadow:0 0 6px rgba(52,199,89,.5)}
-    .printer-status{font-size:14px;flex:1}
-    .printer-btn{padding:8px 16px;border:none;border-radius:8px;background:#2563eb;color:#fff;font-size:13px;font-weight:600;cursor:pointer}
+    /* ADMIN */
+    .admin-tabs{display:flex;gap:8px;margin-bottom:16px}
+    .admin-tabs button{flex:1;padding:10px;border:1px solid #333;border-radius:12px;background:transparent;color:#888;font-size:14px;cursor:pointer;transition:all .2s}
+    .admin-tabs button.active{background:#2563eb;color:#fff;border-color:#2563eb}
+    .admin-items-list{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+    .admin-item{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;background:#141414;border-radius:14px;border:1px solid #222;transition:border-color .2s}
+    .admin-item:hover{border-color:#333}
+    .admin-item-name{font-weight:600}
+    .admin-item-cat{color:#666;font-size:12px}
+    .admin-item-actions{display:flex;gap:8px}
+    .admin-item-actions button{background:none;border:none;font-size:18px;cursor:pointer;padding:4px;border-radius:8px;transition:background .15s}
+    .admin-item-actions button:hover{background:#222}
+    .admin-stats{display:flex;flex-direction:column;gap:12px}
+    .stat-card{background:#141414;border-radius:14px;padding:24px;border:1px solid #222}
+    .stat-value{font-size:36px;font-weight:800;color:#4ade80}
+    .stat-label{font-size:14px;color:#888;margin-bottom:8px}
+    .admin-code-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:85vh;gap:16px;padding:20px}
+    .secret-input{padding:16px;border:2px solid #333;border-radius:14px;background:#0a0a0a;color:#fff;font-size:22px;width:100%;max-width:320px;text-align:center;letter-spacing:8px;transition:border-color .2s}
+    .secret-input:focus{border-color:#2563eb;outline:none}
+
+    /* PRINTER BAR */
+    .printer-bar{display:flex;align-items:center;gap:10px;padding:12px 16px;background:#141414;border-radius:14px;border:1px solid #222;margin-bottom:12px}
+    .printer-dot{width:10px;height:10px;border-radius:50%;background:#ff3b30;flex-shrink:0;transition:all .3s}
+    .printer-dot.on{background:#34c759;box-shadow:0 0 8px rgba(52,199,89,.5)}
+    .printer-status{font-size:13px;flex:1;color:#aaa}
+    .printer-sm-btn{padding:6px 14px;border:none;border-radius:8px;background:#2563eb;color:#fff;font-size:12px;font-weight:600;cursor:pointer;transition:background .15s}
+    .printer-sm-btn:hover{background:#1d4ed8}
+
+    /* ORDER COMPLETE */
+    .order-complete{text-align:center;padding:60px 20px}
+    .order-success{font-size:72px;margin-bottom:16px;animation:bounceIn .5s ease}
+    @keyframes bounceIn{0%{transform:scale(0)}60%{transform:scale(1.2)}100%{transform:scale(1)}}
+    .order-number{font-size:52px;font-weight:800;color:#4ade80;margin:20px 0}
   </style>
 </head>
 <body>
@@ -183,200 +244,145 @@ var MENU=[
 ];
 var CATS=[{id:'shawarma',name:'🌯 Шаурма'},{id:'snacks',name:'🍟 Закуски'},{id:'drinks',name:'🥤 Напитки'},{id:'hot',name:'🍝 Горячее'}];
 
-var state={
-  screen:'role',role:null,deviceMode:'phone',printerConnected:false,
-  cat:'shawarma',cart:[],orders:[],nextId:100,lastOrder:null,
-  selOrder:null,showStatus:false,showItems:false,atab:'menu'
-};
+var S={screen:'role',role:null,device:'phone',printerOk:false,cat:'shawarma',cart:[],orders:[],nid:100,lastOrder:null,sel:null,showSt:false,showIt:false,atab:'menu',_search:false};
 
-// ===== PRINTER =====
-var PSVC='49535343-fe7d-4ae5-8fa9-9fafd205e455';
-var PTX='49535343-8841-43f4-a8d4-ecbe34729bb3';
-var PW=384,PCHUNK=100,PCHUNK_DELAY=20,PLINE_DELAY=8,PINIT_DELAY=150,PTHRESHOLD=200;
-var pDevice=null,pTxChar=null;
-
-function pSleep(ms){return new Promise(function(r){setTimeout(r,ms)})}
-async function pSendChunked(data){
-  for(var off=0;off<data.length;off+=PCHUNK){
-    var end=Math.min(off+PCHUNK,data.length);
-    await pTxChar.writeValueWithoutResponse(data.slice(off,end));
-    if(off+PCHUNK<data.length)await pSleep(PCHUNK_DELAY);
-  }
+// PRINTER
+var PSVC='49535343-fe7d-4ae5-8fa9-9fafd205e455',PTX='49535343-8841-43f4-a8d4-ecbe34729bb3',PW=384,PC=100,PCD=20,PLD=8,PID=150,PTH=200;
+var pD=null,pT=null;
+function pS(m){return new Promise(function(r){setTimeout(r,m)})}
+async function pSend(d){for(var o=0;o<d.length;o+=PC){var e=Math.min(o+PC,d.length);await pT.writeValueWithoutResponse(d.slice(o,e));if(o+PC<d.length)await pS(PCD);}}
+async function pConnect(){
+  if(!navigator.bluetooth)return false;
+  try{var d=await navigator.bluetooth.requestDevice({filters:[{services:[PSVC]}]});
+  var g=await d.gatt.connect();var s=await g.getPrimaryService(PSVC);pT=await s.getCharacteristic(PTX);
+  d.addEventListener('gattserverdisconnected',function(){pD=null;pT=null;S.printerOk=false;render()});
+  pD=d;S.printerOk=true;return true;}catch(e){showToast(e.message,'error');return false;}
 }
-async function printerConnect(){
-  if(!navigator.bluetooth){showToast('Web Bluetooth не поддерживается','error');return false}
-  try{
-    var d=await navigator.bluetooth.requestDevice({filters:[{services:[PSVC]}]});
-    var gatt=await d.gatt.connect();
-    var svc=await gatt.getPrimaryService(PSVC);
-    pTxChar=await svc.getCharacteristic(PTX);
-    d.addEventListener('gattserverdisconnected',function(){pDevice=null;pTxChar=null;state.printerConnected=false;render()});
-    pDevice=d;state.printerConnected=true;
-    return true;
-  }catch(e){showToast('Ошибка: '+e.message,'error');return false}
-}
-function printerDisconnect(){
-  if(pDevice&&pDevice.gatt.connected)pDevice.gatt.disconnect();
-  pDevice=null;pTxChar=null;state.printerConnected=false;render();
-}
-function buildReceiptText(order){
+function pDisconnect(){if(pD&&pD.gatt.connected)pD.gatt.disconnect();pD=null;pT=null;S.printerOk=false;render();}
+function receiptText(o){
   var sep='================================\n';
-  return 'ШАУРМА №1\n\n'+sep+'ЗАКАЗ #'+order.id+'\n\n'+
-    order.items.filter(function(i){return !i.cancelled}).map(function(i){return i.qty+'x '+i.name}).join('\n')+
+  return 'ШАУРМА №1\n\n'+sep+'ЗАКАЗ #'+o.id+'\n\n'+
+    o.items.filter(function(i){return!i.cancelled}).map(function(i){return i.qty+'x '+i.name}).join('\n')+
     '\n\n'+sep+new Date().toLocaleDateString('ru-RU')+' '+new Date().toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'})+'\n'+sep;
 }
-async function printOrderReceipt(order){
-  if(!pDevice||!pDevice.gatt.connected){showToast('Принтер не подключён','error');return}
+async function printReceipt(o){
+  if(!pD||!pD.gatt.connected){showToast('Принтер не подключён','error');return;}
   showToast('⏳ Печатается...','info',5000);
-  try{
-    var text=buildReceiptText(order),fs=24,pl=4,ls=text.split('\n'),lh=Math.round(fs*1.25);
-    var cv=document.createElement('canvas');cv.width=PW;cv.height=ls.length*lh+20;
-    var cx=cv.getContext('2d');cx.fillStyle='#fff';cx.fillRect(0,0,PW,cv.height);
-    cx.fillStyle='#000';cx.font=fs+'px monospace';cx.textBaseline='top';
-    ls.forEach(function(l,i){cx.fillText(l,pl,i*lh+4)});
-    var imgData=cx.getImageData(0,0,PW,cv.height),wb=PW/8,tl=cv.height;
-    await pSendChunked(new Uint8Array([0x1b,0x40]));await pSleep(PINIT_DELAY);
-    for(var y=0;y<tl;y++){
-      var line=new Uint8Array(wb);
-      for(var bi=0;bi<wb;bi++){var b=0;for(var bit=0;bit<8;bit++){var x=bi*8+bit;if(x>=PW)continue;var gi=(y*PW+x)*4;if(imgData.data[gi]*0.299+imgData.data[gi+1]*0.587+imgData.data[gi+2]*0.114<PTHRESHOLD)b|=0x80>>bit;}line[bi]=b;}
-      var hdr=new Uint8Array([0x1d,0x76,0x30,0x00,wb&0xff,(wb>>8)&0xff,0x01,0x00]);
-      var pkt=new Uint8Array(hdr.length+line.length);pkt.set(hdr);pkt.set(line,hdr.length);
-      await pSendChunked(pkt);await pSleep(PLINE_DELAY);
-    }
-    var feed=new Uint8Array(2);feed.fill(0x0a);await pSendChunked(feed);
-    await pSleep(1000);showToast('✅ Напечатано!','success');
-  }catch(e){showToast('❌ '+e.message,'error')}
+  try{var t=receiptText(o),fs=24,pl=4,ls=t.split('\n'),lh=Math.round(fs*1.25);
+  var cv=document.createElement('canvas');cv.width=PW;cv.height=ls.length*lh+20;
+  var cx=cv.getContext('2d');cx.fillStyle='#fff';cx.fillRect(0,0,PW,cv.height);
+  cx.fillStyle='#000';cx.font=fs+'px monospace';cx.textBaseline='top';
+  ls.forEach(function(l,i){cx.fillText(l,pl,i*lh+4)});
+  var id=cx.getImageData(0,0,PW,cv.height),wb=PW/8,tl=cv.height;
+  await pSend(new Uint8Array([0x1b,0x40]));await pS(PID);
+  for(var y=0;y<tl;y++){var ln=new Uint8Array(wb);for(var bi=0;bi<wb;bi++){var b=0;for(var bit=0;bit<8;bit++){var x=bi*8+bit;if(x>=PW)continue;var gi=(y*PW+x)*4;if(id.data[gi]*0.299+id.data[gi+1]*0.587+id.data[gi+2]*0.114<PTH)b|=0x80>>bit;}ln[bi]=b;}
+  var hdr=new Uint8Array([0x1d,0x76,0x30,0x00,wb&0xff,(wb>>8)&0xff,0x01,0x00]);var pk=new Uint8Array(hdr.length+ln.length);pk.set(hdr);pk.set(ln,hdr.length);await pSend(pk);await pS(PLD);}
+  var fd=new Uint8Array(2);fd.fill(0x0a);await pSend(fd);await pS(1000);showToast('✅ Напечатано!','success');}catch(e){showToast('❌ '+e.message,'error');}
 }
 
-function showToast(msg,type,dur){
-  type=type||'info';dur=dur||3000;
-  var t=document.createElement('div');
-  t.style.cssText='position:fixed;top:20px;left:50%;transform:translateX(-50%);padding:14px 24px;border-radius:10px;font-size:15px;font-weight:500;z-index:2000;transition:opacity .3s;max-width:90vw;text-align:center';
-  var c={info:'#1e40af',success:'#166534',error:'#991b1b'};
-  t.style.background=c[type]||c.info;t.style.color='#fff';t.textContent=msg;
-  document.body.appendChild(t);
-  setTimeout(function(){t.style.opacity='0';setTimeout(function(){t.remove()},300)},dur);
-}
+function showToast(m,t,d){t=t||'info';d=d||3000;var el=document.createElement('div');el.style.cssText='position:fixed;top:20px;left:50%;transform:translateX(-50%);padding:14px 24px;border-radius:12px;font-size:15px;font-weight:600;z-index:2000;transition:opacity .3s;max-width:90vw;text-align:center';var c={info:'#1e40af',success:'#166534',error:'#991b1b'};el.style.background=c[t]||c.info;el.style.color='#fff';el.textContent=m;document.body.appendChild(el);setTimeout(function(){el.style.opacity='0';setTimeout(function(){el.remove()},300)},d);}
 
-// ===== RENDER =====
 function render(){
-  var root=document.getElementById('root');
-  var cls=state.deviceMode==='tablet'?'app tablet':'app phone';
+  var r=document.getElementById('root');
+  var cls=S.device==='tablet'?'app tablet':'app phone';
   var h='<div class="'+cls+'">';
-  if(state.screen==='role')h+=renderRole();
-  else if(state.screen==='device')h+=renderDevice();
-  else if(state.screen==='printer')h+=renderPrinterSetup();
-  else if(state.screen==='menu')h+=renderMenu();
-  else if(state.screen==='cook')h+=renderCook();
-  else if(state.screen==='admin-code')h+=renderAdminCode();
-  else if(state.screen==='admin')h+=renderAdmin();
-  else if(state.screen==='order')h+=renderOrderComplete();
-  h+='</div>';root.innerHTML=h;
+  if(S.screen==='role')h+=pRole();
+  else if(S.screen==='device')h+=pDevice();
+  else if(S.screen==='printer')h+=pPrinter();
+  else if(S.screen==='menu')h+=pMenu();
+  else if(S.screen==='cook')h+=pCook();
+  else if(S.screen==='admin-code')h+=pAdminCode();
+  else if(S.screen==='admin')h+=pAdmin();
+  else if(S.screen==='order')h+=pOrder();
+  h+='</div>';r.innerHTML=h;
 }
 
-function renderRole(){
-  return '<div class="role-screen screen"><div class="role-title">🍽 Шаурма №1</div>'+
-    '<button class="role-btn role-client" onclick="state.role=\'client\';state.screen=\'device\';render()">👤 Я клиент</button>'+
-    '<button class="role-btn role-cook" onclick="state.role=\'cook\';state.screen=\'cook\';render()">👨‍🍳 Повар</button>'+
-    '<button class="role-btn role-admin" onclick="state.screen=\'admin-code\';render()">🔑 Админ</button></div>';
+function pRole(){
+  return'<div class="role-screen screen"><div class="role-title">🍽 Шаурма №1</div>'+
+    '<button class="role-btn role-client" onclick="S.role=\'client\';S.screen=\'device\';render()">👤 Я клиент</button>'+
+    '<button class="role-btn role-cook" onclick="S.role=\'cook\';S.screen=\'device\';render()">👨‍🍳 Повар</button>'+
+    '<button class="role-btn role-admin" onclick="S.screen=\'admin-code\';render()">🔑 Админ</button></div>';
 }
 
-function renderDevice(){
-  return '<div class="device-screen screen"><div class="device-title">Какое устройство?</div>'+
-    '<button class="device-btn" onclick="selectDevice(\'phone\')"><span class="icon">📱</span><div class="info">Телефон<small>Откроется в Telegram</small></div></button>'+
-    '<button class="device-btn" onclick="selectDevice(\'tablet\')"><span class="icon">📋</span><div class="info">Планшет<small>Откроется в Chrome для Bluetooth</small></div></button>'+
-    '<button class="printer-skip" onclick="state.deviceMode=\'phone\';state.screen=\'menu\';render()">Пропустить</button></div>';
+function pDevice(){
+  return'<div class="device-screen screen"><div class="device-title">Устройство?</div>'+
+    '<button class="device-btn" onclick="pickDevice(\'phone\')"><span class="icon">📱</span><div class="info">Телефон<small>Откроется в Telegram</small></div></button>'+
+    '<button class="device-btn" onclick="pickDevice(\'tablet\')"><span class="icon">📋</span><div class="info">Планшет<small>Откроется в Chrome (для Bluetooth)</small></div></button>'+
+    '<button class="skip-link" onclick="S.device=\'phone\';S.screen=S.role===\'client\'?\'printer\':\'cook\';render()">Пропустить</button></div>';
 }
+function pickDevice(m){S.device=m;if(m==='tablet')window.open(location.href,'_blank');S.screen=S.role==='client'?'printer':'cook';render();}
 
-function selectDevice(mode){
-  state.deviceMode=mode;
-  if(mode==='tablet'){window.open(location.href,'_blank');}
-  state.screen='printer';render();
-}
-
-function renderPrinterSetup(){
-  var connected=state.printerConnected;
-  var searching=state._searching;
+function pPrinter(){
+  var ok=S.printerOk,sc=S._search;
   var h='<div class="printer-screen screen"><div class="printer-title">🖨 Подключение принтера</div>';
-  h+='<div class="printer-status-box"><div class="printer-icon">'+(connected?'✅':'🖨')+'</div>';
-  h+='<div class="printer-name-text">'+(connected?(pDevice.name||'Принтер'):'Принтер не подключён')+'</div>';
-  h+='<div class="printer-hint">'+(connected?'Готов к печати чеков':'Нажмите для поиска принтера')+'</div></div>';
-  if(!connected){
-    h+='<button class="printer-connect-btn connect" onclick="doPrinterConnect()"'+(searching?' disabled':'')+'>'+(searching?'<span class="spinner"></span> Поиск...':'Найти принтер')+'</button>';
-  }else{
-    h+='<button class="printer-connect-btn connected" onclick="printerDisconnect()">Отключить принтер</button>';
-  }
-  h+='<button class="printer-continue" onclick="state.screen=\'menu\';render()" style="width:100%;max-width:320px;padding:18px;border:none;border-radius:14px;background:#16a34a;color:#fff;font-size:17px;font-weight:700;cursor:pointer;margin-top:12px">Продолжить →</button>';
-  h+='</div>';return h;
+  h+='<div class="printer-box"><div class="icon">'+(ok?'✅':'🖨')+'</div>';
+  h+='<div class="name">'+(ok?(pD?pD.name:'Принтер'):'Принтер не подключён')+'</div>';
+  h+='<div class="hint">'+(ok?'Готов к печати':'Нажмите для поиска')+'</div></div>';
+  if(!ok)h+='<button class="printer-btn search" onclick="doPConnect()"'+(sc?' disabled':'')+'>'+(sc?'<span class="spinner"></span> Поиск...':'Найти принтер')+'</button>';
+  else h+='<button class="printer-btn disconnect" onclick="pDisconnect()">Отключить</button>';
+  h+='<button class="printer-continue" onclick="S.screen=\'menu\';render()">Продолжить →</button></div>';
+  return h;
 }
+async function doPConnect(){S._search=true;render();var ok=await pConnect();S._search=false;if(ok)showToast('✅ Подключён!','success');render();}
 
-async function doPrinterConnect(){
-  state._searching=true;render();
-  var ok=await printerConnect();
-  state._searching=false;
-  if(ok)showToast('✅ Принтер подключён!','success');
-  render();
-}
-
-function renderMenu(){
-  var filtered=MENU.filter(function(i){return i.cat===state.cat});
+function pMenu(){
+  var f=MENU.filter(function(i){return i.cat===S.cat});
   var h='<div class="categories">';
-  CATS.forEach(function(c){h+='<button class="cat-btn'+(state.cat===c.id?' active':'')+'" onclick="state.cat=\''+c.id+'\';render()">'+c.name+'</button>';});
+  CATS.forEach(function(c){h+='<button class="cat-btn'+(S.cat===c.id?' active':'')+'" onclick="S.cat=\''+c.id+'\';render()">'+c.name+'</button>';});
   h+='</div><div class="menu-items">';
-  filtered.forEach(function(item){
-    h+='<div class="menu-card" onclick="addToCart('+item.id+')"><div class="menu-card-info"><div class="menu-card-name">'+item.name+'</div>';
-    if(item.desc)h+='<div class="menu-card-desc">'+item.desc+'</div>';
-    h+='</div><button class="add-btn" onclick="event.stopPropagation();addToCart('+item.id+')">+</button></div>';
+  f.forEach(function(it){
+    h+='<div class="menu-card" onclick="addCart('+it.id+')"><div class="menu-card-info"><div class="menu-card-name">'+it.name+'</div>';
+    if(it.desc)h+='<div class="menu-card-desc">'+it.desc+'</div>';
+    h+='</div><button class="add-btn" onclick="event.stopPropagation();addCart('+it.id+')">+</button></div>';
   });
   h+='</div>';
-  if(state.cart.length)h+=renderCart();
+  if(S.cart.length){
+    var h2='<div class="cart"><div class="cart-title">🛒 Корзина ('+S.cart.length+')</div><div class="cart-items">';
+    S.cart.forEach(function(it){h2+='<div class="cart-item"><span class="cart-item-name">'+it.qty+'x '+it.name+'</span><div class="cart-item-controls"><button class="qty-btn" onclick="updQty('+it.id+',-1)">−</button><span class="qty">'+it.qty+'</span><button class="qty-btn" onclick="updQty('+it.id+',1)">+</button></div></div>';});
+    h2+='</div><button class="btn btn-order" onclick="placeOrder()">Оформить заказ</button><button class="btn btn-clear" onclick="S.cart=[];render()">Очистить</button></div>';
+    h+=h2;
+  }
   return h;
 }
 
-function renderCart(){
-  var h='<div class="cart"><div class="cart-title">🛒 Корзина ('+state.cart.length+')</div><div class="cart-items">';
-  state.cart.forEach(function(item){
-    h+='<div class="cart-item"><span class="cart-item-name">'+item.qty+'x '+item.name+'</span><div class="cart-item-controls"><button class="qty-btn" onclick="updateQty('+item.id+',-1)">−</button><span class="qty">'+item.qty+'</span><button class="qty-btn" onclick="updateQty('+item.id+',1)">+</button></div></div>';
-  });
-  h+='</div><button class="btn btn-order" onclick="placeOrder()">Оформить заказ</button>';
-  h+='<button class="btn btn-clear" onclick="state.cart=[];render()">Очистить</button></div>';
-  return h;
-}
+function pCook(){
+  var h='<div class="panel-header"><button onclick="S.screen=\'role\';S.sel=null;render()" style="background:none;border:none;color:#fff;font-size:20px;cursor:pointer">←</button><h2>👨‍🍳 Заказы</h2><button class="refresh-btn" onclick="render()">↻</button></div>';
+  if(pD&&pD.gatt.connected)h+='<div class="printer-bar"><div class="printer-dot on"></div><span class="printer-status">'+pD.name+'</span><button class="printer-sm-btn" onclick="pDisconnect()">Откл.</button></div>';
+  else h+='<div class="printer-bar"><div class="printer-dot"></div><span class="printer-status">Принтер не подключён</span><button class="printer-sm-btn" onclick="S.screen=\'printer\';render()">Подкл.</button></div>';
 
-function renderCook(){
-  var h='<div class="panel-header"><button class="back-btn" onclick="state.screen=\'role\';render()" style="font-size:20px">←</button><h2>👨‍🍳 Заказы</h2><button class="refresh-btn" onclick="render()">↻</button></div>';
-  if(state.printerConnected||pDevice)h+='<div class="printer-bar"><div class="printer-dot on"></div><span class="printer-status">'+(pDevice?pDevice.name:'Принтер')+'</span><button class="printer-btn" onclick="printerDisconnect()">Откл.</button></div>';
-  else h+='<div class="printer-bar"><div class="printer-dot"></div><span class="printer-status">Принтер не подключён</span><button class="printer-btn" onclick="state.screen=\'printer\';render()">Подключить</button></div>';
-  var active=state.orders.filter(function(o){return o.status!=='ready'&&o.status!=='cancelled'});
-  if(!active.length)h+='<div class="empty">Нет активных заказов</div>';
+  var active=S.orders.filter(function(o){return o.status!=='ready'&&o.status!=='cancelled'});
+  if(!active.length)h+='<div class="empty" style="padding:60px 0;color:#444;font-size:18px">Нет активных заказов</div>';
   else{
     h+='<div class="orders-list">';
-    active.forEach(function(order){
-      var sel=state.selOrder===order.id;
-      h+='<div class="order-card'+(sel?' selected':'')+'" onclick="state.selOrder='+(sel?'null':order.id)+';state.showStatus=false;state.showItems=false;render()">';
-      h+='<div class="order-card-header"><span class="order-num">#'+order.id+'</span><span class="badge badge-'+order.status+'">'+({new:'Новый',accepted:'Принят',cooking:'Готовится',ready:'Готов',cancelled:'Отменён'})[order.status]+'</span><span class="order-time">'+order.time+'</span></div>';
-      h+='<div class="order-user">'+order.user+'</div>';
-      order.items.forEach(function(it){h+='<div class="order-item'+(it.cancelled?' cancelled':'')+'"><span>'+it.qty+'x '+it.name+'</span>'+(it.cancelled?'<span class="cancel-badge">❌</span>':'')+'</div>';});
-      h+='<div class="order-total">'+order.items.filter(function(i){return !i.cancelled}).length+' позиций</div>';
-      if(pDevice&&pDevice.gatt.connected)h+='<button class="print-receipt-btn" onclick="event.stopPropagation();printOrderReceipt(state.orders.find(function(o){return o.id==='+order.id+'}))">🖨 Чек</button>';
-      if(sel){
-        h+='<div class="order-actions">';
-        h+='<button class="action-btn action-status" onclick="event.stopPropagation();state.showStatus=!state.showStatus;state.showItems=false;render()">● Статус</button>';
-        h+='<button class="action-btn action-items" onclick="event.stopPropagation();state.showItems=!state.showItems;state.showStatus=false;render()">••• Позиции</button>';
-        h+='<button class="action-btn action-cancel" onclick="event.stopPropagation();cancelOrderConfirm('+order.id+')">✖ Отмена</button></div>';
-      }
-      if(sel&&state.showStatus){
-        h+='<div class="status-menu" onclick="event.stopPropagation()">';
-        h+='<button class="status-opt" onclick="setOrderStatus('+order.id+',\'accepted\')">🟢 Принять</button>';
-        h+='<button class="status-opt" onclick="setOrderStatus('+order.id+',\'cooking\')">🟡 Готовится</button>';
-        h+='<button class="status-opt" onclick="setOrderStatus('+order.id+',\'ready\')">✅ Готово</button>';
-        h+='<button class="status-opt status-cancel" onclick="cancelOrderConfirm('+order.id+')">❌ Отменить</button></div>';
-      }
-      if(sel&&state.showItems){
-        h+='<div class="items-menu" onclick="event.stopPropagation()">';
-        order.items.forEach(function(it,idx){if(!it.cancelled)h+='<div class="items-menu-item"><span>'+it.qty+'x '+it.name+'</span><button class="item-cancel-btn" onclick="cancelItemConfirm('+order.id+','+idx+')">✖</button></div>';});
-        h+='</div>';
-      }
+    active.forEach(function(o){
+      var sel=S.sel===o.id;
+      h+='<div class="order-card'+(sel?' selected':'')+'" onclick="toggleSel('+o.id+')">';
+      h+='<div class="order-content">';
+      h+='<div class="order-card-header"><span class="order-num">#'+o.id+'</span><span class="badge badge-'+o.status+'">'+({new:'Новый',accepted:'Принят',cooking:'Готовится',ready:'Готов',cancelled:'Отменён'})[o.status]+'</span><span class="order-time">'+o.time+'</span></div>';
+      h+='<div class="order-user">'+o.user+'</div>';
+      o.items.forEach(function(it){h+='<div class="order-item'+(it.cancelled?' cancelled':'')+'">'+it.qty+'x '+it.name+(it.cancelled?'<span class="cancel-badge">❌</span>':'')+'</div>';});
+      h+='<div class="order-total">'+o.items.filter(function(i){return!i.cancelled}).length+' поз.</div>';
+      if(pD&&pD.gatt.connected)h+='<button class="print-receipt-btn" onclick="event.stopPropagation();printReceipt(S.orders.find(function(x){return x.id==='+o.id+'}))">🖨 Чек</button>';
+      h+='</div>';
+
+      h+='<div class="order-actions">';
+      h+='<button class="action-circle status" title="Статус" onclick="event.stopPropagation();S.showSt=!S.showSt;S.showIt=false;render()">●</button>';
+      h+='<button class="action-circle items" title="Позиции" onclick="event.stopPropagation();S.showIt=!S.showIt;S.showSt=false;render()">•••</button>';
+      h+='<button class="action-circle cancel" title="Отмена" onclick="event.stopPropagation();cancelO('+o.id+')">✕</button>';
+      h+='</div>';
+
+      h+='<div class="expand-panel'+(sel&&S.showSt?' open':'')+'">';
+      h+='<div class="status-menu">';
+      h+='<button class="status-opt" onclick="event.stopPropagation();setSt('+o.id+',\'accepted\')">🟢 Принять</button>';
+      h+='<button class="status-opt" onclick="event.stopPropagation();setSt('+o.id+',\'cooking\')">🟡 Готовится</button>';
+      h+='<button class="status-opt" onclick="event.stopPropagation();setSt('+o.id+',\'ready\')">✅ Готово</button>';
+      h+='<button class="status-opt status-cancel" onclick="event.stopPropagation();cancelO('+o.id+')">❌ Отменить</button></div></div>';
+
+      h+='<div class="expand-panel'+(sel&&S.showIt?' open':'')+'">';
+      h+='<div class="items-menu">';
+      o.items.forEach(function(it,idx){if(!it.cancelled)h+='<div class="items-menu-item"><span>'+it.qty+'x '+it.name+'</span><button class="item-cancel-btn" onclick="event.stopPropagation();cancelI('+o.id+','+idx+')">✕</button></div>';});
+      h+='</div></div>';
+
       h+='</div>';
     });
     h+='</div>';
@@ -384,56 +390,44 @@ function renderCook(){
   return h;
 }
 
-function renderAdminCode(){
-  return '<div class="admin-code-screen screen"><div class="role-title">🔑 Админ</div>'+
-    '<input class="secret-input" type="password" id="adminInput" placeholder="Код" maxlength="8" onkeypress="if(event.key===\'Enter\')checkAdminCode()">'+
-    '<button class="btn btn-primary" style="max-width:320px" onclick="checkAdminCode()">Войти</button>'+
-    '<button class="printer-skip" onclick="state.screen=\'role\';render()">← Назад</button></div>';
+function pAdminCode(){
+  return'<div class="admin-code-screen screen"><div class="role-title">🔑 Админ</div>'+
+    '<input class="secret-input" type="password" id="ai" placeholder="····" maxlength="8" onkeypress="if(event.key===\'Enter\')chkAdmin()">'+
+    '<button class="btn btn-primary" style="max-width:320px" onclick="chkAdmin()">Войти</button>'+
+    '<button class="skip-link" onclick="S.screen=\'role\';render()">← Назад</button></div>';
 }
+function chkAdmin(){if(document.getElementById('ai').value===ADMIN_CODE){S.screen='admin';render();showToast('Добро пожаловать!','success')}else showToast('Неверный код','error');}
 
-function checkAdminCode(){
-  var v=document.getElementById('adminInput').value;
-  if(v===ADMIN_CODE){state.screen='admin';render();showToast('Добро пожаловать!','success')}
-  else showToast('Неверный код','error');
-}
-
-function renderAdmin(){
-  var h='<div class="panel-header"><button class="back-btn" onclick="state.screen=\'role\';render()" style="font-size:20px">←</button><h2>⚙️ Админ</h2></div>';
-  h+='<div class="admin-tabs"><button class="'+(state.atab==='stats'?'':'active')+'" onclick="state.atab=\'menu\';render()">Меню</button><button class="'+(state.atab==='stats'?'active':'')+'" onclick="state.atab=\'stats\';render()">Статистика</button></div>';
-  if(state.atab==='stats'){
-    h+='<div class="admin-stats"><div class="stat-card"><div class="stat-value">'+state.orders.length+'</div><div class="stat-label">Заказов</div></div></div>';
+function pAdmin(){
+  var h='<div class="panel-header"><button onclick="S.screen=\'role\';render()" style="background:none;border:none;color:#fff;font-size:20px;cursor:pointer">←</button><h2>⚙️ Админ</h2></div>';
+  h+='<div class="admin-tabs"><button class="'+(S.atab==='stats'?'':'active')+'" onclick="S.atab=\'menu\';render()">Меню</button><button class="'+(S.atab==='stats'?'active':'')+'" onclick="S.atab=\'stats\';render()">Статистика</button></div>';
+  if(S.atab==='stats'){
+    h+='<div class="admin-stats"><div class="stat-card"><div class="stat-value">'+S.orders.length+'</div><div class="stat-label">Заказов</div></div></div>';
   }else{
-    h+='<button class="btn btn-primary" onclick="showAddItem()">+ Добавить блюдо</button>';
-    h+='<div class="admin-items-list">';
-    MENU.forEach(function(item,idx){
-      h+='<div class="admin-item"><div><div class="admin-item-name">'+item.name+'</div><div class="admin-item-cat">'+item.cat+'</div></div><div class="admin-item-actions"><button onclick="editItem('+idx+')">✏️</button><button onclick="deleteItem('+idx+')">🗑️</button></div></div>';
-    });
+    h+='<button class="btn btn-primary" onclick="addMenuItem()">+ Добавить</button><div class="admin-items-list">';
+    MENU.forEach(function(it,i){h+='<div class="admin-item"><div><div class="admin-item-name">'+it.name+'</div><div class="admin-item-cat">'+it.cat+'</div></div><div class="admin-item-actions"><button onclick="editMI('+i+')">✏️</button><button onclick="delMI('+i+')">🗑</button></div></div>';});
     h+='</div>';
   }
   return h;
 }
 
-function renderOrderComplete(){
-  var h='<div class="order-complete screen"><div class="order-success">✅</div><h2>Заказ оформлен!</h2><div class="order-number">#'+state.lastOrder.id+'</div>';
-  if(pDevice&&pDevice.gatt.connected)h+='<button class="btn btn-order" style="max-width:300px;margin:0 auto" onclick="printOrderReceipt(state.lastOrder)">🖨 Напечатать чек</button>';
-  h+='<button class="btn btn-primary" style="max-width:300px;margin:16px auto 0" onclick="state.screen=\'menu\';render()">← В меню</button></div>';
-  return h;
+function pOrder(){
+  return'<div class="order-complete screen"><div class="order-success">✅</div><h2>Заказ оформлен!</h2><div class="order-number">#'+S.lastOrder.id+'</div>'+
+    (pD&&pD.gatt.connected?'<button class="btn btn-order" style="max-width:300px;margin:0 auto" onclick="printReceipt(S.lastOrder)">🖨 Напечатать чек</button>':'')+
+    '<button class="btn btn-primary" style="max-width:300px;margin:20px auto 0" onclick="S.screen=\'menu\';render()">← В меню</button></div>';
 }
 
-// ===== ACTIONS =====
-function addToCart(id){var item=MENU.find(function(i){return i.id===id});var ex=state.cart.find(function(c){return c.id===id});if(ex)ex.qty++;else state.cart.push(Object.assign({},item,{qty:1}));render();}
-function updateQty(id,d){state.cart=state.cart.map(function(c){return c.id===id?Object.assign({},c,{qty:Math.max(0,c.qty+d)}):c}).filter(function(c){return c.qty>0});render();}
-function placeOrder(){
-  if(!state.cart.length)return;
-  var o={id:state.nextId++,items:state.cart.map(function(c){return{name:c.name,qty:c.qty,cancelled:false,reason:''}}),status:'new',time:new Date().toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'}),user:'Клиент'};
-  state.orders.push(o);state.lastOrder=o;state.cart=[];state.screen='order';render();
-}
-function setOrderStatus(id,s){var o=state.orders.find(function(o){return o.id===id});if(o)o.status=s;state.showStatus=false;render();showToast('Статус обновлён','success');}
-function cancelOrderConfirm(id){var r=prompt('Причина отмены:');if(r){var o=state.orders.find(function(o){return o.id===id});if(o)o.status='cancelled';render();showToast('Заказ отменён','error');}}
-function cancelItemConfirm(oid,idx){var r=prompt('Причина:');if(r){var o=state.orders.find(function(o){return o.id===oid});if(o&&o.items[idx]){o.items[idx].cancelled=true;o.items[idx].reason=r;render();showToast('Позиция отменена','error');}}}
-function showAddItem(){var n=prompt('Название:');if(!n)return;var c=prompt('Категория:','shawarma');MENU.push({id:MENU.length+1,name:n,desc:'',cat:c});render();}
-function editItem(i){var n=prompt('Название:',MENU[i].name);if(n)MENU[i].name=n;render();}
-function deleteItem(i){if(confirm('Удалить?'))MENU.splice(i,1);render();}
+// ACTIONS
+function addCart(id){var it=MENU.find(function(i){return i.id===id});var ex=S.cart.find(function(c){return c.id===id});if(ex)ex.qty++;else S.cart.push(Object.assign({},it,{qty:1}));render();}
+function updQty(id,d){S.cart=S.cart.map(function(c){return c.id===id?Object.assign({},c,{qty:Math.max(0,c.qty+d)}):c}).filter(function(c){return c.qty>0});render();}
+function placeOrder(){if(!S.cart.length)return;var o={id:S.nid++,items:S.cart.map(function(c){return{name:c.name,qty:c.qty,cancelled:false,reason:''}}),status:'new',time:new Date().toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'}),user:'Клиент'};S.orders.push(o);S.lastOrder=o;S.cart=[];S.screen='order';render();}
+function toggleSel(id){S.sel=S.sel===id?null:id;S.showSt=false;S.showIt=false;render();}
+function setSt(id,st){var o=S.orders.find(function(x){return x.id===id});if(o)o.status=st;S.showSt=false;render();showToast('Готово','success');}
+function cancelO(id){var r=prompt('Причина:');if(r){var o=S.orders.find(function(x){return x.id===id});if(o)o.status='cancelled';render();showToast('Отменён','error');}}
+function cancelI(oi,idx){var r=prompt('Причина:');if(r){var o=S.orders.find(function(x){return x.id===oi});if(o&&o.items[idx]){o.items[idx].cancelled=true;o.items[idx].reason=r;render();showToast('Позиция отменена','error');}}}
+function addMenuItem(){var n=prompt('Название:');if(!n)return;var c=prompt('Категория (shawarma/snacks/drinks/hot):','shawarma');MENU.push({id:MENU.length+1,name:n,desc:'',cat:c});render();}
+function editMI(i){var n=prompt('Название:',MENU[i].name);if(n)MENU[i].name=n;render();}
+function delMI(i){if(confirm('Удалить '+MENU[i].name+'?'))MENU.splice(i,1);render();}
 
 render();
 </script>
