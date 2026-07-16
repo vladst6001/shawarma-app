@@ -225,8 +225,8 @@
 <div id="root"></div>
 <script>
 var ADMIN_CODE='458307pP';
-var tg=window.Telegram?.WebApp;
-if(tg){try{tg.ready();tg.expand();tg.setHeaderColor('#0a0a0a');tg.setBackgroundColor('#0a0a0a')}catch(e){}}
+var tg=null;
+try{tg=window.Telegram?.WebApp;if(tg){tg.ready();tg.expand();tg.setHeaderColor('#0a0a0a');tg.setBackgroundColor('#0a0a0a')}}catch(e){tg=null}
 
 var MENU=[
   {id:1,name:'Шаурма классическая',desc:'Курица, овощи, соус',cat:'shawarma'},
@@ -444,8 +444,6 @@ function pOrder(){
     }
   },300);
 
-  return h;
-}
   return h;
 }
 
