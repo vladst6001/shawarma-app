@@ -17,7 +17,8 @@
     .cat-btn.active{background:#2563eb;color:#fff}
     .menu-items{display:grid;gap:10px}
     .app.phone .menu-items{grid-template-columns:1fr}
-    .app.tablet .menu-items{grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
+    .app.tablet .menu-items{grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+    .app.tablet .cart{max-width:100%;border-radius:0}
     .menu-card{display:flex;align-items:center;justify-content:space-between;padding:16px;background:#141414;border-radius:16px;border:1px solid #222;cursor:pointer;transition:transform .15s}
     .menu-card:active{transform:scale(.98)}
     .menu-card-info{flex:1}
@@ -218,10 +219,19 @@ async function printOrderReceipt(order){
 function printerBar(){
   var connected=pDevice&&pDevice.gatt&&pDevice.gatt.connected;
   var name=connected?(pDevice.name||'Принтер'):'Не подключён';
+  var inTelegram=!!tg;
   var h='<div class="printer-bar"><div class="printer-dot'+(connected?' on':'')+'"></div><span class="printer-status">'+name+'</span>';
   if(connected)h+='<button class="printer-btn" onclick="printerDisconnect()">Отключить</button>';
-  else h+='<button class="printer-btn" onclick="printerConnect()">Найти принтер</button>';
-  return h+'</div>';
+  else{
+    if(inTelegram){
+      h+='<button class="printer-btn" onclick="window.open(location.href,\'_blank\')" style="background:#f59e0b">Открыть в Chrome</button>';
+    }else{
+      h+='<button class="printer-btn" onclick="printerConnect()">Найти принтер</button>';
+    }
+  }
+  h+='</div>';
+  if(inTelegram&&!connected)h+='<div style="font-size:11px;color:#666;text-align:center;margin-bottom:8px">Откройте в Chrome для подключения принтера</div>';
+  return h;
 }
 
 // ===== TOAST =====
@@ -255,14 +265,13 @@ function renderSetup(){
   h+='<button class="mode-btn'+(deviceMode==='phone'?' active':'')+'" onclick="deviceMode=\'phone\';localStorage.setItem(\'yhk_device_mode\',\'phone\');render()">📱 Телефон</button>';
   h+='<button class="mode-btn'+(deviceMode==='tablet'?' active':'')+'" onclick="deviceMode=\'tablet\';localStorage.setItem(\'yhk_device_mode\',\'tablet\');render()">📋 Планшет</button>';
   h+='</div>';
-  if(deviceMode==='tablet'){
-    h+='<div class="open-browser" onclick="window.open(location.href,\'_blank\')">🌐 Открыть в браузере (для Bluetooth)</div>';
-  }
-  h+='<div class="section-label" style="margin:20px 0 10px">Режим</div>';
+  h+='<div class="open-browser" onclick="window.open(location.href,\'_blank\')">🌐 Открыть в Chrome (для Bluetooth)</div>';
+  h+='<div style="font-size:12px;color:#666;margin:8px 0 20px">Bluetooth работает только в браузере Chrome,<br>не в Telegram Mini App</div>';
+  h+='<div class="section-label" style="margin-bottom:10px">Режим</div>';
   h+='<button class="btn btn-order" onclick="role=\'client\';localStorage.setItem(\'yhk_role\',\'client\');screen=\'menu\';render()">👤 Клиент</button>';
   h+='<button class="btn btn-cook" onclick="role=\'cook\';localStorage.setItem(\'yhk_role\',\'cook\');screen=\'cook\';render()">👨‍🍳 Повар</button>';
   h+='<div style="margin-top:12px">';
-  h+='<input class="secret-input" type="password" id="secretCode" placeholder="Код админа" maxlength="4">';
+  h+='<input class="secret-input" type="password" id="secretCode" placeholder="Код админа" maxlength="8">';
   h+='<button class="btn btn-admin" onclick="checkAdmin()">🔑 Админ</button>';
   h+='</div></div>';
   return h;
