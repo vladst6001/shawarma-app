@@ -299,8 +299,8 @@ function render(){
 
 function pRole(){
   return'<div class="role-screen screen"><div class="role-title">🍽 Шаурма №1</div>'+
-    '<button class="role-btn role-client" onclick="S.role=\'client\';S.screen=\'device\';render()">👤 Я клиент</button>'+
-    '<button class="role-btn role-cook" onclick="S.role=\'cook\';S.screen=\'device\';render()">👨‍🍳 Повар</button>'+
+    '<button class="role-btn role-client" onclick="S.role=\'client\';saveState();S.screen=\'device\';render()">👤 Я клиент</button>'+
+    '<button class="role-btn role-cook" onclick="S.role=\'cook\';saveState();S.screen=\'device\';render()">👨‍🍳 Повар</button>'+
     '<button class="role-btn role-admin" onclick="S.screen=\'admin-code\';render()">🔑 Админ</button></div>';
 }
 
@@ -310,7 +310,24 @@ function pDevice(){
     '<button class="device-btn" onclick="pickDevice(\'tablet\')"><span class="icon">📋</span><div class="info">Планшет<small>Откроется в Chrome (для Bluetooth)</small></div></button>'+
     '<button class="skip-link" onclick="S.device=\'phone\';S.screen=S.role===\'client\'?\'printer\':\'cook\';render()">Пропустить</button></div>';
 }
-function pickDevice(m){S.device=m;if(m==='tablet')window.open(location.href,'_blank');S.screen=S.role==='client'?'printer':'cook';render();}
+function loadState(){
+  try{
+    var r=localStorage.getItem('yhk_role');
+    var d=localStorage.getItem('yhk_device');
+    if(r){
+      S.role=r;S.device=d||'phone';
+      if(r==='client')S.screen='printer';
+      else if(r==='cook')S.screen='cook';
+      else if(r==='admin')S.screen='admin';
+    }
+  }catch(e){}
+}
+function saveState(){
+  localStorage.setItem('yhk_role',S.role||'');
+  localStorage.setItem('yhk_device',S.device||'phone');
+}
+
+function pickDevice(m){S.device=m;saveState();if(m==='tablet')window.open(location.href,'_blank');S.screen=S.role==='client'?'printer':'cook';render();}
 
 function pPrinter(){
   var ok=S.printerOk,sc=S._search;
@@ -320,7 +337,7 @@ function pPrinter(){
   h+='<div class="hint">'+(ok?'Готов к печати':'Нажмите для поиска')+'</div></div>';
   if(!ok)h+='<button class="printer-btn search" onclick="doPConnect()"'+(sc?' disabled':'')+'>'+(sc?'<span class="spinner"></span> Поиск...':'Найти принтер')+'</button>';
   else h+='<button class="printer-btn disconnect" onclick="pDisconnect()">Отключить</button>';
-  h+='<button class="printer-continue" onclick="S.screen=\'menu\';render()">Продолжить →</button></div>';
+  h+='<button class="printer-continue" onclick="S.screen=\'menu\';saveState();render()">Продолжить →</button></div>';
   return h;
 }
 async function doPConnect(){S._search=true;render();var ok=await pConnect();S._search=false;if(ok)showToast('✅ Подключён!','success');render();}
@@ -347,8 +364,6 @@ function pMenu(){
 
 function pCook(){
   var h='<div class="panel-header"><button onclick="S.screen=\'role\';S.sel=null;render()" style="background:none;border:none;color:#fff;font-size:20px;cursor:pointer">←</button><h2>👨‍🍳 Заказы</h2><button class="refresh-btn" onclick="render()">↻</button></div>';
-  if(pD&&pD.gatt.connected)h+='<div class="printer-bar"><div class="printer-dot on"></div><span class="printer-status">'+pD.name+'</span><button class="printer-sm-btn" onclick="pDisconnect()">Откл.</button></div>';
-  else h+='<div class="printer-bar"><div class="printer-dot"></div><span class="printer-status">Принтер не подключён</span><button class="printer-sm-btn" onclick="S.screen=\'printer\';render()">Подкл.</button></div>';
 
   var active=S.orders.filter(function(o){return o.status!=='ready'&&o.status!=='cancelled'});
   if(!active.length)h+='<div class="empty" style="padding:60px 0;color:#444;font-size:18px">Нет активных заказов</div>';
@@ -429,6 +444,7 @@ function addMenuItem(){var n=prompt('Название:');if(!n)return;var c=prom
 function editMI(i){var n=prompt('Название:',MENU[i].name);if(n)MENU[i].name=n;render();}
 function delMI(i){if(confirm('Удалить '+MENU[i].name+'?'))MENU.splice(i,1);render();}
 
+loadState();
 render();
 </script>
 </body>
