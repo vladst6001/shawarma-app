@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: shawarma-backend
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: shawarma-db
+          property: connectionString
+      - key: TELEGRAM_BOT_TOKEN
+        sync: false
+      - key: ADMIN_IDS
+        sync: false
+      - key: SECRET_KEY
+        generateValue: true
+
+databases:
+  - name: shawarma-db
+    plan: free
+    databaseName: shawarma
