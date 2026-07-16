@@ -314,11 +314,10 @@ function loadState(){
   try{
     var r=localStorage.getItem('yhk_role');
     var d=localStorage.getItem('yhk_device');
-    if(r){
+    if(r&&r!=='admin'){
       S.role=r;S.device=d||'phone';
       if(r==='client')S.screen='printer';
       else if(r==='cook')S.screen='cook';
-      else if(r==='admin')S.screen='admin';
     }
   }catch(e){}
 }
@@ -414,16 +413,89 @@ function pAdminCode(){
 function chkAdmin(){if(document.getElementById('ai').value===ADMIN_CODE){S.screen='admin';render();showToast('Добро пожаловать!','success')}else showToast('Неверный код','error');}
 
 function pAdmin(){
+  var shopName=localStorage.getItem('yhk_shop')||'ШАУРМА №1';
   var h='<div class="panel-header"><button onclick="S.screen=\'role\';render()" style="background:none;border:none;color:#fff;font-size:20px;cursor:pointer">←</button><h2>⚙️ Админ</h2></div>';
-  h+='<div class="admin-tabs"><button class="'+(S.atab==='stats'?'':'active')+'" onclick="S.atab=\'menu\';render()">Меню</button><button class="'+(S.atab==='stats'?'active':'')+'" onclick="S.atab=\'stats\';render()">Статистика</button></div>';
-  if(S.atab==='stats'){
-    h+='<div class="admin-stats"><div class="stat-card"><div class="stat-value">'+S.orders.length+'</div><div class="stat-label">Заказов</div></div></div>';
-  }else{
-    h+='<button class="btn btn-primary" onclick="addMenuItem()">+ Добавить</button><div class="admin-items-list">';
+  h+='<div class="admin-tabs">';
+  h+='<button class="'+(S.atab==='menu'?'active':'')+'" onclick="S.atab=\'menu\';render()">Меню</button>';
+  h+='<button class="'+(S.atab==='settings'?'active':'')+'" onclick="S.atab=\'settings\';render()">Настройки</button>';
+  h+='<button class="'+(S.atab==='stats'?'active':'')+'" onclick="S.atab=\'stats\';render()">Статистика</button>';
+  h+='</div>';
+
+  if(S.atab==='menu'){
+    h+='<button class="btn btn-primary" onclick="addMenuItem()">+ Добавить блюдо</button><div class="admin-items-list">';
     MENU.forEach(function(it,i){h+='<div class="admin-item"><div><div class="admin-item-name">'+it.name+'</div><div class="admin-item-cat">'+it.cat+'</div></div><div class="admin-item-actions"><button onclick="editMI('+i+')">✏️</button><button onclick="delMI('+i+')">🗑</button></div></div>';});
     h+='</div>';
+  }else if(S.atab==='settings'){
+    h+='<div class="admin-items-list">';
+    h+='<div class="admin-item" onclick="editShopName()" style="cursor:pointer"><div><div class="admin-item-name">🏪 Название заведения</div><div class="admin-item-cat">'+shopName+'</div></div><div>✏️</div></div>';
+    h+='<div class="admin-item" onclick="editFontSize()" style="cursor:pointer"><div><div class="admin-item-name">🔤 Размер шрифта чека</div><div class="admin-item-cat">'+(localStorage.getItem('yhk_font')||'24')+'px</div></div><div>✏️</div></div>';
+    h+='<div class="admin-item" onclick="editPadLeft()" style="cursor:pointer"><div><div class="admin-item-name">↔️ Отступ слева</div><div class="admin-item-cat">'+(localStorage.getItem('yhk_pad')||'4')+'px</div></div><div>✏️</div></div>';
+    h+='<div class="admin-item" onclick="editItemGap()" style="cursor:pointer"><div><div class="admin-item-name">↕️ Отступ между позициями</div><div class="admin-item-cat">'+(localStorage.getItem('yhk_igap')||'1')+' строки</div></div><div>✏️</div></div>';
+    h+='<div class="admin-item" onclick="editFeedLines()" style="cursor:pointer"><div><div class="admin-item-name">📄 Строк снизу чека</div><div class="admin-item-cat">'+(localStorage.getItem('yhk_feed')||'0')+'</div></div><div>✏️</div></div>';
+    h+='</div>';
+    h+='<button class="btn btn-cook" style="margin-top:16px" onclick="testPrint()">🖨 Тест печати</button>';
+    if(pD&&pD.gatt.connected)h+='<button class="btn btn-primary" style="margin-top:8px" onclick="printTestReceipt()">🖨 Напечатать тестовый чек</button>';
+    else h+='<div style="text-align:center;color:#666;font-size:13px;margin-top:8px">Подключите принтер для теста</div>';
+  }else if(S.atab==='stats'){
+    var todayOrders=S.orders.length;
+    h+='<div class="admin-stats"><div class="stat-card"><div class="stat-value">'+todayOrders+'</div><div class="stat-label">Заказов за сегодня</div></div></div>';
   }
   return h;
+}
+
+function editShopName(){
+  var v=prompt('Название заведения:',localStorage.getItem('yhk_shop')||'ШАУРМА №1');
+  if(v){localStorage.setItem('yhk_shop',v);render();}
+}
+function editFontSize(){
+  var v=prompt('Размер шрифта (px):',localStorage.getItem('yhk_font')||'24');
+  if(v&&!isNaN(v)){localStorage.setItem('yhk_font',v);render();}
+}
+function editPadLeft(){
+  var v=prompt('Отступ слева (px):',localStorage.getItem('yhk_pad')||'4');
+  if(v&&!isNaN(v)){localStorage.setItem('yhk_pad',v);render();}
+}
+function editItemGap(){
+  var v=prompt('Отступ между позициями (строки):',localStorage.getItem('yhk_igap')||'1');
+  if(v&&!isNaN(v)){localStorage.setItem('yhk_igap',v);render();}
+}
+function editFeedLines(){
+  var v=prompt('Строк снизу чека:',localStorage.getItem('yhk_feed')||'0');
+  if(v&&!isNaN(v)){localStorage.setItem('yhk_feed',v);render();}
+}
+
+function testPrint(){
+  if(!pD||!pD.gatt.connected){showToast('Принтер не подключён','error');return;}
+  showToast('✅ Тест OK','success');
+}
+
+function printTestReceipt(){
+  if(!pD||!pD.gatt.connected){showToast('Принтер не подключён','error');return;}
+  var shopName=localStorage.getItem('yhk_shop')||'ШАУРМА №1';
+  var fs=parseInt(localStorage.getItem('yhk_font'))||24;
+  var pl=parseInt(localStorage.getItem('yhk_pad'))||4;
+  var ig=parseInt(localStorage.getItem('yhk_igap'))||1;
+  var fd=parseInt(localStorage.getItem('yhk_feed'))||0;
+  var sep='================================\n';
+  var sp='';for(var i=0;i<ig;i++)sp+='\n';
+  var text=shopName+'\n\n'+sep+'ТЕСТОВЫЙ ЧЕК\n\n'+sep+'1x Тест позиция 1\n'+sp+'1x Тест позиция 2\n'+sp+'1x Тест позиция 3\n\n'+sep+new Date().toLocaleDateString('ru-RU')+' '+new Date().toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'})+'\n'+sep;
+  for(var f=0;f<fd;f++)text+='\n';
+  var lh=Math.round(fs*1.25);var ls=text.split('\n');
+  var cv=document.createElement('canvas');cv.width=PW;cv.height=ls.length*lh+20;
+  var cx=cv.getContext('2d');cx.fillStyle='#fff';cx.fillRect(0,0,PW,cv.height);
+  cx.fillStyle='#000';cx.font=fs+'px monospace';cx.textBaseline='top';
+  ls.forEach(function(l,i){cx.fillText(l,pl,i*lh+4)});
+  var id=cx.getImageData(0,0,PW,cv.height),wb=PW/8,tl=cv.height;
+  showToast('⏳ Печатается...','info',5000);
+  (async function(){
+    try{
+      await pSend(new Uint8Array([0x1b,0x40]));await pS(PID);
+      for(var y=0;y<tl;y++){var ln=new Uint8Array(wb);for(var bi=0;bi<wb;bi++){var b=0;for(var bit=0;bit<8;bit++){var x=bi*8+bit;if(x>=PW)continue;var gi=(y*PW+x)*4;if(id.data[gi]*0.299+id.data[gi+1]*0.587+id.data[gi+2]*0.114<PTH)b|=0x80>>bit;}ln[bi]=b;}
+      var hdr=new Uint8Array([0x1d,0x76,0x30,0x00,wb&0xff,(wb>>8)&0xff,0x01,0x00]);var pk=new Uint8Array(hdr.length+ln.length);pk.set(hdr);pk.set(ln,hdr.length);await pSend(pk);await pS(PLD);}
+      var fd2=new Uint8Array(2);fd2.fill(0x0a);await pSend(fd2);await pS(1000);
+      showToast('✅ Напечатано!','success');
+    }catch(e){showToast('❌ '+e.message,'error');}
+  })();
 }
 
 function pOrder(){
