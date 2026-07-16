@@ -311,15 +311,7 @@ function pDevice(){
     '<button class="skip-link" onclick="S.device=\'phone\';S.screen=S.role===\'client\'?\'printer\':\'cook\';render()">Пропустить</button></div>';
 }
 function loadState(){
-  try{
-    var r=localStorage.getItem('yhk_role');
-    var d=localStorage.getItem('yhk_device');
-    if(r&&r!=='admin'){
-      S.role=r;S.device=d||'phone';
-      if(r==='client')S.screen='printer';
-      else if(r==='cook')S.screen='cook';
-    }
-  }catch(e){}
+  S.screen='role';
 }
 function saveState(){
   localStorage.setItem('yhk_role',S.role||'');
@@ -330,7 +322,7 @@ function pickDevice(m){S.device=m;saveState();if(m==='tablet')window.open(locati
 
 function pPrinter(){
   var ok=S.printerOk,sc=S._search;
-  var h='<div class="printer-screen screen"><div class="printer-title">🖨 Подключение принтера</div>';
+  var h='<div class="printer-screen screen"><div style="position:absolute;top:20px;left:20px"><button onclick="S.screen=\'role\';render()" style="background:none;border:none;color:#fff;font-size:20px;cursor:pointer">← Назад</button></div><div class="printer-title">🖨 Подключение принтера</div>';
   h+='<div class="printer-box"><div class="icon">'+(ok?'✅':'🖨')+'</div>';
   h+='<div class="name">'+(ok?(pD?pD.name:'Принтер'):'Принтер не подключён')+'</div>';
   h+='<div class="hint">'+(ok?'Готов к печати':'Нажмите для поиска')+'</div></div>';
