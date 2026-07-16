@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <title>Шаурма №1</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0a0a0a;color:#fff;min-height:100vh;-webkit-tap-highlight-color:transparent}
+    .app{max-width:480px;margin:0 auto;padding:16px;padding-bottom:120px}
+    .loading,.empty{text-align:center;padding:40px;color:#666;font-size:16px}
+    .categories{display:flex;gap:8px;overflow-x:auto;padding:4px 0;margin-bottom:16px;-webkit-overflow-scrolling:touch}
+    .cat-btn{flex-shrink:0;padding:10px 16px;border:none;border-radius:20px;background:#1a1a1a;color:#888;font-size:14px;font-weight:500;cursor:pointer;transition:all .2s}
+    .cat-btn.active{background:#2563eb;color:#fff}
+    .menu-items{display:flex;flex-direction:column;gap:10px}
+    .menu-card{display:flex;align-items:center;justify-content:space-between;padding:16px;background:#141414;border-radius:16px;border:1px solid #222;cursor:pointer;transition:transform .15s}
+    .menu-card:active{transform:scale(.98)}
+    .menu-card-info{flex:1}
+    .menu-card-name{font-size:16px;font-weight:600;margin-bottom:4px}
+    .menu-card-desc{font-size:13px;color:#666;margin-bottom:4px}
+    .menu-card-price{font-size:18px;font-weight:700;color:#4ade80}
+    .add-btn{width:44px;height:44px;border:none;border-radius:12px;background:#2563eb;color:#fff;font-size:24px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center}
+    .cart{position:fixed;bottom:0;left:0;right:0;background:#141414;border-top:1px solid #222;padding:16px;max-width:480px;margin:0 auto;border-radius:20px 20px 0 0;z-index:100}
+    .cart-title{font-size:16px;font-weight:600;margin-bottom:12px}
+    .cart-items{max-height:200px;overflow-y:auto;margin-bottom:12px}
+    .cart-item{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid #222}
+    .cart-item-name{font-size:14px}
+    .cart-item-price{font-size:13px;color:#888}
+    .cart-item-controls{display:flex;align-items:center;gap:10px}
+    .qty-btn{width:32px;height:32px;border:none;border-radius:8px;background:#333;color:#fff;font-size:18px;cursor:pointer}
+    .qty{font-size:16px;font-weight:600;min-width:24px;text-align:center}
+    .cart-total{display:flex;justify-content:space-between;font-size:18px;font-weight:700;padding:12px 0;border-top:1px solid #333}
+    .total-price{color:#4ade80}
+    .btn{width:100%;padding:16px;border:none;border-radius:14px;font-size:16px;font-weight:600;cursor:pointer;transition:all .2s;margin-top:8px}
+    .btn:active{transform:scale(.97)}
+    .btn:disabled{background:#333;color:#666;cursor:not-allowed;transform:none}
+    .btn-primary{background:#2563eb;color:#fff}
+    .btn-secondary{background:#333;color:#fff}
+    .btn-order{background:#16a34a;color:#fff}
+    .btn-clear{background:transparent;color:#666;font-size:14px}
+    .btn-cook{background:#7c3aed;color:#fff;margin-top:12px}
+    .btn-admin{background:#374151;color:#fff;margin-top:8px}
+    .back-btn{background:none;border:none;color:#fff;font-size:24px;cursor:pointer;padding:4px}
+    .panel-header{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+    .panel-header h2{flex:1}
+    .order-complete{text-align:center;padding:40px 20px}
+    .order-success{font-size:64px;margin-bottom:16px}
+    .order-number{font-size:48px;font-weight:800;color:#4ade80;margin:16px 0}
+    .badge{display:inline-block;padding:4px 10px;border-radius:12px;font-size:12px;font-weight:600;color:#fff}
+    .badge-new{background:#3b82f6}
+    .badge-accepted{background:#22c55e}
+    .badge-cooking{background:#eab308}
+    .badge-ready{background:#16a34a}
+    .badge-cancelled{background:#ef4444}
+    .orders-list{display:flex;flex-direction:column;gap:12px}
+    .order-card{background:#141414;border:2px solid #222;border-radius:16px;padding:16px;cursor:pointer;transition:border-color .2s}
+    .order-card.selected{border-color:#2563eb}
+    .order-card-header{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+    .order-num{font-size:20px;font-weight:800}
+    .order-time{margin-left:auto;font-size:13px;color:#666}
+    .order-user{font-size:13px;color:#888;margin-bottom:8px}
+    .order-item{display:flex;justify-content:space-between;padding:4px 0;font-size:14px}
+    .order-item.cancelled{color:#666;text-decoration:line-through}
+    .cancel-badge{font-size:12px;color:#f87171}
+    .order-total{font-size:18px;font-weight:700;color:#4ade80;margin-top:8px}
+    .order-actions{display:flex;flex-direction:column;gap:8px;margin-top:12px;padding-top:12px;border-top:1px solid #222}
+    .action-btn{width:100%;padding:14px;border:none;border-radius:12px;font-size:18px;cursor:pointer;transition:background .2s}
+    .action-status{background:#1e3a5f;color:#60a5fa}
+    .action-items{background:#374151;color:#d1d5db}
+    .action-cancel{background:#3b1a1a;color:#f87171}
+    .status-menu,.items-menu{margin-top:12px;padding:8px;background:#1a1a1a;border-radius:12px;display:flex;flex-direction:column;gap:4px}
+    .status-opt{padding:12px 16px;border:none;border-radius:8px;background:transparent;color:#fff;font-size:15px;cursor:pointer;text-align:left}
+    .status-opt:hover{background:#222}
+    .status-cancel{color:#f87171}
+    .items-menu-item{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-radius:8px}
+    .items-menu-item:hover{background:#222}
+    .item-cancel-btn{background:none;border:none;color:#f87171;font-size:18px;cursor:pointer;padding:4px 8px}
+    .modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;z-index:1000;padding:20px}
+    .modal{background:#1a1a1a;border-radius:16px;padding:24px;width:100%;max-width:360px}
+    .modal h3{margin-bottom:16px;font-size:18px}
+    .modal input,.modal textarea,.modal select{width:100%;padding:12px;border:1px solid #333;border-radius:10px;background:#0a0a0a;color:#fff;font-size:15px;margin-bottom:12px;font-family:inherit}
+    .modal textarea{min-height:80px;resize:vertical}
+    .modal-actions{display:flex;gap:8px;margin-top:8px}
+    .modal-actions .btn{margin-top:0}
+    .admin-tabs{display:flex;gap:8px;margin-bottom:16px}
+    .admin-tabs button{flex:1;padding:10px;border:1px solid #333;border-radius:10px;background:transparent;color:#888;font-size:14px;cursor:pointer}
+    .admin-tabs button.active{background:#2563eb;color:#fff;border-color:#2563eb}
+    .admin-items-list{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+    .admin-item{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:#141414;border-radius:12px;border:1px solid #222}
+    .admin-item-name{font-weight:600}
+    .admin-item-price{color:#4ade80;font-size:14px}
+    .admin-item-cat{color:#666;font-size:12px}
+    .admin-item-actions{display:flex;gap:8px}
+    .admin-item-actions button{background:none;border:none;font-size:18px;cursor:pointer;padding:4px}
+    .admin-stats{display:flex;flex-direction:column;gap:12px}
+    .stat-card{background:#141414;border-radius:12px;padding:20px;border:1px solid #222}
+    .stat-value{font-size:32px;font-weight:800;color:#4ade80}
+    .stat-label{font-size:14px;color:#888;margin-bottom:8px}
+    .popular-item{padding:6px 0;font-size:14px;border-bottom:1px solid #222}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+    .menu-card,.order-card,.cart{animation:fadeIn .3s ease}
+    .refresh-btn{background:none;border:none;color:#888;font-size:20px;cursor:pointer;margin-left:auto}
+  </style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+const MENU=[
+  {id:1,name:'Шаурма классическая',desc:'Курица, овощи, соус',cat:'shawarma',price:250},
+  {id:2,name:'Шаурма с говядиной',desc:'Говядина, овощи, соус',cat:'shawarma',price:320},
+  {id:3,name:'Шаурма острый цыпленок',desc:'Острый соус, курица',cat:'shawarma',price:280},
+  {id:4,name:'Шаурма веганская',desc:'Овощи, хумус',cat:'shawarma',price:260},
+  {id:5,name:'Чипсы из лаваша',desc:'Хрустящие чипсы',cat:'snacks',price:120},
+  {id:6,name:'Сырные палочки',desc:'6 шт',cat:'snacks',price:180},
+  {id:7,name:'Крылышки BBQ',desc:'4 шт',cat:'snacks',price:220},
+  {id:8,name:'Кола 0.5л',desc:'',cat:'drinks',price:100},
+  {id:9,name:'Сок яблочный',desc:'0.3л',cat:'drinks',price:110},
+  {id:10,name:'Молочный коктейль',desc:'Клубничный',cat:'drinks',price:150},
+  {id:11,name:'Макароны с сыром',desc:'Домашние',cat:'hot',price:200},
+  {id:12,name:'Картофель фри',desc:'Порция',cat:'hot',price:130},
+];
+const CATS=[{id:'shawarma',name:'🌯 Шаурма'},{id:'snacks',name:'🍟 Закуски'},{id:'drinks',name:'🥤 Напитки'},{id:'hot',name:'🍝 Горячее'}];
+const tg=window.Telegram?.WebApp;
+if(tg){tg.ready();tg.expand();tg.setHeaderColor('#0a0a0a');tg.setBackgroundColor('#0a0a0a');}
+const user=tg?.initDataUnsafe?.user||{id:12345,first_name:'Тест'};
+let screen='menu',cart=[],orders=[],lastOrder=null,nextOrderId=100;
+
+function render(){
+  const root=document.getElementById('root');
+  let html='<div class="app">';
+  if(screen==='menu')html+=renderMenu()+renderCart();
+  else if(screen==='cook')html+=renderCook();
+  else if(screen==='admin')html+=renderAdmin();
+  else if(screen==='order')html+=renderOrderComplete();
+  html+='</div>';
+  root.innerHTML=html;
+  bindEvents();
+}
+
+function renderMenu(){
+  const cat=window._cat||'shawarma';
+  const filtered=MENU.filter(i=>i.cat===cat);
+  let h='<div class="categories">';
+  CATS.forEach(c=>{h+='<button class="cat-btn'+(cat===c.id?' active':'')+'" onclick="setCat(\''+c.id+'\')">'+c.name+'</button>';});
+  h+='</div><div class="menu-items">';
+  filtered.forEach(item=>{
+    h+='<div class="menu-card" onclick="addToCart('+item.id+')"><div class="menu-card-info"><div class="menu-card-name">'+item.name+'</div>';
+    if(item.desc)h+='<div class="menu-card-desc">'+item.desc+'</div>';
+    h+='<div class="menu-card-price">'+item.price+' ₽</div></div><button class="add-btn" onclick="event.stopPropagation();addToCart('+item.id+')">+</button></div>';
+  });
+  h+='</div>';
+  if(user.id===12345||user.id===8807144537){
+    h+='<button class="btn btn-cook" onclick="screen=\'cook\';render()">👨‍🍳 Панель повара</button>';
+    h+='<button class="btn btn-admin" onclick="screen=\'admin\';render()">⚙️ Админ-панель</button>';
+  }
+  return h;
+}
+
+function renderCart(){
+  if(!cart.length)return'';
+  const total=cart.reduce((s,i)=>s+i.price*i.qty,0);
+  let h='<div class="cart"><div class="cart-title">🛒 Корзина ('+cart.length+')</div><div class="cart-items">';
+  cart.forEach(item=>{
+    h+='<div class="cart-item"><div><div class="cart-item-name">'+item.name+'</div><div class="cart-item-price">'+(item.price*item.qty)+' ₽</div></div><div class="cart-item-controls"><button class="qty-btn" onclick="updateQty('+item.id+',-1)">−</button><span class="qty">'+item.qty+'</span><button class="qty-btn" onclick="updateQty('+item.id+',1)">+</button></div></div>';
+  });
+  h+='</div><div class="cart-total"><span>Итого:</span><span class="total-price">'+total+' ₽</span></div>';
+  h+='<button class="btn btn-order" onclick="placeOrder()">Оформить заказ</button>';
+  h+='<button class="btn btn-clear" onclick="cart=[];render()">Очистить</button></div>';
+  return h;
+}
+
+function renderCook(){
+  let h='<div class="panel-header"><button class="back-btn" onclick="screen=\'menu\';render()">←</button><h2>👨‍🍳 Заказы</h2><button class="refresh-btn" onclick="render()">↻</button></div>';
+  const active=orders.filter(o=>o.status!=='ready'&&o.status!=='cancelled');
+  if(!active.length)h+='<div class="empty">Нет активных заказов</div>';
+  else{
+    h+='<div class="orders-list">';
+    active.forEach(order=>{
+      const sel=window._selOrder===order.id;
+      h+='<div class="order-card'+(sel?' selected':'')+'" onclick="toggleOrder('+order.id+')">';
+      h+='<div class="order-card-header"><span class="order-num">#'+order.id+'</span><span class="badge badge-'+order.status+'">'+{new:'Новый',accepted:'Принят',cooking:'Готовится',ready:'Готов',cancelled:'Отменён'}[order.status]+'</span><span class="order-time">'+order.time+'</span></div>';
+      h+='<div class="order-user">'+order.user+'</div>';
+      h+='<div class="order-items-list">';
+      order.items.forEach((it,idx)=>{
+        h+='<div class="order-item'+(it.cancelled?' cancelled':'')+'"><span>'+it.qty+'x '+it.name+'</span>';
+        if(it.cancelled)h+='<span class="cancel-badge">❌ '+it.reason+'</span>';
+        h+='</div>';
+      });
+      h+='</div><div class="order-total">'+order.total+' ₽</div>';
+      if(sel){
+        h+='<div class="order-actions">';
+        h+='<button class="action-btn action-status" onclick="event.stopPropagation();showStatusMenu('+order.id+')">●</button>';
+        h+='<button class="action-btn action-items" onclick="event.stopPropagation();showItemsMenu('+order.id+')">•••</button>';
+        h+='<button class="action-btn action-cancel" onclick="event.stopPropagation();cancelOrderConfirm('+order.id+')">✖</button>';
+        h+='</div>';
+      }
+      if(sel&&window._showStatus){
+        h+='<div class="status-menu" onclick="event.stopPropagation()">';
+        h+='<button class="status-opt" onclick="setOrderStatus('+order.id+',\'accepted\')">🟢 Принять</button>';
+        h+='<button class="status-opt" onclick="setOrderStatus('+order.id+',\'cooking\')">🟡 Готовится</button>';
+        h+='<button class="status-opt" onclick="setOrderStatus('+order.id+',\'ready\')">✅ Готово</button>';
+        h+='<button class="status-opt status-cancel" onclick="cancelOrderConfirm('+order.id+')">❌ Отменить</button></div>';
+      }
+      if(sel&&window._showItems){
+        h+='<div class="items-menu" onclick="event.stopPropagation()">';
+        order.items.forEach((it,idx)=>{
+          if(!it.cancelled)h+='<div class="items-menu-item"><span>'+it.qty+'x '+it.name+'</span><button class="item-cancel-btn" onclick="cancelItemConfirm('+order.id+','+idx+')">✖</button></div>';
+        });
+        h+='</div>';
+      }
+      h+='</div>';
+    });
+    h+='</div>';
+  }
+  return h;
+}
+
+function renderAdmin(){
+  let h='<div class="panel-header"><button class="back-btn" onclick="screen=\'menu\';render()">←</button><h2>⚙️ Админ</h2></div>';
+  h+='<div class="admin-tabs"><button class="'+(window._atab==='stats'?'':'active')+'" onclick="window._atab=\'menu\';render()">Меню</button><button class="'+(window._atab==='stats'?'active':'')+'" onclick="window._atab=\'stats\';render()">Статистика</button></div>';
+  if(window._atab==='stats'){
+    const todayOrders=orders.length;
+    const todayRevenue=orders.reduce((s,o)=>s+o.total,0);
+    h+='<div class="admin-stats"><div class="stat-card"><div class="stat-value">'+todayOrders+'</div><div class="stat-label">Заказов за сегодня</div></div>';
+    h+='<div class="stat-card"><div class="stat-value">'+todayRevenue+' ₽</div><div class="stat-label">Выручка</div></div></div>';
+  }else{
+    h+='<div class="admin-items-list">';
+    MENU.forEach(item=>{
+      h+='<div class="admin-item"><div><div class="admin-item-name">'+item.name+'</div><div class="admin-item-price">'+item.price+' ₽</div><div class="admin-item-cat">'+item.cat+'</div></div></div>';
+    });
+    h+='</div>';
+  }
+  return h;
+}
+
+function renderOrderComplete(){
+  return'<div class="order-complete"><div class="order-success">✅</div><h2>Заказ оформлен!</h2><div class="order-number">#'+lastOrder.id+'</div><p class="order-status">Статус: <span class="badge badge-new">Новый</span></p><button class="btn btn-primary" onclick="screen=\'menu\';render()">← Вернуться в меню</button></div>';
+}
+
+function setCat(id){window._cat=id;render();}
+function addToCart(id){const item=MENU.find(i=>i.id===id);const existing=cart.find(c=>c.id===id);if(existing)existing.qty++;else cart.push({...item,qty:1});render();}
+function updateQty(id,delta){cart=cart.map(c=>c.id===id?{...c,qty:Math.max(0,c.qty+delta)}:c).filter(c=>c.qty>0);render();}
+function placeOrder(){if(!cart.length)return;const order={id:++nextOrderId,items:cart.map(c=>({name:c.name,qty:c.qty,price:c.price,cancelled:false,reason:''})),status:'new',total:cart.reduce((s,i)=>s+i.price*i.qty,0),time:new Date().toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'}),user:user.first_name};orders.push(order);lastOrder=order;cart=[];screen='order';render();}
+function toggleOrder(id){window._selOrder=window._selOrder===id?null:id;window._showStatus=false;window._showItems=false;render();}
+function showStatusMenu(id){window._showStatus=!window._showStatus;window._showItems=false;render();}
+function showItemsMenu(id){window._showItems=!window._showItems;window._showStatus=false;render();}
+function setOrderStatus(id,status){const o=orders.find(o=>o.id===id);if(o){o.status=status;if(status==='ready')showToast('✅ Заказ #'+id+' готов!');if(status==='cancelled')showToast('❌ Заказ #'+id+' отменён');}window._showStatus=false;render();}
+function cancelOrderConfirm(id){const reason=prompt('Причина отмены заказа #'+id+':');if(reason){const o=orders.find(o=>o.id===id);if(o){o.status='cancelled';o.cancelReason=reason;}showToast('❌ Заказ #'+id+' отменён');render();}}
+function cancelItemConfirm(orderId,idx){const reason=prompt('Причина отмены позиции:');if(reason){const o=orders.find(o=>o.id===orderId);if(o&&o.items[idx]){o.items[idx].cancelled=true;o.items[idx].reason=reason;showToast('❌ Позиция отменена');render();}}}
+function showToast(msg){const t=document.createElement('div');t.style.cssText='position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#2563eb;color:#fff;padding:14px 24px;border-radius:10px;font-size:15px;font-weight:500;z-index:1000;transition:opacity .3s';t.textContent=msg;document.body.appendChild(t);setTimeout(()=>{t.style.opacity='0';setTimeout(()=>t.remove(),300)},3000);}
+
+window._cat='shawarma';window._atab='menu';window._selOrder=null;window._showStatus=false;window._showItems=false;
+render();
+</script>
+</body>
+</html>
