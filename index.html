@@ -427,9 +427,25 @@ function pAdmin(){
 }
 
 function pOrder(){
-  return'<div class="order-complete screen"><div class="order-success">✅</div><h2>Заказ оформлен!</h2><div class="order-number">#'+S.lastOrder.id+'</div>'+
-    (pD&&pD.gatt.connected?'<button class="btn btn-order" style="max-width:300px;margin:0 auto" onclick="printReceipt(S.lastOrder)">🖨 Напечатать чек</button>':'')+
-    '<button class="btn btn-primary" style="max-width:300px;margin:20px auto 0" onclick="S.screen=\'menu\';render()">← В меню</button></div>';
+  var big=bigNum(S.lastOrder.id);
+  var h='<div class="order-complete screen"><div class="order-success">✅</div><h2>Заказ оформлен!</h2>';
+  big.forEach(function(l){h+='<div style="font-family:monospace;font-size:14px;letter-spacing:2px;color:#4ade80;white-space:pre">'+l+'</div>');});
+  h+='<div style="margin-top:12px;color:#666;font-size:13px">Чек печатается...</div></div>';
+  if(pD&&pD.gatt.connected){
+    setTimeout(function(){printReceipt(S.lastOrder).then(function(){
+      setTimeout(function(){S.screen='menu';render();},2000);
+    }).catch(function(){setTimeout(function(){S.screen='menu';render();},2000);});},500);
+  }else{
+    setTimeout(function(){S.screen='menu';render();},3000);
+  }
+  return h;
+}
+
+function bigNum(n){
+  var d={'0':[' ### ','#   #','#   #','#   #',' ### '],'1':['  #  ','  #  ','  #  ','  #  ','  #  '],'2':[' ### ','    #',' ### ','#    ','#####'],'3':[' ### ','    #',' ### ','    #',' ### '],'4':['#   #','#   #','#####','    #','    #'],'5':['#####','#    ','#### ','    #','#### '],'6':[' ### ','#    ','#### ','#   #',' ### '],'7':['#####','    #','   # ','  #  ','  #  '],'8':[' ### ','#   #',' ### ','#   #',' ### '],'9':[' ### ','#   #',' ### ','    #',' ### ']};
+  var s=String(n).split('');var lines=['','','','',''];
+  s.forEach(function(c){var g=d[c]||d['0'];for(var i=0;i<5;i++)lines[i]+=g[i]+' ';});
+  return lines;
 }
 
 // ACTIONS
