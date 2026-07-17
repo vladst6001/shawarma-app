@@ -39,11 +39,39 @@
     @keyframes bounceIn{0%{transform:scale(0)}60%{transform:scale(1.2)}100%{transform:scale(1)}}
     .order-number{font-family:'Courier New',monospace;font-size:48px;font-weight:900;color:#4ade80;margin:16px 0;letter-spacing:4px}
     .order-hint{color:#666;font-size:13px}
+    .gear-btn{position:fixed;bottom:20px;right:20px;width:44px;height:44px;border-radius:50%;background:#333;color:#888;border:none;font-size:20px;cursor:pointer;z-index:200;transition:all .2s}
+    .gear-btn:hover{background:#444;color:#fff}
+    /* SECRET KITCHEN */
+    .kitchen{min-height:100vh;background:#000;padding:16px}
+    .kitchen-header{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+    .kitchen-header h2{flex:1;font-size:20px}
+    .kitchen-back{background:none;border:none;color:#fff;font-size:18px;cursor:pointer;padding:4px 8px}
+    .tv-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+    .tv-col-title{font-size:16px;font-weight:700;text-align:center;padding:12px;border-radius:12px}
+    .tv-col-title.pending{background:#1e3a5f;color:#60a5fa}
+    .tv-col-title.ready{background:#166534;color:#4ade80}
+    .tv-order{background:#111;border-radius:14px;padding:16px;text-align:center;border:2px solid #333;margin-bottom:8px;animation:tvIn .3s ease}
+    @keyframes tvIn{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
+    .tv-num{font-family:'Courier New',monospace;font-size:48px;font-weight:900;color:#fff;letter-spacing:3px;line-height:1}
+    .tv-items{font-size:13px;color:#aaa;margin-top:8px;line-height:1.4}
+    .tv-time{font-size:11px;color:#444;margin-top:4px}
+    .tv-card.new{border-color:#3b82f6}.tv-card.accepted{border-color:#22c55e}.tv-card.cooking{border-color:#eab308}
+    .tv-card.ready{border-color:#166534}
+    .tv-card.ready .tv-num{text-decoration:line-through;opacity:.5}
+    .tv-empty{text-align:center;padding:30px;color:#333;font-size:14px}
+    .order-btn{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);padding:16px 32px;border:none;border-radius:16px;background:#2563eb;color:#fff;font-size:18px;font-weight:700;cursor:pointer;z-index:200;box-shadow:0 4px 20px rgba(37,99,235,.4)}
+    /* PASSWORD */
+    .pwd-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:80vh;gap:16px;padding:20px}
+    .pwd-input{padding:16px;border:2px solid #333;border-radius:14px;background:#0a0a0a;color:#fff;font-size:24px;width:100%;max-width:280px;text-align:center;letter-spacing:8px}
+    .pwd-input:focus{border-color:#2563eb;outline:none}
+    .pwd-btn{width:100%;max-width:280px;padding:16px;border:none;border-radius:12px;background:#2563eb;color:#fff;font-size:16px;font-weight:600;cursor:pointer}
+    .pwd-back{background:none;border:none;color:#666;font-size:14px;cursor:pointer;text-decoration:underline}
   </style>
 </head>
 <body>
 <div id="root"></div>
 <script>
+var KITCHEN_CODE='458307pP';
 var tg=null;
 try{tg=window.Telegram?.WebApp;if(tg){tg.ready();tg.expand();tg.setHeaderColor('#0a0a0a');tg.setBackgroundColor('#0a0a0a')}}catch(e){tg=null}
 
@@ -63,20 +91,28 @@ var MENU=[
 ];
 var CATS=[{id:'shawarma',name:'🌯 Шаурма'},{id:'snacks',name:'🍟 Закуски'},{id:'drinks',name:'🥤 Напитки'},{id:'hot',name:'🍝 Горячее'}];
 
-var S={cat:'shawarma',cart:[],orders:[],nid:100,lastOrder:null};
-
-// Sync orders with cook panel via localStorage
+var S={view:'menu',cat:'shawarma',cart:[],lastOrder:null,showKitchen:false,kitchenAuth:false};
 var tvOrders=JSON.parse(localStorage.getItem('tv_orders')||'[]');
 var tvNid=parseInt(localStorage.getItem('tv_nid')||'100');
-S.orders=tvOrders;S.nid=tvNid;
-function saveTV(){localStorage.setItem('tv_orders',JSON.stringify(S.orders));localStorage.setItem('tv_nid',String(S.nid));}
+function saveTV(){localStorage.setItem('tv_orders',JSON.stringify(tvOrders));localStorage.setItem('tv_nid',String(tvNid));}
 
 function render(){
   var r=document.getElementById('root');
-  var h='<div class="app">';
-  if(S.lastOrder)h+=renderComplete();
-  else{h+=renderMenu();if(S.cart.length)h+=renderCart();}
-  h+='</div>';r.innerHTML=h;
+  var h='';
+  if(S.showKitchen&&!S.kitchenAuth){
+    h+='<div class="pwd-screen screen"><input class="pwd-input" type="password" id="pwdInput" placeholder="····" maxlength="8" onkeypress="if(event.key===\'Enter\')checkPwd()"><button class="pwd-btn" onclick="checkPwd()">Войти</button><button class="pwd-back" onclick="S.showKitchen=false;render()">← Назад</button></div>';
+  }else if(S.showKitchen&&S.kitchenAuth){
+    h+=renderKitchen();
+  }else if(S.lastOrder){
+    h+='<div class="app"><div class="order-complete screen"><div class="order-success">✅</div><h2>Заказ оформлен!</h2><div class="order-number">#'+S.lastOrder.id+'</div><div class="order-hint">Ожидайте свой заказ</div></div></div>';
+    setTimeout(function(){S.lastOrder=null;render();},4000);
+  }else{
+    h+='<div class="app">'+renderMenu();
+    if(S.cart.length)h+=renderCart();
+    h+='</div>';
+    h+='<button class="gear-btn" onclick="S.showKitchen=true;render()">⚙</button>';
+  }
+  r.innerHTML=h;
 }
 
 function renderMenu(){
@@ -101,25 +137,48 @@ function renderCart(){
   h+='<button class="btn btn-clear" onclick="S.cart=[];render()">Очистить</button></div>';return h;
 }
 
-function renderComplete(){
-  var o=S.lastOrder;
-  var h='<div class="order-complete screen"><div class="order-success">✅</div><h2>Заказ оформлен!</h2>';
-  h+='<div class="order-number">#'+o.id+'</div>';
-  h+='<div class="order-hint">Ожидайте свой заказ</div></div>';
-  setTimeout(function(){S.lastOrder=null;render();},4000);
+function renderKitchen(){
+  var pending=tvOrders.filter(function(o){return o.status!=='ready'&&o.status!=='cancelled'});
+  var ready=tvOrders.filter(function(o){return o.status==='ready'});
+  var h='<div class="kitchen"><div class="kitchen-header"><button class="kitchen-back" onclick="S.showKitchen=false;S.kitchenAuth=false;render()">← Выход</button><h2>📺 Табло</h2></div>';
+  h+='<div class="tv-grid"><div><div class="tv-col-title pending">ГОТОВЯТСЯ ('+pending.length+')</div>';
+  if(!pending.length)h+='<div class="tv-empty">Пусто</div>';
+  pending.forEach(function(o){
+    h+='<div class="tv-card '+o.status+'"><div class="tv-num">#'+o.id+'</div>';
+    h+='<div class="tv-items">'+o.items.filter(function(i){return!i.cancelled}).map(function(i){return i.qty+'x '+i.name}).join('<br>')+'</div>';
+    h+='<div class="tv-time">'+o.time+'</div></div>';
+  });
+  h+='</div><div><div class="tv-col-title ready">ГОТОВО ('+ready.length+')</div>';
+  if(!ready.length)h+='<div class="tv-empty">Пусто</div>';
+  ready.forEach(function(o){
+    h+='<div class="tv-card ready"><div class="tv-num">#'+o.id+'</div>';
+    h+='<div class="tv-items">'+o.items.filter(function(i){return!i.cancelled}).map(function(i){return i.qty+'x '+i.name}).join('<br>')+'</div></div>';
+  });
+  h+='</div></div></div>';
+  h+='<button class="order-btn" onclick="S.showKitchen=false;S.view=\'menu\';render()">📋 Заказать</button>';
   return h;
+}
+
+function checkPwd(){
+  var v=document.getElementById('pwdInput').value;
+  if(v===KITCHEN_CODE){S.kitchenAuth=true;render();showToast('Добро пожаловать!','success');}
+  else showToast('Неверный код','error');
 }
 
 function addCart(id){var it=MENU.find(function(i){return i.id===id});var ex=S.cart.find(function(c){return c.id===id});if(ex)ex.qty++;else S.cart.push(Object.assign({},it,{qty:1}));render();}
 function updQty(id,d){S.cart=S.cart.map(function(c){return c.id===id?Object.assign({},c,{qty:Math.max(0,c.qty+d)}):c}).filter(function(c){return c.qty>0});render();}
 function placeOrder(){
   if(!S.cart.length)return;
-  var o={id:S.nid++,items:S.cart.map(function(c){return{name:c.name,qty:c.qty,cancelled:false,reason:''}}),status:'new',time:new Date().toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'}),user:'Клиент'};
-  S.orders.push(o);S.lastOrder=o;S.cart=[];
+  var o={id:tvNid++,items:S.cart.map(function(c){return{name:c.name,qty:c.qty,cancelled:false,reason:''}}),status:'new',time:new Date().toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'}),user:'Клиент'};
+  tvOrders.push(o);S.lastOrder=o;S.cart=[];
   saveTV();
   if(tg)try{tg.HapticFeedback.notificationOccurred('success')}catch(e){}
   render();
 }
+
+function showToast(m,t,d){t=t||'info';d=d||3000;var el=document.createElement('div');el.style.cssText='position:fixed;top:20px;left:50%;transform:translateX(-50%);padding:12px 24px;border-radius:10px;font-size:14px;font-weight:600;z-index:2000;transition:opacity .3s;max-width:90vw;text-align:center';var c={info:'#1e40af',success:'#166534',error:'#991b1b'};el.style.background=c[t];el.style.color='#fff';el.textContent=m;document.body.appendChild(el);setTimeout(function(){el.style.opacity='0';setTimeout(function(){el.remove()},300)},d);}
+
+setInterval(function(){if(S.showKitchen&&S.kitchenAuth){var nv=JSON.parse(localStorage.getItem('tv_orders')||'[]');tvOrders=nv;var el=document.getElementById('root');if(el)render();}},3000);
 
 render();
 </script>

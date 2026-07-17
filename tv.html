@@ -7,111 +7,107 @@
   <style>
     *{margin:0;padding:0;box-sizing:border-box}
     body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0a0a0a;color:#fff;min-height:100vh}
-    .layout{display:grid;grid-template-columns:300px 1fr 1fr;min-height:100vh;gap:1px;background:#222}
+    .screen{animation:fadeUp .3s ease}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 
-    /* SIDEBAR */
-    .sidebar{background:#0a0a0a;padding:16px;display:flex;flex-direction:column;gap:12px}
-    .sidebar h1{font-size:20px;font-weight:800;padding:8px 0;border-bottom:1px solid #222}
-    .nav-btn{padding:14px 16px;border:none;border-radius:12px;background:#141414;color:#aaa;font-size:15px;font-weight:500;cursor:pointer;text-align:left;transition:all .2s;border:1px solid transparent}
+    /* MODE SELECT */
+    .mode-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;gap:16px;padding:20px}
+    .mode-title{font-size:24px;font-weight:800;margin-bottom:20px}
+    .mode-btn{width:100%;max-width:320px;padding:20px;border:none;border-radius:16px;font-size:18px;font-weight:700;cursor:pointer;transition:transform .15s}
+    .mode-btn:active{transform:scale(.96)}
+    .m-cook{background:linear-gradient(135deg,#7c3aed,#6d28d9);color:#fff}
+    .m-admin{background:linear-gradient(135deg,#374151,#1f2937);color:#fff}
+    .m-tv{background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff}
+
+    /* LAYOUT */
+    .layout{display:grid;grid-template-columns:300px 1fr;min-height:100vh;gap:1px;background:#222}
+    .sidebar{background:#0a0a0a;padding:16px;display:flex;flex-direction:column;gap:8px}
+    .sidebar h1{font-size:18px;font-weight:800;padding:8px 0;border-bottom:1px solid #222;margin-bottom:8px}
+    .nav-btn{padding:12px 14px;border:none;border-radius:10px;background:#141414;color:#aaa;font-size:14px;font-weight:500;cursor:pointer;text-align:left;border:1px solid transparent}
     .nav-btn:hover{background:#1a1a1a;color:#fff}
     .nav-btn.active{background:#2563eb;color:#fff;border-color:#2563eb}
-
-    /* PRINTER */
-    .printer-section{margin-top:auto;padding:12px;background:#141414;border-radius:12px;border:1px solid #222}
+    .nav-sep{height:1px;background:#222;margin:8px 0}
+    .printer-section{margin-top:auto;padding:10px;background:#141414;border-radius:10px;border:1px solid #222}
     .printer-row{display:flex;align-items:center;gap:8px}
     .printer-dot{width:8px;height:8px;border-radius:50%;background:#ff3b30}
     .printer-dot.on{background:#34c759}
-    .printer-label{font-size:13px;flex:1;color:#888}
-    .printer-sm{padding:6px 12px;border:none;border-radius:6px;background:#2563eb;color:#fff;font-size:12px;cursor:pointer}
+    .printer-label{font-size:12px;flex:1;color:#888}
+    .printer-sm{padding:5px 10px;border:none;border-radius:6px;background:#2563eb;color:#fff;font-size:11px;cursor:pointer}
 
-    /* MAIN */
     .main{background:#0a0a0a;padding:20px;overflow-y:auto}
-    .main h2{font-size:22px;font-weight:700;margin-bottom:16px}
+    .main h2{font-size:20px;font-weight:700;margin-bottom:16px}
 
-    /* COOK PANEL */
-    .orders-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
-    .cook-card{background:#141414;border:2px solid #222;border-radius:16px;padding:16px;cursor:pointer;transition:all .25s;position:relative}
+    /* COOK */
+    .orders-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px}
+    .cook-card{background:#141414;border:2px solid #222;border-radius:14px;padding:14px;cursor:pointer;transition:all .2s;position:relative}
     .cook-card:hover{border-color:#444}
-    .cook-card.sel{border-color:#2563eb;box-shadow:0 0 0 1px #2563eb}
-    .cook-header{display:flex;align-items:center;gap:8px;margin-bottom:8px}
-    .cook-num{font-size:22px;font-weight:800}
-    .cook-time{margin-left:auto;font-size:12px;color:#555}
-    .cook-user{font-size:12px;color:#666;margin-bottom:6px}
-    .cook-items{font-size:13px;color:#aaa;line-height:1.6}
+    .cook-card.sel{border-color:#2563eb}
+    .cook-hdr{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+    .cook-num{font-size:20px;font-weight:800}
+    .cook-time{margin-left:auto;font-size:11px;color:#555}
+    .cook-user{font-size:11px;color:#666;margin-bottom:4px}
+    .cook-items{font-size:12px;color:#aaa;line-height:1.5}
     .cook-items .cancelled{text-decoration:line-through;color:#555}
-    .cook-total{font-size:15px;font-weight:700;color:#4ade80;margin-top:8px}
-    .cook-actions{display:flex;gap:6px;margin-top:12px}
-    .cook-act{flex:1;padding:10px;border:none;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;transition:opacity .15s}
-    .cook-act:hover{opacity:.85}
+    .cook-acts{display:flex;gap:4px;margin-top:8px}
+    .cook-act{flex:1;padding:8px;border:none;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer}
     .cook-act.st{background:#1e3a5f;color:#60a5fa}
     .cook-act.it{background:#374151;color:#d1d5db}
     .cook-act.cn{background:#3b1a1a;color:#f87171}
-    .cook-act.pr{background:#166534;color:#4ade80}
-    .badge{display:inline-block;padding:3px 8px;border-radius:8px;font-size:11px;font-weight:600;color:#fff}
-    .badge-new{background:#3b82f6}.badge-accepted{background:#22c55e}.badge-cooking{background:#eab308;color:#000}.badge-ready{background:#16a34a}.badge-cancelled{background:#ef4444}
+    .cook-act.pr{background:#166534;color:#4ade80;font-size:11px}
+    .badge{display:inline-block;padding:2px 6px;border-radius:6px;font-size:10px;font-weight:600;color:#fff}
+    .badge-new{background:#3b82f6}.badge-accepted{background:#22c55e}.badge-cooking{background:#eab308;color:#000}.badge-ready{background:#166534}.badge-cancelled{background:#ef4444}
 
-    /* STATUS MENU POPUP */
-    .popup{position:absolute;bottom:0;left:0;right:0;background:#1a1a1a;border-radius:0 0 16px 16px;padding:12px;display:flex;gap:6px;z-index:10}
-    .popup button{flex:1;padding:10px;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer}
+    .popup{position:absolute;bottom:0;left:0;right:0;background:#1a1a1a;border-radius:0 0 14px 14px;padding:8px;display:flex;gap:4px;z-index:10}
+    .popup button{flex:1;padding:8px;border:none;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer}
     .popup .p-acc{background:#166534;color:#fff}
     .popup .p-cook{background:#92400e;color:#fbbf24}
     .popup .p-done{background:#166534;color:#4ade80}
     .popup .p-can{background:#7f1d1d;color:#fca5a5}
 
-    /* ITEMS MENU POPUP */
-    .items-popup{position:absolute;bottom:0;left:0;right:0;background:#1a1a1a;border-radius:0 0 16px 16px;padding:12px;z-index:10;max-height:200px;overflow-y:auto}
-    .items-popup .it-row{display:flex;align-items:center;justify-content:space-between;padding:8px;border-bottom:1px solid #333}
-    .items-popup .it-name{font-size:13px}
-    .items-popup .it-del{background:none;border:none;color:#f87171;cursor:pointer;font-size:16px;padding:4px 8px}
+    /* ADMIN */
+    .admin-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .admin-section{background:#141414;border-radius:14px;padding:16px;border:1px solid #222}
+    .admin-section h3{font-size:15px;font-weight:700;margin-bottom:10px}
+    .admin-list{display:flex;flex-direction:column;gap:4px;max-height:350px;overflow-y:auto}
+    .admin-row{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:#1a1a1a;border-radius:8px;border:1px solid #222}
+    .admin-row .name{font-weight:500;font-size:13px}
+    .admin-row .cat{font-size:11px;color:#666}
+    .admin-row .acts{display:flex;gap:4px}
+    .admin-row .acts button{background:none;border:none;cursor:pointer;font-size:14px;padding:2px}
+    .admin-input,.admin-select{width:100%;padding:8px;border:1px solid #333;border-radius:6px;background:#0a0a0a;color:#fff;font-size:13px;margin-bottom:6px}
+    .admin-add-btn{width:100%;padding:8px;border:none;border-radius:6px;background:#2563eb;color:#fff;font-weight:600;font-size:13px;cursor:pointer}
+    .setting-row{display:flex;align-items:center;justify-content:space-between;padding:10px;border-bottom:1px solid #222}
+    .setting-label{font-size:13px;color:#aaa}
+    .setting-val{font-size:13px;font-weight:600}
+    .setting-edit{background:none;border:1px solid #333;border-radius:5px;color:#888;padding:3px 8px;font-size:11px;cursor:pointer}
+    .admin-test-btn{width:100%;padding:10px;border:none;border-radius:8px;background:#16a34a;color:#fff;font-size:13px;font-weight:600;cursor:pointer;margin-top:10px}
 
-    /* TV DISPLAY */
+    /* TV FULLSCREEN */
     .tv-layout{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;gap:2px;background:#222}
-    .tv-col{background:#0a0a0a;padding:20px;display:flex;flex-direction:column;gap:12px}
-    .tv-title{font-size:32px;font-weight:900;text-align:center;padding:16px;border-radius:16px}
+    .tv-col{background:#0a0a0a;padding:20px;display:flex;flex-direction:column;gap:10px;overflow-y:auto}
+    .tv-title{font-size:28px;font-weight:900;text-align:center;padding:14px;border-radius:14px}
     .tv-title.pending{background:#1e3a5f;color:#60a5fa}
     .tv-title.ready{background:#166534;color:#4ade80}
-    .tv-card{background:#111;border-radius:16px;padding:28px;text-align:center;border:3px solid #333;animation:tvIn .4s ease}
+    .tv-card{background:#111;border-radius:14px;padding:24px;text-align:center;border:3px solid #333;animation:tvIn .4s ease}
     @keyframes tvIn{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
-    .tv-num{font-family:'Courier New',monospace;font-size:80px;font-weight:900;color:#fff;letter-spacing:6px;line-height:1}
-    .tv-items{font-size:20px;color:#aaa;margin-top:12px;line-height:1.5}
-    .tv-time{font-size:14px;color:#444;margin-top:8px}
-    .tv-card.new{border-color:#3b82f6}.tv-card.accepted{border-color:#22c55e}.tv-card.cooking{border-color:#eab308;animation:tvPulse 2s infinite}
-    @keyframes tvPulse{0%,100%{border-color:#eab308}50%{border-color:#78350f}}
-    .tv-empty{text-align:center;padding:80px;color:#333;font-size:24px}
-    .tv-exit{position:fixed;top:20px;right:20px;background:#333;color:#fff;border:none;border-radius:10px;padding:10px 16px;font-size:13px;cursor:pointer;z-index:100}
-
-    /* ADMIN */
-    .admin-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-    .admin-section{background:#141414;border-radius:16px;padding:20px;border:1px solid #222}
-    .admin-section h3{font-size:16px;font-weight:700;margin-bottom:12px}
-    .admin-list{display:flex;flex-direction:column;gap:6px;max-height:400px;overflow-y:auto}
-    .admin-row{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:#1a1a1a;border-radius:10px;border:1px solid #222}
-    .admin-row .name{font-weight:500}
-    .admin-row .cat{font-size:12px;color:#666}
-    .admin-row .acts{display:flex;gap:6px}
-    .admin-row .acts button{background:none;border:none;cursor:pointer;font-size:16px;padding:4px}
-    .admin-input{width:100%;padding:10px;border:1px solid #333;border-radius:8px;background:#0a0a0a;color:#fff;font-size:14px;margin-bottom:8px}
-    .admin-input:focus{border-color:#2563eb;outline:none}
-    .admin-select{width:100%;padding:10px;border:1px solid #333;border-radius:8px;background:#0a0a0a;color:#fff;font-size:14px;margin-bottom:8px}
-    .admin-add-btn{width:100%;padding:10px;border:none;border-radius:8px;background:#2563eb;color:#fff;font-weight:600;cursor:pointer}
-    .setting-row{display:flex;align-items:center;justify-content:space-between;padding:12px;border-bottom:1px solid #222}
-    .setting-row:last-child{border-bottom:none}
-    .setting-label{font-size:14px;color:#aaa}
-    .setting-val{font-size:14px;font-weight:600}
-    .setting-edit{background:none;border:1px solid #333;border-radius:6px;color:#888;padding:4px 10px;font-size:12px;cursor:pointer}
-    .setting-edit:hover{border-color:#2563eb;color:#fff}
-    .admin-test-btn{width:100%;padding:12px;border:none;border-radius:10px;background:#16a34a;color:#fff;font-size:14px;font-weight:600;cursor:pointer;margin-top:12px}
+    .tv-num{font-family:'Courier New',monospace;font-size:72px;font-weight:900;color:#fff;letter-spacing:5px;line-height:1}
+    .tv-items{font-size:18px;color:#aaa;margin-top:10px;line-height:1.4}
+    .tv-time{font-size:13px;color:#444;margin-top:6px}
+    .tv-card.new{border-color:#3b82f6}.tv-card.accepted{border-color:#22c55e}.tv-card.cooking{border-color:#eab308}
+    .tv-card.ready{border-color:#166534}.tv-card.ready .tv-num{text-decoration:line-through;opacity:.5}
+    .tv-empty{text-align:center;padding:60px;color:#333;font-size:20px}
+    .tv-exit{position:fixed;top:16px;right:16px;background:rgba(0,0,0,.5);color:#fff;border:none;border-radius:8px;padding:8px 14px;font-size:12px;cursor:pointer;z-index:100}
 
     /* MODAL */
     .modal-bg{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;z-index:1000;padding:20px}
-    .modal-box{background:#1a1a1a;border-radius:16px;padding:24px;width:100%;max-width:400px}
-    .modal-box h3{margin-bottom:16px;font-size:18px}
-    .modal-box input,.modal-box select{width:100%;padding:12px;border:1px solid #333;border-radius:10px;background:#0a0a0a;color:#fff;font-size:15px;margin-bottom:12px}
-    .modal-btns{display:flex;gap:8px}
-    .modal-btns button{flex:1;padding:12px;border:none;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer}
+    .modal-box{background:#1a1a1a;border-radius:14px;padding:20px;width:100%;max-width:360px}
+    .modal-box h3{margin-bottom:14px;font-size:17px}
+    .modal-box input,.modal-box select{width:100%;padding:10px;border:1px solid #333;border-radius:8px;background:#0a0a0a;color:#fff;font-size:14px;margin-bottom:10px}
+    .modal-btns{display:flex;gap:6px}
+    .modal-btns button{flex:1;padding:10px;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer}
     .m-cancel{background:#333;color:#888}.m-ok{background:#2563eb;color:#fff}.m-danger{background:#dc2626;color:#fff}
 
-    @media(max-width:900px){.layout{grid-template-columns:1fr;}.tv-layout{grid-template-columns:1fr;}.admin-grid{grid-template-columns:1fr;}}
+    @media(max-width:800px){.layout{grid-template-columns:1fr}.admin-grid{grid-template-columns:1fr}.tv-layout{grid-template-columns:1fr}}
   </style>
 </head>
 <body>
@@ -133,12 +129,11 @@ var MENU=[
   {id:12,name:'Картофель фри',desc:'Порция',cat:'hot'}
 ];
 
-var S={view:'cook',orders:[],nid:100,sel:null,showSt:false,showIt:false,shopName:'ШАУРМА №1',_modal:null};
+var S={mode:null,view:'cook',sel:null,showSt:false,showIt:false,shopName:'ШАУРМА №1',_modal:null,autoPrint:true};
 var tvOrders=JSON.parse(localStorage.getItem('tv_orders')||'[]');
 var tvNid=parseInt(localStorage.getItem('tv_nid')||'100');
-S.orders=tvOrders;S.nid=tvNid;
-
-function saveTV(){localStorage.setItem('tv_orders',JSON.stringify(S.orders));localStorage.setItem('tv_nid',String(S.nid));}
+S.shopName=localStorage.getItem('yhk_shop')||'ШАУРМА №1';
+function saveTV(){localStorage.setItem('tv_orders',JSON.stringify(tvOrders));localStorage.setItem('tv_nid',String(tvNid));localStorage.setItem('yhk_shop',S.shopName);}
 
 // PRINTER
 var PSVC='49535343-fe7d-4ae5-8fa9-9fafd205e455',PTX='49535343-8841-43f4-a8d4-ecbe34729bb3',PW=384,PC=100,PCD=20,PLD=8,PID=150,PTH=200;
@@ -149,7 +144,7 @@ async function pConnect(){if(!navigator.bluetooth)return false;try{var d=await n
 function pDisconnect(){if(pD&&pD.gatt.connected)pD.gatt.disconnect();pD=null;pT=null;render();}
 
 function printReceipt(order){
-  if(!pD||!pD.gatt.connected){showToast('Принтер не подключён','error');return;}
+  if(!pD||!pD.gatt.connected)return;
   var sep='================================\n';
   var text=S.shopName+'\n\n'+sep+'ЗАКАЗ #'+order.id+'\n\n'+order.items.filter(function(i){return!i.cancelled}).map(function(i){return i.qty+'x '+i.name}).join('\n')+'\n\n'+sep+new Date().toLocaleDateString('ru-RU')+' '+new Date().toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'})+'\n'+sep;
   var fs=24,pl=4,ls=text.split('\n'),lh=Math.round(fs*1.25);
@@ -157,62 +152,69 @@ function printReceipt(order){
   var cx=cv.getContext('2d');cx.fillStyle='#fff';cx.fillRect(0,0,PW,cv.height);cx.fillStyle='#000';cx.font=fs+'px monospace';cx.textBaseline='top';
   ls.forEach(function(l,i){cx.fillText(l,pl,i*lh+4)});
   var id=cx.getImageData(0,0,PW,cv.height),wb=PW/8,tl=cv.height;
-  (async function(){try{await pSend(new Uint8Array([0x1b,0x40]));await pS(PID);for(var y=0;y<tl;y++){var ln=new Uint8Array(wb);for(var bi=0;bi<wb;bi++){var b=0;for(var bit=0;bit<8;bit++){var x=bi*8+bit;if(x>=PW)continue;var gi=(y*PW+x)*4;if(id.data[gi]*0.299+id.data[gi+1]*0.587+id.data[gi+2]*0.114<PTH)b|=0x80>>bit;}ln[bi]=b;}var hdr=new Uint8Array([0x1d,0x76,0x30,0x00,wb&0xff,(wb>>8)&0xff,0x01,0x00]);var pk=new Uint8Array(hdr.length+ln.length);pk.set(hdr);pk.set(ln,hdr.length);await pSend(pk);await pS(PLD);}var fd=new Uint8Array(2);fd.fill(0x0a);await pSend(fd);showToast('✅ Напечатано','success');}catch(e){showToast('❌ '+e.message,'error');}})();
+  (async function(){try{await pSend(new Uint8Array([0x1b,0x40]));await pS(PID);for(var y=0;y<tl;y++){var ln=new Uint8Array(wb);for(var bi=0;bi<wb;bi++){var b=0;for(var bit=0;bit<8;bit++){var x=bi*8+bit;if(x>=PW)continue;var gi=(y*PW+x)*4;if(id.data[gi]*0.299+id.data[gi+1]*0.587+id.data[gi+2]*0.114<PTH)b|=0x80>>bit;}ln[bi]=b;}var hdr=new Uint8Array([0x1d,0x76,0x30,0x00,wb&0xff,(wb>>8)&0xff,0x01,0x00]);var pk=new Uint8Array(hdr.length+ln.length);pk.set(hdr);pk.set(ln,hdr.length);await pSend(pk);await pS(PLD);}var fd=new Uint8Array(2);fd.fill(0x0a);await pSend(fd);showToast('✅ Чек #'+order.id+' напечатан','success');}catch(e){showToast('❌ Ошибка печати','error');}})();
 }
 
-function showToast(m,t,d){t=t||'info';d=d||3000;var el=document.createElement('div');el.style.cssText='position:fixed;top:20px;left:50%;transform:translateX(-50%);padding:12px 24px;border-radius:10px;font-size:14px;font-weight:600;z-index:2000;transition:opacity .3s;max-width:90vw;text-align:center';var c={info:'#1e40af',success:'#166534',error:'#991b1b'};el.style.background=c[t];el.style.color='#fff';el.textContent=m;document.body.appendChild(el);setTimeout(function(){el.style.opacity='0';setTimeout(function(){el.remove()},300)},d);}
+function showToast(m,t,d){t=t||'info';d=d||3000;var el=document.createElement('div');el.style.cssText='position:fixed;top:20px;left:50%;transform:translateX(-50%);padding:10px 20px;border-radius:8px;font-size:13px;font-weight:600;z-index:2000;transition:opacity .3s;max-width:90vw;text-align:center';var c={info:'#1e40af',success:'#166534',error:'#991b1b'};el.style.background=c[t];el.style.color='#fff';el.textContent=m;document.body.appendChild(el);setTimeout(function(){el.style.opacity='0';setTimeout(function(){el.remove()},300)},d);}
 
 function render(){
   var r=document.getElementById('root');
-  if(S.view==='tv'){r.innerHTML=renderTV();return;}
+  if(!S.mode){r.innerHTML=renderModeSelect();return;}
+  if(S.view==='tv'||S.mode==='tv'){r.innerHTML=renderTVFull();return;}
   var h='<div class="layout">';
   h+='<div class="sidebar"><h1>🍽 Шаурма</h1>';
   h+='<button class="nav-btn'+(S.view==='cook'?' active':'')+'" onclick="S.view=\'cook\';S.sel=null;S.showSt=false;S.showIt=false;render()">👨‍🍳 Повар</button>';
   h+='<button class="nav-btn'+(S.view==='admin'?' active':'')+'" onclick="S.view=\'admin\';render()">⚙️ Админ</button>';
-  h+='<button class="nav-btn'+(S.view==='tv'?' active':'')+'" onclick="openTV()">📺 Табло</button>';
+  h+='<div class="nav-sep"></div>';
+  h+='<button class="nav-btn" onclick="openTVFull()">📺 Табло (полный)</button>';
   h+='<div class="printer-section"><div class="printer-row"><div class="printer-dot'+(pD?' on':'')+'"></div><span class="printer-label">'+(pD?(pD.name||'Принтер'):'Не подключён')+'</span>';
   if(pD)h+='<button class="printer-sm" onclick="pDisconnect()">Откл</button>';
   else h+='<button class="printer-sm" onclick="pConnect().then(render)">Подкл</button>';
-  h+='</div></div></div>';
+  h+='</div><label style="font-size:11px;color:#666;margin-top:6px;display:flex;align-items:center;gap:6px"><input type="checkbox"'+(S.autoPrint?' checked':'')+' onchange="S.autoPrint=this.checked"> Автопечать</label></div></div>';
   h+='<div class="main">';
   if(S.view==='cook')h+=renderCook();
   else if(S.view==='admin')h+=renderAdmin();
-  h+='</div>';
-  h+='<div class="main" style="border-left:1px solid #222"><div class="tv-title pending" style="margin-bottom:16px">📺 Табло</div>'+renderTVInline()+'</div>';
-  h+='</div>';
+  h+='</div></div>';
   h+=renderModal();
   r.innerHTML=h;
 }
 
+function renderModeSelect(){
+  return'<div class="mode-screen screen"><div class="mode-title">🍽 Шаурма — Кухня</div>'+
+    '<button class="mode-btn m-cook" onclick="S.mode=\'cook\';S.view=\'cook\';render()">👨‍🍳 Повар</button>'+
+    '<button class="mode-btn m-admin" onclick="S.mode=\'admin\';S.view=\'admin\';render()">⚙️ Админ</button>'+
+    '<button class="mode-btn m-tv" onclick="S.mode=\'tv\';S.view=\'tv\';render()">📺 Табло</button></div>';
+}
+
 function renderCook(){
   var h='<h2>👨‍🍳 Заказы</h2>';
-  var active=S.orders.filter(function(o){return o.status!=='ready'&&o.status!=='cancelled'});
-  if(!active.length)h+='<div style="padding:60px 0;color:#444;text-align:center;font-size:16px">Нет активных заказов</div>';
+  var active=tvOrders.filter(function(o){return o.status!=='ready'&&o.status!=='cancelled'});
+  if(!active.length)h+='<div style="padding:60px 0;color:#444;text-align:center">Нет активных заказов</div>';
   else{
     h+='<div class="orders-grid">';
     active.forEach(function(o){
       var sel=S.sel===o.id;
       h+='<div class="cook-card'+(sel?' sel':'')+'" onclick="toggleSel('+o.id+')" style="position:relative">';
-      h+='<div class="cook-header"><span class="cook-num">#'+o.id+'</span><span class="badge badge-'+o.status+'">'+({new:'Новый',accepted:'Принят',cooking:'Готовится',ready:'Готов',cancelled:'Отменён'})[o.status]+'</span><span class="cook-time">'+o.time+'</span></div>';
+      h+='<div class="cook-hdr"><span class="cook-num">#'+o.id+'</span><span class="badge badge-'+o.status+'">'+({new:'Новый',accepted:'Принят',cooking:'Готовится'})[o.status]+'</span><span class="cook-time">'+o.time+'</span></div>';
       h+='<div class="cook-user">'+o.user+'</div>';
       o.items.forEach(function(it){h+='<div class="cook-items'+(it.cancelled?' cancelled':'')+'">'+it.qty+'x '+it.name+(it.cancelled?' ❌':'')+'</div>';});
-      if(pD&&pD.gatt.connected)h+='<button class="cook-act pr" style="margin-top:8px" onclick="event.stopPropagation();printReceipt(S.orders.find(function(x){return x.id==='+o.id+'}))">🖨 Чек</button>';
+      if(pD&&pD.gatt.connected)h+='<button class="cook-act pr" style="margin-top:6px" onclick="event.stopPropagation();printReceipt(tvOrders.find(function(x){return x.id==='+o.id+'}))">🖨</button>';
       if(sel){
-        h+='<div class="cook-actions">';
-        h+='<button class="cook-act st" onclick="event.stopPropagation();showStMenu()">● Статус</button>';
-        h+='<button class="cook-act it" onclick="event.stopPropagation();showItMenu()">••• Позиции</button>';
-        h+='<button class="cook-act cn" onclick="event.stopPropagation();cancelO('+o.id+')">✖</button></div>';
+        h+='<div class="cook-acts">';
+        h+='<button class="cook-act st" onclick="event.stopPropagation();showSt()">Статус</button>';
+        h+='<button class="cook-act it" onclick="event.stopPropagation();showIt()">Позиции</button>';
+        h+='<button class="cook-act cn" onclick="event.stopPropagation();cancelO('+o.id+')">✕</button></div>';
       }
       if(sel&&S.showSt){
         h+='<div class="popup">';
         h+='<button class="p-acc" onclick="event.stopPropagation();setSt('+o.id+',\'accepted\')">🟢 Принять</button>';
         h+='<button class="p-cook" onclick="event.stopPropagation();setSt('+o.id+',\'cooking\')">🟡 Готовится</button>';
-        h+='<button class="p-done" onclick="event.stopPropagation();setSt('+o.id+',\'ready\');printReceipt(S.orders.find(function(x){return x.id==='+o.id+'}))">✅ Готово</button>';
-        h+='<button class="p-can" onclick="event.stopPropagation();cancelO('+o.id+')">❌ Отмена</button></div>';
+        h+='<button class="p-done" onclick="event.stopPropagation();setSt('+o.id+',\'ready\');autoPrint('+o.id+')">✅ Готово</button>';
+        h+='<button class="p-can" onclick="event.stopPropagation();cancelO('+o.id+')">Отмена</button></div>';
       }
       if(sel&&S.showIt){
-        h+='<div class="items-popup">';
-        o.items.forEach(function(it,idx){if(!it.cancelled)h+='<div class="it-row"><span class="it-name">'+it.qty+'x '+it.name+'</span><button class="it-del" onclick="event.stopPropagation();cancelI('+o.id+','+idx+')">✕</button></div>';});
+        h+='<div style="position:absolute;bottom:0;left:0;right:0;background:#1a1a1a;border-radius:0 0 14px 14px;padding:8px;z-index:10">';
+        o.items.forEach(function(it,idx){if(!it.cancelled)h+='<div style="display:flex;justify-content:space-between;padding:6px;border-bottom:1px solid #333;font-size:12px"><span>'+it.qty+'x '+it.name+'</span><button style="background:none;border:none;color:#f87171;cursor:pointer" onclick="event.stopPropagation();cancelI('+o.id+','+idx+')">✕</button></div>';});
         h+='</div>';
       }
       h+='</div>';
@@ -222,52 +224,33 @@ function renderCook(){
   return h;
 }
 
-function renderTVInline(){
-  var pending=S.orders.filter(function(o){return o.status!=='ready'&&o.status!=='cancelled'});
-  var ready=S.orders.filter(function(o){return o.status==='ready'});
-  var h='<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;height:calc(100vh - 120px);overflow-y:auto">';
-  h+='<div><div style="font-size:14px;color:#60a5fa;font-weight:700;margin-bottom:8px">ГОТОВЯТСЯ ('+pending.length+')</div>';
-  if(!pending.length)h+='<div style="color:#333;text-align:center;padding:40px">Пусто</div>';
-  pending.forEach(function(o){h+='<div class="tv-card '+o.status+'"><div class="tv-num">#'+o.id+'</div><div class="tv-items">'+o.items.filter(function(i){return!i.cancelled}).map(function(i){return i.qty+'x '+i.name}).join('<br>')+'</div><div class="tv-time">'+o.time+'</div></div>';});
-  h+='</div><div><div style="font-size:14px;color:#4ade80;font-weight:700;margin-bottom:8px">ГОТОВО ('+ready.length+')</div>';
-  if(!ready.length)h+='<div style="color:#333;text-align:center;padding:40px">Пусто</div>';
-  ready.forEach(function(o){h+='<div class="tv-card ready"><div class="tv-num" style="text-decoration:line-through;opacity:.6">#'+o.id+'</div><div class="tv-items">'+o.items.filter(function(i){return!i.cancelled}).map(function(i){return i.qty+'x '+i.name}).join('<br>')+'</div></div>';});
-  h+='</div></div>';
+function renderAdmin(){
+  var h='<h2>⚙️ Админ</h2><div class="admin-grid">';
+  h+='<div class="admin-section"><h3>📋 Меню</h3><div class="admin-list">';
+  MENU.forEach(function(it,i){h+='<div class="admin-row"><div><div class="name">'+it.name+'</div><div class="cat">'+it.cat+'</div></div><div class="acts"><button onclick="editMI('+i+')">✏️</button><button onclick="delMI('+i+')">🗑</button></div></div>';});
+  h+='</div><input class="admin-input" id="newItemName" placeholder="Название"><select class="admin-select" id="newItemCat"><option value="shawarma">🌯 Шаурма</option><option value="snacks">🍟 Закуски</option><option value="drinks">🥤 Напитки</option><option value="hot">🍝 Горячее</option></select><button class="admin-add-btn" onclick="addMI()">+ Добавить</button></div>';
+  h+='<div class="admin-section"><h3>⚙️ Настройки</h3>';
+  h+='<div class="setting-row"><span class="setting-label">🏪 Название</span><span class="setting-val">'+S.shopName+'</span><button class="setting-edit" onclick="editShop()">Изм.</button></div>';
+  h+='<div class="setting-row"><span class="setting-label">🔤 Шрифт</span><span class="setting-val">'+(localStorage.getItem('yhk_font')||'24')+'px</span><button class="setting-edit" onclick="editSet(\'yhk_font\',\'Шрифт\',\'24\')">Изм.</button></div>';
+  h+='<div class="setting-row"><span class="setting-label">↔️ Отступ</span><span class="setting-val">'+(localStorage.getItem('yhk_pad')||'4')+'px</span><button class="setting-edit" onclick="editSet(\'yhk_pad\',\'Отступ\',\'4\')">Изм.</button></div>';
+  h+='<div class="setting-row"><span class="setting-label">↕️ Позиции</span><span class="setting-val">'+(localStorage.getItem('yhk_igap')||'1')+'</span><button class="setting-edit" onclick="editSet(\'yhk_igap\',\'Позиции\',\'1\')">Изм.</button></div>';
+  h+='<div class="setting-row"><span class="setting-label">📄 Снизу</span><span class="setting-val">'+(localStorage.getItem('yhk_feed')||'0')+'</span><button class="setting-edit" onclick="editSet(\'yhk_feed\',\'Снизу\',\'0\')">Изм.</button></div>';
+  h+='</div>';
+  h+='<div class="admin-section" style="grid-column:span 2"><h3>🖨 Тест</h3><button class="admin-test-btn" onclick="printTest()">Напечатать тестовый чек</button>'+(pD?'':'<div style="text-align:center;color:#666;font-size:12px;margin-top:6px">Подключите принтер</div>')+'</div></div>';
   return h;
 }
 
-function renderTV(){
-  var pending=S.orders.filter(function(o){return o.status!=='ready'&&o.status!=='cancelled'});
-  var ready=S.orders.filter(function(o){return o.status==='ready'});
-  var h='<button class="tv-exit" onclick="S.view=\'cook\';render()">← Назад</button>';
+function renderTVFull(){
+  var pending=tvOrders.filter(function(o){return o.status!=='ready'&&o.status!=='cancelled'});
+  var ready=tvOrders.filter(function(o){return o.status==='ready'});
+  var h='<button class="tv-exit" onclick="S.view=\''+(S.mode==='tv'?'tv':'cook')+'\';render()">← Назад</button>';
   h+='<div class="tv-layout"><div class="tv-col"><div class="tv-title pending">ГОТОВЯТСЯ ('+pending.length+')</div>';
   if(!pending.length)h+='<div class="tv-empty">Пусто</div>';
   pending.forEach(function(o){h+='<div class="tv-card '+o.status+'"><div class="tv-num">#'+o.id+'</div><div class="tv-items">'+o.items.filter(function(i){return!i.cancelled}).map(function(i){return i.qty+'x '+i.name}).join('<br>')+'</div><div class="tv-time">'+o.time+'</div></div>';});
   h+='</div><div class="tv-col"><div class="tv-title ready">ГОТОВО ('+ready.length+')</div>';
   if(!ready.length)h+='<div class="tv-empty">Пусто</div>';
-  ready.forEach(function(o){h+='<div class="tv-card ready"><div class="tv-num" style="text-decoration:line-through;opacity:.6">#'+o.id+'</div><div class="tv-items">'+o.items.filter(function(i){return!i.cancelled}).map(function(i){return i.qty+'x '+i.name}).join('<br>')+'</div></div>';});
-  h+='</div></div>';
-  return h;
-}
-
-function renderAdmin(){
-  var shopName=S.shopName;
-  var h='<h2>⚙️ Админ</h2><div class="admin-grid">';
-  h+='<div class="admin-section"><h3>📋 Меню</h3><div class="admin-list">';
-  MENU.forEach(function(it,i){h+='<div class="admin-row"><div><div class="name">'+it.name+'</div><div class="cat">'+it.cat+'</div></div><div class="acts"><button onclick="editMI('+i+')">✏️</button><button onclick="delMI('+i+')">🗑</button></div></div>';});
-  h+='</div><div style="margin-top:12px"><input class="admin-input" id="newItemName" placeholder="Название нового блюда"><select class="admin-select" id="newItemCat"><option value="shawarma">🌯 Шаурма</option><option value="snacks">🍟 Закуски</option><option value="drinks">🥤 Напитки</option><option value="hot">🍝 Горячее</option></select><button class="admin-add-btn" onclick="addMI()">+ Добавить</button></div></div>';
-  h+='<div class="admin-section"><h3>⚙️ Настройки</h3>';
-  h+='<div class="setting-row"><span class="setting-label">🏪 Название</span><span class="setting-val">'+shopName+'</span><button class="setting-edit" onclick="editShop()">Изм.</button></div>';
-  h+='<div class="setting-row"><span class="setting-label">🔤 Шрифт чека</span><span class="setting-val">'+(localStorage.getItem('yhk_font')||'24')+'px</span><button class="setting-edit" onclick="editSetting(\'yhk_font\',\'Размер шрифта\',\'24\')">Изм.</button></div>';
-  h+='<div class="setting-row"><span class="setting-label">↔️ Отступ слева</span><span class="setting-val">'+(localStorage.getItem('yhk_pad')||'4')+'px</span><button class="setting-edit" onclick="editSetting(\'yhk_pad\',\'Отступ слева\',\'4\')">Изм.</button></div>';
-  h+='<div class="setting-row"><span class="setting-label">↕️ Между позициями</span><span class="setting-val">'+(localStorage.getItem('yhk_igap')||'1')+'</span><button class="setting-edit" onclick="editSetting(\'yhk_igap\',\'Между позициями\',\'1\')">Изм.</button></div>';
-  h+='<div class="setting-row"><span class="setting-label">📄 Строк снизу</span><span class="setting-val">'+(localStorage.getItem('yhk_feed')||'0')+'</span><button class="setting-edit" onclick="editSetting(\'yhk_feed\',\'Строк снизу\',\'0\')">Изм.</button></div>';
-  h+='</div>';
-  h+='<div class="admin-section" style="grid-column:span 2"><h3>🖨 Тест</h3>';
-  h+='<button class="admin-test-btn" onclick="printTestReceipt()">Напечатать тестовый чек</button>';
-  if(!pD)h+='<div style="text-align:center;color:#666;font-size:13px;margin-top:8px">Подключите принтер</div>';
-  h+='</div></div>';
-  return h;
+  ready.forEach(function(o){h+='<div class="tv-card ready"><div class="tv-num">#'+o.id+'</div><div class="tv-items">'+o.items.filter(function(i){return!i.cancelled}).map(function(i){return i.qty+'x '+i.name}).join('<br>')+'</div></div>';});
+  h+='</div></div>';return h;
 }
 
 function renderModal(){
@@ -275,7 +258,7 @@ function renderModal(){
   var h='<div class="modal-bg" onclick="S._modal=null;render()"><div class="modal-box" onclick="event.stopPropagation()">';
   if(m.type==='editItem'){h+='<h3>Редактировать</h3><input id="m_name" value="'+m.name+'"><div class="modal-btns"><button class="m-cancel" onclick="S._modal=null;render()">Отмена</button><button class="m-ok" onclick="confirmModal()">OK</button></div>';}
   else if(m.type==='delItem'){h+='<h3>Удалить «'+m.name+'»?</h3><div class="modal-btns"><button class="m-cancel" onclick="S._modal=null;render()">Нет</button><button class="m-danger" onclick="confirmModal()">Удалить</button></div>';}
-  else if(m.type==='cancelOrder'){h+='<h3>Отмена заказа #'+m.id+'</h3><input id="m_reason" placeholder="Причина..."><div class="modal-btns"><button class="m-cancel" onclick="S._modal=null;render()">Отмена</button><button class="m-danger" onclick="confirmModal()">Подтвердить</button></div>';}
+  else if(m.type==='cancelOrder'){h+='<h3>Отмена #'+m.id+'</h3><input id="m_reason" placeholder="Причина..."><div class="modal-btns"><button class="m-cancel" onclick="S._modal=null;render()">Отмена</button><button class="m-danger" onclick="confirmModal()">Подтвердить</button></div>';}
   else if(m.type==='cancelItem'){h+='<h3>Отмена позиции</h3><input id="m_reason" placeholder="Причина..."><div class="modal-btns"><button class="m-cancel" onclick="S._modal=null;render()">Отмена</button><button class="m-danger" onclick="confirmModal()">Подтвердить</button></div>';}
   else if(m.type==='setting'){h+='<h3>'+m.label+'</h3><input id="m_val" value="'+m.val+'"><div class="modal-btns"><button class="m-cancel" onclick="S._modal=null;render()">Отмена</button><button class="m-ok" onclick="confirmModal()">Сохранить</button></div>';}
   h+='</div></div>';return h;
@@ -285,45 +268,40 @@ function confirmModal(){
   var m=S._modal;if(!m)return;
   if(m.type==='editItem'){var n=document.getElementById('m_name').value;if(n.trim())MENU[m.idx].name=n.trim();}
   else if(m.type==='delItem'){MENU.splice(m.idx,1);}
-  else if(m.type==='cancelOrder'){var o=S.orders.find(function(x){return x.id===m.id});if(o)o.status='cancelled';}
-  else if(m.type==='cancelItem'){var r=document.getElementById('m_reason').value;var o=S.orders.find(function(x){return x.id===m.oi});if(o&&o.items[m.idx]){o.items[m.idx].cancelled=true;o.items[m.idx].reason=r;}}
-  else if(m.type==='setting'){localStorage.setItem(m.key,document.getElementById('m_val').value);if(m.key==='yhk_shop')S.shopName=document.getElementById('m_val').value;}
+  else if(m.type==='cancelOrder'){var o=tvOrders.find(function(x){return x.id===m.id});if(o)o.status='cancelled';}
+  else if(m.type==='cancelItem'){var r=document.getElementById('m_reason').value;var o=tvOrders.find(function(x){return x.id===m.oi});if(o&&o.items[m.idx]){o.items[m.idx].cancelled=true;o.items[m.idx].reason=r;}}
+  else if(m.type==='setting'){var v=document.getElementById('m_val').value;localStorage.setItem(m.key,v);if(m.key==='yhk_shop')S.shopName=v;}
   S._modal=null;saveTV();render();
 }
 
-function openTV(){window.open('tv.html','_blank','width=1200,height=800');}
-
+function toggleSel(id){S.sel=S.sel===id?null:id;S.showSt=false;S.showIt=false;render();}
+function showSt(){S.showSt=!S.showSt;S.showIt=false;render();}
+function showIt(){S.showIt=!S.showIt;S.showSt=false;render();}
+function setSt(id,st){var o=tvOrders.find(function(x){return x.id===id});if(o)o.status=st;S.showSt=false;saveTV();render();showToast('Готово','success');}
+function cancelO(id){S._modal={type:'cancelOrder',id:id};render();}
+function cancelI(oi,idx){S._modal={type:'cancelItem',oi:oi,idx:idx};render();}
 function addMI(){var n=document.getElementById('newItemName').value;var c=document.getElementById('newItemCat').value;if(n.trim()){MENU.push({id:MENU.length+1,name:n.trim(),desc:'',cat:c});document.getElementById('newItemName').value='';render();}}
 function editMI(i){S._modal={type:'editItem',idx:i,name:MENU[i].name};render();}
 function delMI(i){S._modal={type:'delItem',idx:i,name:MENU[i].name};render();}
-function cancelO(id){S._modal={type:'cancelOrder',id:id};render();}
-function cancelI(oi,idx){S._modal={type:'cancelItem',oi:oi,idx:idx};render();}
-function showStMenu(){S.showSt=!S.showSt;S.showIt=false;render();}
-function showItMenu(){S.showIt=!S.showIt;S.showSt=false;render();}
-function toggleSel(id){S.sel=S.sel===id?null:id;S.showSt=false;S.showIt=false;render();}
-function setSt(id,st){var o=S.orders.find(function(x){return x.id===id});if(o)o.status=st;S.showSt=false;saveTV();render();showToast('Статус обновлён','success');}
-function editShop(){S._modal={type:'setting',key:'yhk_shop',label:'Название заведения',val:S.shopName};render();}
-function editSetting(key,label,def){S._modal={type:'setting',key:key,label:label,val:localStorage.getItem(key)||def};render();}
+function editShop(){S._modal={type:'setting',key:'yhk_shop',label:'Название',val:S.shopName};render();}
+function editSet(k,l,d){S._modal={type:'setting',key:k,label:l,val:localStorage.getItem(k)||d};render();}
+function openTVFull(){window.open('tv.html#tv','_blank','width=1200,height=800');}
+function autoPrint(id){if(S.autoPrint&&pD&&pD.gatt.connected){var o=tvOrders.find(function(x){return x.id===id});if(o)printReceipt(o);}}
 
-function printTestReceipt(){
+function printTest(){
   if(!pD||!pD.gatt.connected){showToast('Принтер не подключён','error');return;}
-  var shopName=S.shopName;
-  var fs=parseInt(localStorage.getItem('yhk_font'))||24;
-  var pl=parseInt(localStorage.getItem('yhk_pad'))||4;
-  var ig=parseInt(localStorage.getItem('yhk_igap'))||1;
-  var fd=parseInt(localStorage.getItem('yhk_feed'))||0;
-  var sep='================================\n';var sp='';for(var i=0;i<ig;i++)sp+='\n';
-  var text=shopName+'\n\n'+sep+'ТЕСТОВЫЙ ЧЕК\n\n'+sep+'1x Тест позиция 1\n'+sp+'1x Тест позиция 2\n'+sp+'1x Тест позиция 3\n\n'+sep+new Date().toLocaleDateString('ru-RU')+' '+new Date().toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'})+'\n'+sep;
-  for(var f=0;f<fd;f++)text+='\n';
-  var lh=Math.round(fs*1.25);var ls=text.split('\n');
-  var cv=document.createElement('canvas');cv.width=PW;cv.height=ls.length*lh+20;
-  var cx=cv.getContext('2d');cx.fillStyle='#fff';cx.fillRect(0,0,PW,cv.height);cx.fillStyle='#000';cx.font=fs+'px monospace';cx.textBaseline='top';
-  ls.forEach(function(l,i){cx.fillText(l,pl,i*lh+4)});
-  var id=cx.getImageData(0,0,PW,cv.height),wb=PW/8,tl=cv.height;
-  (async function(){try{await pSend(new Uint8Array([0x1b,0x40]));await pS(PID);for(var y=0;y<tl;y++){var ln=new Uint8Array(wb);for(var bi=0;bi<wb;bi++){var b=0;for(var bit=0;bit<8;bit++){var x=bi*8+bit;if(x>=PW)continue;var gi=(y*PW+x)*4;if(id.data[gi]*0.299+id.data[gi+1]*0.587+id.data[gi+2]*0.114<PTH)b|=0x80>>bit;}ln[bi]=b;}var hdr=new Uint8Array([0x1d,0x76,0x30,0x00,wb&0xff,(wb>>8)&0xff,0x01,0x00]);var pk=new Uint8Array(hdr.length+ln.length);pk.set(hdr);pk.set(ln,hdr.length);await pSend(pk);await pS(PLD);}var fd2=new Uint8Array(2);fd2.fill(0x0a);await pSend(fd2);showToast('✅ Напечатано','success');}catch(e){showToast('❌ '+e.message,'error');}})();
+  var text=S.shopName+'\n\n================================\nТЕСТОВЫЙ ЧЕК\n\n================================\n1x Тест 1\n1x Тест 2\n\n================================\n'+new Date().toLocaleDateString('ru-RU')+' '+new Date().toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'})+'\n================================\n';
+  var fs=24,pl=4,ls=text.split('\n'),lh=Math.round(fs*1.25);
+  var cv=document.createElement('canvas');cv.width=PW;cv.height=ls.length*lh+20;var cx=cv.getContext('2d');cx.fillStyle='#fff';cx.fillRect(0,0,PW,cv.height);cx.fillStyle='#000';cx.font=fs+'px monospace';cx.textBaseline='top';ls.forEach(function(l,i){cx.fillText(l,pl,i*lh+4)});
+  var id2=cx.getImageData(0,0,PW,cv.height),wb=PW/8,tl=cv.height;
+  (async function(){try{await pSend(new Uint8Array([0x1b,0x40]));await pS(PID);for(var y=0;y<tl;y++){var ln=new Uint8Array(wb);for(var bi=0;bi<wb;bi++){var b=0;for(var bit=0;bit<8;bit++){var x=bi*8+bit;if(x>=PW)continue;var gi=(y*PW+x)*4;if(id2.data[gi]*0.299+id2.data[gi+1]*0.587+id2.data[gi+2]*0.114<PTH)b|=0x80>>bit;}ln[bi]=b;}var hdr=new Uint8Array([0x1d,0x76,0x30,0x00,wb&0xff,(wb>>8)&0xff,0x01,0x00]);var pk=new Uint8Array(hdr.length+ln.length);pk.set(hdr);pk.set(ln,hdr.length);await pSend(pk);await pS(PLD);}var fd=new Uint8Array(2);fd.fill(0x0a);await pSend(fd);showToast('✅ Напечатано','success');}catch(e){showToast('❌ '+e.message,'error');}})();
 }
 
-setInterval(function(){var nv=JSON.parse(localStorage.getItem('tv_orders')||'[]');if(nv.length!==S.orders.length){S.orders=nv;render();}},3000);
+// Check URL hash for TV mode
+if(location.hash==='#tv'){S.mode='tv';S.view='tv';}
+// Auto-refresh
+setInterval(function(){var nv=JSON.parse(localStorage.getItem('tv_orders')||'[]');if(nv.length!==tvOrders.length||JSON.stringify(nv)!==JSON.stringify(tvOrders)){tvOrders=nv;if(S.view==='cook'||S.view==='tv')render();}},2000);
+
 render();
 </script>
 </body>
