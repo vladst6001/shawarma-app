@@ -8,59 +8,50 @@
   <style>
     *{margin:0;padding:0;box-sizing:border-box}
     body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0a0a0a;color:#fff;min-height:100vh;-webkit-tap-highlight-color:transparent}
-    .app{max-width:480px;margin:0 auto;padding:16px;padding-bottom:120px}
+    .app{max-width:480px;margin:0 auto;padding:16px;padding-bottom:100px}
     .screen{animation:fadeUp .3s ease}
     @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
     .categories{display:flex;gap:8px;overflow-x:auto;padding:4px 0;margin-bottom:16px;-webkit-overflow-scrolling:touch}
-    .cat-btn{flex-shrink:0;padding:10px 16px;border:none;border-radius:20px;background:#1a1a1a;color:#888;font-size:14px;font-weight:500;cursor:pointer;transition:all .2s}
+    .cat-btn{flex-shrink:0;padding:10px 16px;border:none;border-radius:20px;background:#1a1a1a;color:#888;font-size:14px;font-weight:500;cursor:pointer}
     .cat-btn.active{background:#2563eb;color:#fff}
     .menu-items{display:flex;flex-direction:column;gap:10px}
-    .menu-card{display:flex;align-items:center;justify-content:space-between;padding:16px;background:#141414;border-radius:16px;border:1px solid #222;cursor:pointer;transition:transform .15s}
+    .menu-card{display:flex;align-items:center;justify-content:space-between;padding:16px;background:#141414;border-radius:16px;border:1px solid #222;cursor:pointer}
     .menu-card:active{transform:scale(.98)}
     .menu-card-info{flex:1}
     .menu-card-name{font-size:16px;font-weight:600;margin-bottom:2px}
     .menu-card-desc{font-size:13px;color:#666}
     .add-btn{width:44px;height:44px;border:none;border-radius:12px;background:#2563eb;color:#fff;font-size:24px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-left:12px}
-    .cart{position:fixed;bottom:0;left:0;right:0;background:#141414;border-top:1px solid #222;padding:16px;max-width:480px;margin:0 auto;border-radius:20px 20px 0 0;z-index:100;animation:slideUp .3s ease}
-    @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+    .cart{position:fixed;bottom:0;left:0;right:0;background:#141414;border-top:1px solid #222;padding:16px;max-width:480px;margin:0 auto;border-radius:20px 20px 0 0;z-index:100}
     .cart-title{font-size:16px;font-weight:600;margin-bottom:12px}
     .cart-items{max-height:200px;overflow-y:auto;margin-bottom:12px}
     .cart-item{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid #222}
-    .cart-item-name{font-size:14px}
     .cart-item-controls{display:flex;align-items:center;gap:10px}
     .qty-btn{width:32px;height:32px;border:none;border-radius:50%;background:#333;color:#fff;font-size:18px;cursor:pointer}
     .qty{font-size:16px;font-weight:600;min-width:24px;text-align:center}
-    .btn{width:100%;padding:16px;border:none;border-radius:14px;font-size:16px;font-weight:600;cursor:pointer;transition:all .2s;margin-top:8px}
+    .btn{width:100%;padding:16px;border:none;border-radius:14px;font-size:16px;font-weight:600;cursor:pointer;margin-top:8px}
     .btn:active{transform:scale(.97)}
     .btn-order{background:#16a34a;color:#fff}
     .btn-clear{background:transparent;color:#666;font-size:14px}
     .order-complete{text-align:center;padding:60px 20px}
-    .order-success{font-size:72px;margin-bottom:16px;animation:bounceIn .5s ease}
-    @keyframes bounceIn{0%{transform:scale(0)}60%{transform:scale(1.2)}100%{transform:scale(1)}}
-    .order-number{font-family:'Courier New',monospace;font-size:48px;font-weight:900;color:#4ade80;margin:16px 0;letter-spacing:4px}
-    .order-hint{color:#666;font-size:13px}
-    .gear-btn{position:fixed;bottom:20px;right:20px;width:44px;height:44px;border-radius:50%;background:#333;color:#888;border:none;font-size:20px;cursor:pointer;z-index:200;transition:all .2s}
-    .gear-btn:hover{background:#444;color:#fff}
-    /* SECRET KITCHEN */
+    .order-success{font-size:72px;margin-bottom:16px}
+    .order-number{font-family:'Courier New',monospace;font-size:48px;font-weight:900;color:#4ade80;margin:16px 0}
+    .gear-btn{position:fixed;bottom:20px;right:20px;width:44px;height:44px;border-radius:50%;background:#333;color:#888;border:none;font-size:20px;cursor:pointer;z-index:200}
     .kitchen{min-height:100vh;background:#000;padding:16px}
-    .kitchen-header{display:flex;align-items:center;gap:12px;margin-bottom:16px}
-    .kitchen-header h2{flex:1;font-size:20px}
-    .kitchen-back{background:none;border:none;color:#fff;font-size:18px;cursor:pointer;padding:4px 8px}
-    .tv-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+    .kitchen-hdr{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+    .kitchen-hdr h2{flex:1}
+    .kitchen-back{background:none;border:none;color:#fff;font-size:18px;cursor:pointer}
+    .tv-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
     .tv-col-title{font-size:16px;font-weight:700;text-align:center;padding:12px;border-radius:12px}
     .tv-col-title.pending{background:#1e3a5f;color:#60a5fa}
     .tv-col-title.ready{background:#166534;color:#4ade80}
-    .tv-order{background:#111;border-radius:14px;padding:16px;text-align:center;border:2px solid #333;margin-bottom:8px;animation:tvIn .3s ease}
-    @keyframes tvIn{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
-    .tv-num{font-family:'Courier New',monospace;font-size:48px;font-weight:900;color:#fff;letter-spacing:3px;line-height:1}
-    .tv-items{font-size:13px;color:#aaa;margin-top:8px;line-height:1.4}
+    .tv-order{background:#111;border-radius:14px;padding:16px;text-align:center;border:2px solid #333;margin-bottom:8px}
+    .tv-order.new{border-color:#3b82f6}.tv-order.accepted{border-color:#22c55e}.tv-order.cooking{border-color:#eab308}
+    .tv-order.ready{border-color:#166534}.tv-order.ready .tv-num{text-decoration:line-through;opacity:.5}
+    .tv-num{font-family:'Courier New',monospace;font-size:42px;font-weight:900;color:#fff}
+    .tv-items{font-size:12px;color:#aaa;margin-top:6px;line-height:1.4}
     .tv-time{font-size:11px;color:#444;margin-top:4px}
-    .tv-card.new{border-color:#3b82f6}.tv-card.accepted{border-color:#22c55e}.tv-card.cooking{border-color:#eab308}
-    .tv-card.ready{border-color:#166534}
-    .tv-card.ready .tv-num{text-decoration:line-through;opacity:.5}
-    .tv-empty{text-align:center;padding:30px;color:#333;font-size:14px}
-    .order-btn{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);padding:16px 32px;border:none;border-radius:16px;background:#2563eb;color:#fff;font-size:18px;font-weight:700;cursor:pointer;z-index:200;box-shadow:0 4px 20px rgba(37,99,235,.4)}
-    /* PASSWORD */
+    .tv-empty{text-align:center;padding:30px;color:#333}
+    .order-btn{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);padding:16px 32px;border:none;border-radius:16px;background:#2563eb;color:#fff;font-size:18px;font-weight:700;cursor:pointer;z-index:200}
     .pwd-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:80vh;gap:16px;padding:20px}
     .pwd-input{padding:16px;border:2px solid #333;border-radius:14px;background:#0a0a0a;color:#fff;font-size:24px;width:100%;max-width:280px;text-align:center;letter-spacing:8px}
     .pwd-input:focus{border-color:#2563eb;outline:none}
@@ -92,27 +83,25 @@ var MENU=[
 var CATS=[{id:'shawarma',name:'🌯 Шаурма'},{id:'snacks',name:'🍟 Закуски'},{id:'drinks',name:'🥤 Напитки'},{id:'hot',name:'🍝 Горячее'}];
 
 var S={view:'menu',cat:'shawarma',cart:[],lastOrder:null,showKitchen:false,kitchenAuth:false};
-var tvOrders=JSON.parse(localStorage.getItem('tv_orders')||'[]');
-var tvNid=parseInt(localStorage.getItem('tv_nid')||'100');
-function saveTV(){localStorage.setItem('tv_orders',JSON.stringify(tvOrders));localStorage.setItem('tv_nid',String(tvNid));}
+var orders=JSON.parse(localStorage.getItem('sw_orders')||'[]');
+var nid=parseInt(localStorage.getItem('sw_nid')||'100');
+function save(){localStorage.setItem('sw_orders',JSON.stringify(orders));localStorage.setItem('sw_nid',String(nid));}
 
 function render(){
   var r=document.getElementById('root');
-  var h='';
   if(S.showKitchen&&!S.kitchenAuth){
-    h+='<div class="pwd-screen screen"><input class="pwd-input" type="password" id="pwdInput" placeholder="····" maxlength="8" onkeypress="if(event.key===\'Enter\')checkPwd()"><button class="pwd-btn" onclick="checkPwd()">Войти</button><button class="pwd-back" onclick="S.showKitchen=false;render()">← Назад</button></div>';
+    r.innerHTML='<div class="pwd-screen screen"><input class="pwd-input" type="password" id="pwd" placeholder="····" maxlength="8" onkeypress="if(event.key===\'Enter\')chkPwd()"><button class="pwd-btn" onclick="chkPwd()">Войти</button><button class="pwd-back" onclick="S.showKitchen=false;render()">← Назад</button></div>';
   }else if(S.showKitchen&&S.kitchenAuth){
-    h+=renderKitchen();
+    r.innerHTML=renderKitchen();
   }else if(S.lastOrder){
-    h+='<div class="app"><div class="order-complete screen"><div class="order-success">✅</div><h2>Заказ оформлен!</h2><div class="order-number">#'+S.lastOrder.id+'</div><div class="order-hint">Ожидайте свой заказ</div></div></div>';
-    setTimeout(function(){S.lastOrder=null;render();},4000);
+    r.innerHTML='<div class="app"><div class="order-complete screen"><div class="order-success">✅</div><h2>Заказ оформлен!</h2><div class="order-number">#'+S.lastOrder.id+'</div></div></div>';
+    setTimeout(function(){S.lastOrder=null;render();},3500);
   }else{
-    h+='<div class="app">'+renderMenu();
+    var h='<div class="app">'+renderMenu();
     if(S.cart.length)h+=renderCart();
-    h+='</div>';
-    h+='<button class="gear-btn" onclick="S.showKitchen=true;render()">⚙</button>';
+    h+='</div><button class="gear-btn" onclick="S.showKitchen=true;render()">⚙</button>';
+    r.innerHTML=h;
   }
-  r.innerHTML=h;
 }
 
 function renderMenu(){
@@ -120,65 +109,37 @@ function renderMenu(){
   var h='<div class="categories">';
   CATS.forEach(function(c){h+='<button class="cat-btn'+(S.cat===c.id?' active':'')+'" onclick="S.cat=\''+c.id+'\';render()">'+c.name+'</button>';});
   h+='</div><div class="menu-items">';
-  f.forEach(function(it){
-    h+='<div class="menu-card" onclick="addCart('+it.id+')"><div class="menu-card-info"><div class="menu-card-name">'+it.name+'</div>';
-    if(it.desc)h+='<div class="menu-card-desc">'+it.desc+'</div>';
-    h+='</div><button class="add-btn" onclick="event.stopPropagation();addCart('+it.id+')">+</button></div>';
-  });
+  f.forEach(function(it){h+='<div class="menu-card" onclick="addCart('+it.id+')"><div class="menu-card-info"><div class="menu-card-name">'+it.name+'</div>'+(it.desc?'<div class="menu-card-desc">'+it.desc+'</div>':'')+'</div><button class="add-btn" onclick="event.stopPropagation();addCart('+it.id+')">+</button></div>';});
   h+='</div>';return h;
 }
 
 function renderCart(){
   var h='<div class="cart"><div class="cart-title">🛒 Корзина ('+S.cart.length+')</div><div class="cart-items">';
-  S.cart.forEach(function(it){
-    h+='<div class="cart-item"><span class="cart-item-name">'+it.qty+'x '+it.name+'</span><div class="cart-item-controls"><button class="qty-btn" onclick="updQty('+it.id+',-1)">−</button><span class="qty">'+it.qty+'</span><button class="qty-btn" onclick="updQty('+it.id+',1)">+</button></div></div>';
-  });
-  h+='</div><button class="btn btn-order" onclick="placeOrder()">Оформить заказ</button>';
-  h+='<button class="btn btn-clear" onclick="S.cart=[];render()">Очистить</button></div>';return h;
+  S.cart.forEach(function(it){h+='<div class="cart-item"><span>'+it.qty+'x '+it.name+'</span><div class="cart-item-controls"><button class="qty-btn" onclick="updQty('+it.id+',-1)">−</button><span class="qty">'+it.qty+'</span><button class="qty-btn" onclick="updQty('+it.id+',1)">+</button></div></div>';});
+  h+='</div><button class="btn btn-order" onclick="placeOrder()">Оформить заказ</button><button class="btn btn-clear" onclick="S.cart=[];render()">Очистить</button></div>';return h;
 }
 
 function renderKitchen(){
-  var pending=tvOrders.filter(function(o){return o.status!=='ready'&&o.status!=='cancelled'});
-  var ready=tvOrders.filter(function(o){return o.status==='ready'});
-  var h='<div class="kitchen"><div class="kitchen-header"><button class="kitchen-back" onclick="S.showKitchen=false;S.kitchenAuth=false;render()">← Выход</button><h2>📺 Табло</h2></div>';
+  var pending=orders.filter(function(o){return o.status!=='ready'&&o.status!=='cancelled'});
+  var ready=orders.filter(function(o){return o.status==='ready'});
+  var h='<div class="kitchen"><div class="kitchen-hdr"><button class="kitchen-back" onclick="S.showKitchen=false;S.kitchenAuth=false;render()">←</button><h2>📺 Табло</h2></div>';
   h+='<div class="tv-grid"><div><div class="tv-col-title pending">ГОТОВЯТСЯ ('+pending.length+')</div>';
   if(!pending.length)h+='<div class="tv-empty">Пусто</div>';
-  pending.forEach(function(o){
-    h+='<div class="tv-card '+o.status+'"><div class="tv-num">#'+o.id+'</div>';
-    h+='<div class="tv-items">'+o.items.filter(function(i){return!i.cancelled}).map(function(i){return i.qty+'x '+i.name}).join('<br>')+'</div>';
-    h+='<div class="tv-time">'+o.time+'</div></div>';
-  });
+  pending.forEach(function(o){h+='<div class="tv-order '+o.status+'"><div class="tv-num">#'+o.id+'</div><div class="tv-items">'+o.items.filter(function(i){return!i.cancelled}).map(function(i){return i.qty+'x '+i.name}).join(', ')+'</div><div class="tv-time">'+o.time+'</div></div>';});
   h+='</div><div><div class="tv-col-title ready">ГОТОВО ('+ready.length+')</div>';
   if(!ready.length)h+='<div class="tv-empty">Пусто</div>';
-  ready.forEach(function(o){
-    h+='<div class="tv-card ready"><div class="tv-num">#'+o.id+'</div>';
-    h+='<div class="tv-items">'+o.items.filter(function(i){return!i.cancelled}).map(function(i){return i.qty+'x '+i.name}).join('<br>')+'</div></div>';
-  });
+  ready.forEach(function(o){h+='<div class="tv-order ready"><div class="tv-num">#'+o.id+'</div><div class="tv-items">'+o.items.filter(function(i){return!i.cancelled}).map(function(i){return i.qty+'x '+i.name}).join(', ')+'</div></div>';});
   h+='</div></div></div>';
-  h+='<button class="order-btn" onclick="S.showKitchen=false;S.view=\'menu\';render()">📋 Заказать</button>';
+  h+='<button class="order-btn" onclick="S.showKitchen=false;S.kitchenAuth=false;S.view=\'menu\';render()">📋 Заказать</button>';
   return h;
 }
 
-function checkPwd(){
-  var v=document.getElementById('pwdInput').value;
-  if(v===KITCHEN_CODE){S.kitchenAuth=true;render();showToast('Добро пожаловать!','success');}
-  else showToast('Неверный код','error');
-}
-
+function chkPwd(){if(document.getElementById('pwd').value===KITCHEN_CODE){S.kitchenAuth=true;render();}else showToast('Неверный код','error');}
 function addCart(id){var it=MENU.find(function(i){return i.id===id});var ex=S.cart.find(function(c){return c.id===id});if(ex)ex.qty++;else S.cart.push(Object.assign({},it,{qty:1}));render();}
 function updQty(id,d){S.cart=S.cart.map(function(c){return c.id===id?Object.assign({},c,{qty:Math.max(0,c.qty+d)}):c}).filter(function(c){return c.qty>0});render();}
-function placeOrder(){
-  if(!S.cart.length)return;
-  var o={id:tvNid++,items:S.cart.map(function(c){return{name:c.name,qty:c.qty,cancelled:false,reason:''}}),status:'new',time:new Date().toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'}),user:'Клиент'};
-  tvOrders.push(o);S.lastOrder=o;S.cart=[];
-  saveTV();
-  if(tg)try{tg.HapticFeedback.notificationOccurred('success')}catch(e){}
-  render();
-}
+function placeOrder(){if(!S.cart.length)return;var o={id:nid++,items:S.cart.map(function(c){return{name:c.name,qty:c.qty,cancelled:false,reason:''}}),status:'new',time:new Date().toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'}),user:'Клиент'};orders.push(o);S.lastOrder=o;S.cart=[];save();if(tg)try{tg.HapticFeedback.notificationOccurred('success')}catch(e){}render();}
 
 function showToast(m,t,d){t=t||'info';d=d||3000;var el=document.createElement('div');el.style.cssText='position:fixed;top:20px;left:50%;transform:translateX(-50%);padding:12px 24px;border-radius:10px;font-size:14px;font-weight:600;z-index:2000;transition:opacity .3s;max-width:90vw;text-align:center';var c={info:'#1e40af',success:'#166534',error:'#991b1b'};el.style.background=c[t];el.style.color='#fff';el.textContent=m;document.body.appendChild(el);setTimeout(function(){el.style.opacity='0';setTimeout(function(){el.remove()},300)},d);}
-
-setInterval(function(){if(S.showKitchen&&S.kitchenAuth){var nv=JSON.parse(localStorage.getItem('tv_orders')||'[]');tvOrders=nv;var el=document.getElementById('root');if(el)render();}},3000);
 
 render();
 </script>
